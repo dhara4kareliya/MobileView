@@ -1,0 +1,17 @@
+{
+  "name": "nr-poker-desktop",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "node distFixer.js",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.9.15"
+  },
+  "dependencies": {
+    "postcss-nested": "^5.0.6",
+    "socket.io-client": "^4.4.1"
+  }
+}

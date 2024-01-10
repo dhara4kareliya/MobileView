@@ -1,0 +1,100 @@
+.trophyDiv {
+    padding-right: calc(1.5 * var(--aspect-ratio));
+    pointer-events: none;
+}
+
+.trophyDiv img {
+    height:calc( 5 * var(--aspect-ratio));
+}
+
+#uiTable {
+    height: 100%;
+    width: 100%;
+}
+
+#uiTable tr td {
+    height: 0px;
+}
+
+#uiTable tr td:nth-child(1) {
+    width: 10vw;
+}
+
+#uiTable tr td:nth-child(3) {
+    width: 10vw;
+}
+
+#uiTable td:not(#centerBottom) {
+    vertical-align: top;
+    padding-right:calc( 2 * var(--aspect-ratio));
+}
+
+#topDiv {
+    width: 100%;
+    white-space: nowrap;
+}
+
+#topDiv table {
+    width: 100%;
+}
+
+#topDivLine {
+    width: 100%;
+    box-shadow: 1px 5px 16px #EBFF00;
+    border-bottom: 4px solid #FFEB00;
+    border-width: 1px;
+}
+
+.tableName {
+    text-align: center;
+    letter-spacing: 0px;
+    color: #FFEB00;
+    text-shadow: 0px 3px 6px #FFEB004E;
+    font-size:calc( 3 * var(--aspect-ratio));
+}
+
+#meDiv {
+    white-space: nowrap;
+}
+
+.stars {
+    display: inline;
+    background: transparent linear-gradient(180deg, #21D0DE 0%, #11686F 100%) 0% 0% no-repeat padding-box;
+    width: fit-content;
+    padding-right:calc( 1 * var(--aspect-ratio));
+}
+
+.stars > img {
+    margin-right: calc(0.5 * var(--aspect-ratio));
+    margin-bottom: calc(0.2 * var(--aspect-ratio));
+    object-fit: contain;
+    min-height:calc( 1 * var(--aspect-ratio));
+}
+
+.tableSettingsSpan {
+    letter-spacing: 0px;
+    text-align: right;
+}
+
+#centerBottom {
+    text-align: center;
+    vertical-align: bottom;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .trophyDiv {
+        padding-right: 0vw;
+    }
+    
+    .tableName {
+        font-size: 2.5vw;
+    }
+}
+.second-top {
+    width: 510px!important;
+    height: 600px!important;
+    border-radius: 35px!important;
+    border: 2px solid #EFA434;
+    background: linear-gradient(90deg, #181B3A 0%, #262A4E 48.44%, #181B3A 100%);
+    position: relative;
+    }

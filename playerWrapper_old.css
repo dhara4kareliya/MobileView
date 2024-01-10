@@ -1,0 +1,1137 @@
+.sitDownButton {
+    background: #201E37 0% 0% no-repeat padding-box;
+    border: 3px solid #FFFFFF52;
+    border-radius: 100%;
+    width: calc(10 * var(--aspect-ratio));
+    aspect-ratio: 1;
+    background-image: url('./images/desktop/sitDownButton.png');
+    background-position: center;
+    background-size: calc(5 * var(--aspect-ratio));
+}
+
+.sitDownButton:hover {
+    background-color: #3f3c61;
+}
+
+.player_wrapper {
+    position: absolute;
+    text-align: center;
+    pointer-events: none;
+}
+
+.player_wrapper.showEverything * {
+    visibility: visible;
+}
+
+.player_wrapper button {
+    pointer-events: auto;
+}
+
+.player_wrapper:nth-child(1) {
+    left: 16vw;
+    top: calc(-15 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) {
+    left: 43vw;
+    top: calc(-15 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) {
+    left: 58vw;
+    top: calc(-13 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) {
+    right: -9vw;
+    top: calc(1 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) {
+    left: 56vw;
+    top: calc(23 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) {
+    left: 32vw;
+    top: calc(24 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) {
+    left: 9vw;
+    top: calc(23 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) {
+    left: -8vw;
+    top: calc(8 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) {
+    left: 3vw;
+    top: calc(-13 * var(--aspect-ratio));
+}
+
+.avatar {
+    object-fit: contain;
+    height: calc(10 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .avatar {
+    height: calc(15 * var(--aspect-ratio));
+}
+
+.player_wrapper>canvas {
+    position: absolute;
+    left: 0;
+    top: calc(5 * var(--aspect-ratio));
+    max-height: calc(10 * var(--aspect-ratio));
+    max-width: 100%;
+}
+
+.box table {
+    margin-left: -1vw;
+    margin-right: -1vw;
+    border-collapse: separate;
+    border-spacing: 1vw 0;
+    padding-bottom: 1vw;
+}
+
+.player_wrapper .box {
+    background-color: #00030c77;
+    overflow: hidden;
+}
+
+.player_wrapper :not(table,
+tr,
+.action) {
+    margin-bottom: calc(1 * var(--aspect-ratio));
+}
+
+.player_wrapper.toPlay .box {
+    background-color: #4573DC89;
+}
+
+.money {
+    color: #F6FF00;
+}
+
+.action {
+    background-color: #1F9231;
+    /* margin-top: calc(1 * var(--aspect-ratio)); */
+    margin-top: calc(2 * var(--aspect-ratio));
+    margin-left: calc(-0.5 * var(--aspect-ratio));
+    text-align: center;
+    margin-bottom: calc(-0.2 * var(--aspect-ratio));
+    position: absolute;
+    width: calc(20 * var(--aspect-ratio));
+    border-radius: 14px;
+    height: calc(1.5 * var(--aspect-ratio));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: calc(19.8 * var(--aspect-ratio));
+}
+
+.turnTime {
+    width: 70%;
+    height: calc(1 * var(--aspect-ratio));
+    box-shadow: inset 5px 6px 25px #000000;
+    border-radius: calc(1 * var(--aspect-ratio));
+    display: inline-block;
+}
+
+.player_wrapper:not(.toPlay) .turnTime {
+    top: calc(21 * var(--aspect-ratio));
+    left: calc(0 * var(--aspect-ratio));
+    position: absolute;
+    margin: 0px 8px!important;
+    width: 75%;
+    visibility: hidden;
+}
+
+.player_wrapper:nth-child(6) .turnTime {
+    top: calc(26 * var(--aspect-ratio))!important;
+    left: calc(0 * var(--aspect-ratio))!important;
+}
+
+.player_wrapper:nth-child(6) .timeCircle {
+    top: calc(25.4 * var(--aspect-ratio))!important;
+    left: calc(17 * var(--aspect-ratio))!important;
+}
+
+.player_wrapper:nth-child(4) .lastBetDiv {
+    transform: translate(-293%, -185%);
+}
+
+.player_wrapper:nth-child(5) .lastBetDiv {
+    transform: translate(-177%, -404%);
+}
+
+.player_wrapper:nth-child(6) .lastBetDiv {
+    transform: translate(-196%, -522%);
+}
+
+.player_wrapper:nth-child(7) .lastBetDiv {
+    transform: translate(-177%, -404%);
+}
+
+.player_wrapper:nth-child(8) .lastBetDiv {
+    transform: translate(273%, -303%);
+}
+
+.turnTime div {
+    width: 0%;
+    height: 100%;
+    /* background: #00CCFF 0% 0% no-repeat padding-box; */
+    border-radius: calc(1 * var(--aspect-ratio));
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-duration: 30s;
+    animation-name: timeReactRunOut;
+}
+
+@keyframes timeReactRunOut {
+    0% {
+        width: 100%;
+        background-color: #00CCFF;
+    }
+    100% {
+        width: 0%;
+        background-color: #00CCFF;
+    }
+}
+
+@keyframes timeBankRunOut {
+    0% {
+        width: 100%;
+        background-color: #f70930;
+    }
+    100% {
+        width: 0%;
+        background-color: #f70930;
+    }
+}
+
+.lastBetDiv,
+.handResult,
+.betAnimation,
+.prize {
+    box-shadow: inset 3px 4px 10px #000000B8;
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    border-radius: calc(3 * var(--aspect-ratio));
+    padding: calc(0.5 * var(--aspect-ratio));
+    padding-bottom: 0;
+    padding-top: calc(0.2 * var(--aspect-ratio));
+    visibility: hidden;
+}
+
+.handResult {
+    visibility: visible;
+    top: calc(-24.5 * var(--aspect-ratio));
+    left: calc(13.8 * var(--aspect-ratio));
+}
+
+.lastBetDiv img {
+    margin-right: calc(-0.3 * var(--aspect-ratio));
+    margin-top: calc(0.6 * var(--aspect-ratio));
+    object-fit: contain;
+    max-height: calc(3 * var(--aspect-ratio));
+}
+
+.betAnimation img {
+    margin-right: calc(-0.3 * var(--aspect-ratio));
+    margin-top: calc(0.6 * var(--aspect-ratio));
+    object-fit: contain;
+    max-height: calc(3 * var(--aspect-ratio));
+}
+
+.handResult {
+    font-size: calc(1.5 * var(--aspect-ratio));
+    top: calc(20 * var(--aspect-ratio));
+    left: calc(-16 * var(--aspect-ratio));
+    visibility: hidden;
+}
+
+.winnerImg {
+    position: absolute;
+    /* top: calc(-40 * var(--aspect-ratio)); */
+    /* object-fit: contain; */
+    width: calc( 12 * var(--aspect-ratio));
+}
+
+.player_wrapper:not(.winner) .winnerImg {
+    visibility: hidden;
+}
+
+.player_wrapper .tokensRow {
+    width: 100%;
+}
+
+.blind,
+.dealer,
+.extraToken {
+    object-fit: contain;
+    max-height: calc( 6 * var(--aspect-ratio));
+    position: absolute;
+}
+
+.missSb,
+.missBb {
+    object-fit: contain;
+    max-height: calc( 3 * var(--aspect-ratio));
+    position: absolute;
+}
+
+.shrink {
+    max-height: calc( 3 * var(--aspect-ratio));
+}
+
+.token {
+    background: transparent linear-gradient(180deg, #FFFFFF 0%, #767676 100%) 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px 3px 6px #00000029;
+    border-radius: calc( 2 * var(--aspect-ratio));
+    color: #FF006C;
+}
+
+.action,
+.dealer,
+.blind,
+.extraToken,
+.missSb,
+.missBb {
+    visibility: hidden;
+}
+
+.avatar {
+    border-radius: 100%;
+}
+
+.stars {
+    white-space: nowrap;
+}
+
+.stars img {
+    height: calc( 1 * var(--aspect-ratio));
+}
+
+.flag {
+    height: calc( 3 * var(--aspect-ratio));
+}
+
+.player_wrapper .blind {
+    left: calc(5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper .missSb {
+    left: calc( 2.2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper .missBb {
+    left: calc( -0.2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 3 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+
+/* The table is becomming cluttered. I have to move stuff around */
+
+
+/* 
+.player_wrapper:nth-child(1) .blind {
+    left:calc(5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(1) .missSb {
+    left: calc( 2.2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(1) .missBb {
+    left: calc( -0.2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(1) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(1) .extraToken {
+    left:calc( 20 * var(--aspect-ratio));
+    bottom:calc( 18 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .blind {
+    left:calc(5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .missBb {
+    left: calc( 2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .missSb {
+    left: calc( -0.2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .extraToken {
+    left: calc(-5 * var(--aspect-ratio));
+    bottom:calc( 18 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .blind {
+    left:calc(4.5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .missBb {
+    left: calc(2  * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .missSb {
+    left: calc( -0.2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .extraToken {
+    left: calc(-5 * var(--aspect-ratio));
+    bottom:calc( 24 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .blind {
+    left:calc(4.5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .missBb {
+    left: calc(-1.2  * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .missSb {
+    left: calc( 1.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .extraToken {
+    top:calc( 5 * var(--aspect-ratio));
+    right:calc( 19 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .blind {
+    left:calc(4.5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .missBb {
+    left: calc(-1.2  * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .missSb {
+    left: calc( 1.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .extraToken {
+    top: calc(-4 * var(--aspect-ratio));
+    left: calc(-5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .blind {
+    top: calc(29 * var(--aspect-ratio));
+    left: calc(5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .missSb {
+    left: calc( 2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .missBb {
+    left: calc( -0.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .extraToken {
+    top: calc(-3 * var(--aspect-ratio));
+    left:calc( 0 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .blind {
+    left:calc(5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .missBb {
+    left: calc( -0.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .missSb {
+    left: calc( 2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .extraToken {
+    bottom:calc( 50 * var(--aspect-ratio));
+    left:calc( 17 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .blind {
+    left: calc(4.3 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .missBb {
+    left: calc( 1.3 * var(--aspect-ratio));
+    bottom: calc( 7 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .missSb {
+    left: calc( -1.2 * var(--aspect-ratio));
+    bottom: calc( 7 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .extraToken {
+    left:calc( 18 * var(--aspect-ratio));
+    bottom:calc( 42 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .blind {
+    left:calc(5 * var(--aspect-ratio));
+    bottom:calc( 4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .missBb {
+    left: calc( -0.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .missSb {
+    left: calc( 2 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 3 * var(--aspect-ratio));
+    height: calc( 2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .dealer {
+    left: calc( 13.5 * var(--aspect-ratio));
+    bottom: calc( 4.5 * var(--aspect-ratio));
+    width: calc( 5 * var(--aspect-ratio));
+    height: calc( 4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .extraToken {
+    left:calc( 22 * var(--aspect-ratio));
+    bottom:calc( 22 * var(--aspect-ratio));
+} */
+
+.player_wrapper:nth-child(1) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(2) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(3) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(4) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(5) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(7) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(8) .action {
+    width: 100%;
+}
+
+.player_wrapper:nth-child(9) .action {
+    width: 100%;
+}
+
+.player_wrapper.seatedOut {
+    opacity: 0.5;
+}
+
+.timeCircle {
+    display: inline-block;
+}
+
+.player_wrapper:not(.toPlay) .timeCircle {
+    /* position: absolute; */
+    top: calc(21 * var(--aspect-ratio));
+    left: calc(19 * var(--aspect-ratio));
+    padding: 3px!important;
+    visibility: hidden;
+}
+
+.timeCircle div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.timeCircle {
+    width: calc(3 * var(--aspect-ratio));
+    height: calc( 3* var(--aspect-ratio));
+    font-size: calc(1.5 * var(--aspect-ratio));
+    border-radius: 100%;
+    /* --barFillColor: #00CCFF; */
+    --barFillColor: #2F2F2F;
+    --insideBackground: #1E3970;
+    --barWidth: 30;
+    --turnPgPrecentage: 20;
+    background: radial-gradient(closest-side, var(--insideBackground) calc((100 - var(--barWidth)) * 1%), transparent calc((101 - var(--barWidth)) * 1%) 99.9%), conic-gradient(var(--barFillColor) calc(var(--turnPgPrecentage) * 1%), var(--barBackground) 0);
+    animation-name: turnCircleReact;
+    animation-duration: 30s;
+    animation-iteration-count: 1;
+}
+
+.side-custom {
+    left: calc( 63 * var(--aspect-ratio))!important;
+    position: absolute;
+    top: calc( 3.5 * var(--aspect-ratio))!important;
+}
+
+.chipRow {
+    left: calc( 1 * var(--aspect-ratio))!important;
+    ;
+}
+
+.for-sc-edit {
+    margin-bottom: calc( 59 * var(--aspect-ratio))!important;
+    ;
+}
+
+.bet-mannual {
+    margin-bottom: calc( 58 * var(--aspect-ratio))!important;
+    ;
+}
+
+.edit-btn-screen {
+    margin-bottom: calc( 58 * var(--aspect-ratio))!important;
+}
+
+.td1 {
+    left: calc( 41.5 * var(--aspect-ratio))!important;
+    position: absolute;
+    top: calc( 6.5 * var(--aspect-ratio))!important;
+}
+
+.tdcanvas {
+    left: calc( 53.5 * var(--aspect-ratio))!important;
+    position: absolute;
+    top: calc( 6.5 * var(--aspect-ratio))!important;
+}
+
+.td3 {
+    left: calc( 92.5 * var(--aspect-ratio))!important;
+    position: absolute;
+    top: calc( 6.5 * var(--aspect-ratio))!important;
+}
+
+.custom {
+    left: calc( 59.5 * var(--aspect-ratio))!important;
+    position: absolute;
+    top: calc( 0.5 * var(--aspect-ratio))!important;
+}
+
+.player_wrapper:nth-child(1)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6)>canvas {
+    width: calc(14 * var(--aspect-ratio));
+    margin-left: calc(3 * var(--aspect-ratio));
+    margin-top: calc(6 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9)>canvas {
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(4.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio));
+}
+
+.lastBetDiv,
+.betAnimation {
+    left: calc(0 * var(--aspect-ratio))!important;
+    top: calc(-2.5 * var(--aspect-ratio))!important;
+}
+
+.betAnimation {
+    margin-top: -25%;
+    transform: translate(-100%, 20%);
+    box-shadow: none;
+}
+
+.winnerhand {
+    /* width: calc(5 * var(--aspect-ratio)); */
+    left: calc(14.5 * var(--aspect-ratio));
+    top: calc(23.5 * var(--aspect-ratio));
+    position: absolute;
+    visibility: hidden;
+}
+
+.winnerhand canvas {
+    width: calc(11 * var(--aspect-ratio));
+    /* width: calc(9 * var(--aspect-ratio));
+    height: calc(3.5 * var(--aspect-ratio)); */
+}
+
+.winnerhand span {
+    color: #dfb425;
+    font-weight: bold;
+    font-size: calc(1.3 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .action {
+    background-color: #1F9231;
+    /*  margin-top: calc(1 * var(--aspect-ratio)); */
+    margin-top: calc(2 * var(--aspect-ratio));
+    width: 100%;
+    margin-left: -0.5vw;
+    margin-right: -0.5vw;
+    text-align: center;
+    margin-bottom: calc(-0.2 * var(--aspect-ratio));
+    position: absolute;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: calc(24.8 * var(--aspect-ratio));
+    left: calc(1 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .winnerhand {
+    left: calc(14.5 * var(--aspect-ratio));
+    top: calc(27.8 * var(--aspect-ratio));
+    position: absolute;
+}
+
+.blind {
+    width: calc(2 * var(--aspect-ratio));
+    ;
+    /* top: calc(22.5 * var(--aspect-ratio));;
+    left: calc(34 * var(--aspect-ratio))!important;; */
+}
+
+.prize {
+    box-shadow: none!important;
+    position: absolute;
+    top: calc(-2 * var(--aspect-ratio));
+    left: calc(4.7 * var(--aspect-ratio));
+    text-align: center;
+}
+
+.prize span {
+    color: #dfb425;
+    font-weight: bold;
+    font-size: calc(1.5 * var(--aspect-ratio));
+}
+
+.textset {
+    width: calc(10 * var(--aspect-ratio));
+    ;
+    position: absolute;
+}
+
+.player_wrapper:nth-child(3) .textset {
+    top: calc(-0.4 * var(--aspect-ratio));
+    left: calc(-3.8 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .textset {
+    top: calc(-0.4 * var(--aspect-ratio));
+    left: calc(.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .textset {
+    top: calc(-0.3 * var(--aspect-ratio));
+    left: calc(.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(1) .prize {
+    top: calc(-2.5 * var(--aspect-ratio));
+    left: calc(4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .prize {
+    top: calc(-2.5 * var(--aspect-ratio));
+    left: calc(5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .prize {
+    top: calc(-2 * var(--aspect-ratio));
+    left: calc(10 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .prize {
+    top: calc(-2.5 * var(--aspect-ratio));
+    left: calc(4.7 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .prize {
+    top: calc(-2.5 * var(--aspect-ratio));
+    left: calc(4.7 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .prize {
+    top: calc(-2 * var(--aspect-ratio));
+    left: calc(4.8 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .prize {
+    top: calc(-2 * var(--aspect-ratio));
+    left: calc(4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .prize {
+    top: calc(-2.5 * var(--aspect-ratio));
+    left: calc(4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .prize {
+    top: calc(-2.5 * var(--aspect-ratio));
+    left: calc(4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(1) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(2) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4.5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(3) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(4) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(5) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4.2 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(7) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(8) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(9) .winnerImg {
+    top: calc(-5 * var(--aspect-ratio));
+    left: calc(4 * var(--aspect-ratio));
+}
+
+#showCardsButton {
+    left: calc( 82 * var(--aspect-ratio))!important;
+    position: absolute;
+    top: calc( 81 * var(--aspect-ratio));
+}
+
+
+.forhid {
+    display: none;
+}
+
+@keyframes turnCircleReact {
+    0% {
+        --turnPgPrecentage: 0;
+        --barBackground: #00CCFF;
+    }
+    100% {
+        --turnPgPrecentage: 100;
+        --barBackground: #00CCFF;
+    }
+}
+
+@keyframes turnCircleBank {
+    0% {
+        --turnPgPrecentage: 0;
+        --barBackground: #f70930;
+    }
+    100% {
+        --turnPgPrecentage: 100;
+        --barBackground: #f70930;
+    }
+}
+
+.player-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 500px;
+    position: absolute;
+}
+
+.player-card {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+    margin-right: -0.9rem;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.player_wrapper .player-cards {
+    top: 20%;
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(5 * var(--aspect-ratio));
+}
+
+.player_wrapper:nth-child(6) .player-cards {
+    top: 40%;
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(7 * var(--aspect-ratio));
+}
+
+.player-card>.front,
+.player-card>.back {
+    backface-visibility: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: calc( 6 * var(--aspect-ratio));
+    width: calc( 4.2 * var(--aspect-ratio));
+}
+
+.player-card>.front {
+    transform: rotateY( 180deg);
+    position: absolute;
+}
+
+.player_wrapper:nth-child(6) .player-card>.front,
+.player_wrapper:nth-child(6) .player-card>.back {
+    height: calc( 7 * var(--aspect-ratio));
+    width: calc( 4.9 * var(--aspect-ratio));
+}
+
+.player_wrapper .two-cards {
+    margin-right: 0.1rem;
+}
+
+.player_wrapper .four-cards {
+    margin-left: calc(3 * var(--aspect-ratio));
+}
+
+.player-card.with_mask {
+    position: relative;
+}
+
+.player-card.with_mask {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    opacity: 0.5;
+}
+
+@keyframes flip-animation {
+    0% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%) rotateY(-180deg);
+    }
+}
+
+@keyframes slide-animation {
+    0% {
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%);
+    }
+}
+
+@property --turnPgPrecentage {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+}

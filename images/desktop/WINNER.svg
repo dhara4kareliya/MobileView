@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="248" height="71" viewBox="0 0 248 71">
+  <defs>
+    <filter id="WINNER" x="0" y="0" width="248" height="71" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-opacity="0.749"/>
+      <feComposite operator="in" in2="blur"/>
+    </filter>
+    <filter id="WINNER-2" x="0" y="0" width="248" height="71" filterUnits="userSpaceOnUse">
+      <feOffset dy="4" input="SourceAlpha"/>
+      <feGaussianBlur result="blur-2"/>
+      <feFlood flood-color="#fff" flood-opacity="0.4" result="color"/>
+      <feComposite operator="out" in="SourceGraphic" in2="blur-2"/>
+      <feComposite operator="in" in="color"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f5a322"/>
+      <stop offset="1" stop-color="gold"/>
+    </linearGradient>
+  </defs>
+  <g id="WINNER-3" data-name="WINNER" transform="translate(-793.419 -1212.334)">
+    <g data-type="innerShadowGroup">
+      <g transform="matrix(1, 0, 0, 1, 793.42, 1212.33)" filter="url(#WINNER)">
+        <text id="WINNER-4" data-name="WINNER" transform="translate(124 47)" fill="#f6ff00" stroke="#707070" stroke-linejoin="round" stroke-width="1" font-size="57.561" font-family="Helvetica"><tspan x="-116" y="0">WINNER</tspan></text>
+      </g>
+      <text id="WINNER-5" data-name="WINNER" transform="translate(917.419 1259.334)" fill="#f6ff00" font-size="57.561" font-family="Helvetica"><tspan x="-116" y="0">WINNER</tspan></text>
+      <g transform="matrix(1, 0, 0, 1, 793.42, 1212.33)" filter="url(#WINNER-2)">
+        <text id="WINNER-6" data-name="WINNER" transform="translate(124 47)" fill="#fff" font-size="57.561" font-family="Helvetica"><tspan x="-116" y="0">WINNER</tspan></text>
+      </g>
+      <text id="WINNER-7" data-name="WINNER" transform="translate(917.419 1259.334)" stroke="#707070" stroke-linejoin="round" stroke-width="1" font-size="57.561" font-family="Helvetica" fill="none"><tspan x="-116" y="0">WINNER</tspan></text>
+    </g>
+    <path id="Gradient_Overlay" data-name="Gradient Overlay" d="M807.819,1218.046l7.785,33.587,9.331-33.587h6.071l9.331,33.587,7.785-33.587h6.127L843.4,1259.334h-5.874L828,1225.1l-9.584,34.233h-5.874l-10.793-41.288Zm52.868,0h5.649v41.288h-5.649Zm14.728,0h6.6l20.855,33.446v-33.446h5.312v41.288h-6.268l-21.164-33.418v33.418h-5.34Zm41.569,0h6.6l20.855,33.446v-33.446h5.312v41.288h-6.268l-21.164-33.418v33.418h-5.34Zm42.1,0h30.1v5.059H964.539v12.535h22.794v4.778H964.539v14h25.071v4.919H959.086Zm57.055,18.915a10.839,10.839,0,0,0,6.226-1.574q2.291-1.574,2.291-5.677,0-4.413-3.2-6.015a10.471,10.471,0,0,0-4.581-.843h-13.66v14.109Zm-18.522-18.915h19.112a19.061,19.061,0,0,1,7.785,1.377q5.818,2.642,5.818,9.753a10.156,10.156,0,0,1-5.818,9.865,8.444,8.444,0,0,1,3.64,2.586q1.223,1.6,1.363,5.2l.2,5.537a17.022,17.022,0,0,0,.393,3.513,3.454,3.454,0,0,0,1.8,2.53v.927h-6.858a5.157,5.157,0,0,1-.45-1.377,26.439,26.439,0,0,1-.281-3.26l-.337-6.886q-.2-4.047-3.007-5.425a12.44,12.44,0,0,0-5.031-.759h-12.732v17.707H997.62Z" fill="url(#linear-gradient)"/>
+  </g>
+</svg>
