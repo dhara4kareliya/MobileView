@@ -1,0 +1,91 @@
+.front {
+    transform: rotateY( 180deg);
+    position: absolute;
+}
+
+.tableCards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* perspective: 500px; */
+}
+
+.tableCard {
+    display: flex;
+    animation-name: slideInDown;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    position: relative;
+    margin-right: 0.3rem;
+}
+
+.tableCard.with_mask {
+    position: relative;
+}
+
+.tableCard.with_mask:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: black;
+    opacity: 0.5;
+}
+
+.front,
+.back {
+    backface-visibility: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: calc( 12.5 * var(--aspect-ratio));
+    width: calc( 8.9 * var(--aspect-ratio));
+}
+
+.tableCard>.front,
+.back {
+    backface-visibility: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: calc( 36.5 * var(--aspect-ratio));
+    width: calc( 23.9 * var(--aspect-ratio));
+}
+
+.middle_table_card {
+    position: relative;
+    top: calc(130 * var(--aspect-ratio));
+}
+
+@keyframes slideInDown {
+    0% {
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        visibility: visible;
+    }
+    30% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%);
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%) rotateY(160deg);
+    }
+}
+.tableName{
+    margin: auto;
+    margin-top: 5px;
+    width: 111px;
+    height: 31px;
+    background: transparent linear-gradient(180deg, #0086A2 0%, #000953 100%) 0% 0% no-repeat padding-box;border: 1px solid #707070;
+    border-radius: 10px !important;
+    box-shadow: inset 2px 2px 2px #00C1C8, 0px 1px 2px #00C2B5;
+    border: none;
+    opacity: 1;
+    color: white;
+    font-size: 19px;
+    text-transform: capitalize;
+    text-align: center;
+}

@@ -1,0 +1,142 @@
+#turnActionsDiv,
+#automaticActionsDiv {
+    position: absolute;
+    /* bottom: calc( 3 * var(--aspect-ratio)); */
+    right: 3vw;
+    text-align: right;
+    vertical-align: bottom;
+    visibility: hidden;
+}
+
+#turnActionsDiv {
+    /*  bottom: calc( -5 * var(--aspect-ratio)); */
+    /* bottom: calc( 1 * var(--aspect-ratio)); */
+}
+
+#turnActionsDiv td div {
+    margin: auto;
+}
+
+.actionButton {
+    box-shadow: 0px 2px 5px #FFFFFF45;
+    border-radius: calc(0.5 * var(--aspect-ratio));
+    border-style: none;
+    color: #FFFFFF;
+    padding: calc( 1 * var(--aspect-ratio));
+    padding-left: calc( 3 * var(--aspect-ratio));
+    padding-right: calc( 3 * var(--aspect-ratio));
+    background: transparent linear-gradient(0deg, #171717 0%, #6E6E6E 100%) 0% 0% no-repeat padding-box;
+}
+
+#fold-Button {
+    background: transparent linear-gradient(0deg, #E50202 0%, #676060 100%) 0% 0% no-repeat padding-box;
+}
+
+#call-Button {
+    background: transparent linear-gradient(0deg, #171717 0%, #6E6E6E 100%) 0% 0% no-repeat padding-box;
+}
+
+#raise-Button {
+    background: transparent linear-gradient(0deg, #1F940C 0%, #484343 100%) 0% 0% no-repeat padding-box;
+}
+
+#betDiv {
+    display: inline-block;
+    background: transparent linear-gradient(180deg, #323C59 0%, #4A5571 100%) 0% 0% no-repeat padding-box;
+    border-radius: calc(0.4 * var(--aspect-ratio));
+    margin-bottom: calc(0 * var(--aspect-ratio)) !important;
+}
+
+#betDiv table {
+    border-spacing: calc( 1 * var(--aspect-ratio));
+    border-collapse: separate;
+}
+
+#betDiv td:nth-child(2) div:not(#lineUnderAllIn) {
+    text-align: center;
+    cursor: pointer;
+    padding: calc( 2 * var(--aspect-ratio));
+}
+
+#betDiv td:nth-child(2) div:not(#lineUnderAllIn):hover {
+    background: #4464bb96 0% 0% no-repeat padding-box;
+    border-radius: calc( 1 * var(--aspect-ratio));
+}
+
+#betPlus,
+#betMinus {
+    background-color: transparent;
+    border-style: none;
+    color: white;
+    font-size: calc( 3 * var(--aspect-ratio));
+    text-align: center;
+    cursor: pointer;
+    margin: calc(-0.5 * var(--aspect-ratio));
+}
+
+#betSlider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5vw;
+    height: calc( 20 * var(--aspect-ratio));
+    cursor: grab;
+}
+
+#betSliderArea {
+    background: transparent linear-gradient(180deg, #161A24 0%, #0F295C 97%, #1D3464 100%) 0% 0% no-repeat padding-box;
+    width: 1vw;
+    height: 100%;
+    border-radius: calc(0.5 * var(--aspect-ratio));
+}
+
+#betSliderThumb {
+    background: transparent linear-gradient(180deg, #CBCBCB 0%, #646464 100%) 0% 0% no-repeat padding-box;
+    width: 3.5vw;
+    height: calc( 2 * var(--aspect-ratio));
+    position: relative;
+    left: -1.2vw;
+}
+
+#lineUnderAllIn {
+    border-bottom-style: solid;
+    border-color: #7E8FB2;
+    width: calc( 4 * var(--aspect-ratio));
+}
+
+#turnActionsDiv {
+    visibility: visible;
+    pointer-events: none;
+}
+
+#turnActionsDiv * {
+    pointer-events: auto;
+}
+
+#autoCheckButton {
+    background: transparent linear-gradient(0deg, #E50202 0%, #676060 100%) 0% 0% no-repeat padding-box;
+}
+
+#betDivWrapper {
+    display: inline-block;
+}
+
+#betShow {
+    text-align: center;
+    border: calc(0.1 * var(--aspect-ratio)) solid #8b8f9fa6;
+    border-radius: calc( 1 * var(--aspect-ratio));
+    margin-bottom: calc(0.5 * var(--aspect-ratio));
+}
+
+#betShow input {
+    width: calc( 16 * var(--aspect-ratio));
+    text-align: center;
+}
+
+#betShow input:focus {
+    outline: none;
+}
+
+#showCardsButton {
+    background: transparent linear-gradient(180deg, #7700B5 0%, #8D2626 100%) 0% 0% no-repeat padding-box;
+}

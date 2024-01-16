@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    />
+
+    <style>
+      /* input[type='range'] {
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            height: $slider-padding*2 + $track-height; //IE's thumb gets cut
+            background: transparent;
+            position: relative;
+            cursor: pointer;
+            background: linear-gradient(90deg, $rule-color 1px, rgba(238, 238, 238, 0) 1px) repeat-x content-box, linear-gradient(90deg, $rule-color 1px, rgba(238, 238, 238, 0) 1px) repeat-x content-box;
+            background-size: 25% $rule-height, calc(100% - 5px) $rule-height*2;
+            background-position: 1px 30%, 1px 20%;
+            padding: 0 $slider-padding;
+            overflow: visible;
+            transform: rotateZ(-90deg);
+        } */
+    </style>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <title>Poker Thing</title>
+    <script type="module" crossorigin src="./assets/index.915a00a7.js"></script>
+    <link rel="stylesheet" href="./assets/index.921d67e0.css">
+  </head>
+
+  <div class="modal fade" id="modal-wining-payout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-wining-payoutLabel" aria-hidden="true">
+    <div class="modal-dialog top-dialog">
+        <div class="modal-content top-content ">
+            <div class="modal-body top_body ">
+                <button class="close_con"><i class="bi bi-x " data-bs-dismiss="modal" aria-label="Close "></i></button>
+                <div class="winner_trofie" style="background-image: url('/assets/imgpsh_fullsize_anim.390f953e.png');   background-size: 100% 100%; ">
+                    <div class="you_got">
+                        <p class="got">You got payout of</p>
+                        <p class="top_200">$200</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <body>
+    <div class="container mobile_wrapper p-0">
+      <table>
+        <tr>
+          <td style="display: none">
+            <div id="meDiv" style="color: white">
+              <span>Hi <span id="myName">Tangotag</span>!</span>
+              <div class="stars box">
+                <img src="./assets/material-star.4ad0507e.svg" /> 4.2
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tableName">BLUE TABLE</div>
+          </td>
+          <td></td>
+        </tr>
+      </table>
+      <div class="menu_wrapper" id="openMenuButton">
+        <img
+          src="data:image/png;base64,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"
+        />
+      </div>
+      <div id="playerWrappers">
+        <div class="player_wrapper">
+          <div class="avtar_img">
+            <img src="./assets/avtar.a8412849.png" class="playerLogo" />
+            <div class="player-cards"></div>
+          </div>
+          <div class="tangoHeadBlack">
+            <div class="title">Tangotag</div>
+            <div class="price">$5.24</div>
+          </div>
+          <div class="turnTime">
+            <div></div>
+          </div>
+          <div class="lastBetDiv">
+            <img
+              src="data:image/png;base64,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"
+            />
+            $55
+          </div>
+        </div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div class="player_wrapper"></div>
+        <div id="betDiv" style="display: none !important">
+          <table class="slider_small">
+            <tr>
+              <td>
+                <div>
+                  <div id="allInButton">ALL-IN</div>
+                  <!-- <div id="lineUnderAllIn"></div> -->
+                  <div id="bet70">4X</div>
+                  <!-- <div id="lineUnderAllIn"></div> -->
+                  <div id="bet50">3X</div>
+                  <!-- <div id="lineUnderAllIn"></div> -->
+                  <div id="bet33">2.5X</div>
+                </div>
+              </td>
+              <td class="td_id">
+                <div id="betPlus">+</div>
+                <div id="betSlider" style="margin: auto" class="slider">
+                  <div id="betSliderArea">
+                    <div id="betSliderThumb" class="thumb"></div>
+                  </div>
+                </div>
+
+                <div id="betMinus">-</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- </div> -->
+
+      <!--Main Cards End-->
+      <div class="middle_table_card cardImageimg">
+        <div class="cardsImage" style="transform: translateY(-40px)">
+          <div class="chipRow" id="totalPot">
+            Total pot:
+            <span class="price money">$100</span>
+          </div>
+          <div id="winPot" class="box chipRow" style="visibility: hidden">
+            Total Win Pot: <span class="money">$100</span>
+          </div>
+          <div class="tableCards"></div>
+          <div class="center_div">
+            <div id="currentSreetPotDiv">
+              <img src="data:image/png;base64,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" />
+              <span class="money">$50</span>
+            </div>
+            <div class="tableSettingsSpan">
+              <span class="smallBlind">10</span>/
+              <span class="bigBlind">20</span>
+              <div class="tournamentOnly">
+                Ante <span class="ante">5</span> Level
+                <span class="level">13</span><br />
+                NextLevel <span class="nextSBBB">10/20</span><br />
+                <span class="timer"></span>
+              </div>
+            </div>
+          </div>
+          <div class="handResult">Three of a kind</div>
+        </div>
+      </div>
+
+      <div class="main_plyer">
+        <button id="showCardsButton" class="actionButton edit-btn-screen">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAATCAYAAACDW21BAAAABHNCSVQICAgIfAhkiAAAA/VJREFUSEuNVWtIk1EY9tsWa2De2qo/hplQzEtzxkzUIKXW0lloSFl094f+CBO8EiSI1xFJIPbDrhSEghuZ2J+V8zKx4YWp6dKkBRGVa2q4Ntul56wL8/St9cHH9533PO/7vNdzmKD/eMRicbBQKIxsaGjArzgBKtEcDifI7Xa/nZmZMZaVlb1aXFx8ZzKZvgYyxwQC9PT0nIuLi7sQGhq6C1ghXg6l48basry8PDc1NfVgdXW1PT8/3+XPLithUlLShuTk5LT6+noVFJNYlAkJeWhyIpuqqKgo1Wq1/fPz8w5a9y/C+Pj4cER1IyQk5BjAoZSCEevHa2trEy6XK0ggEMRhfQKvlMJ9RcTP5HJ50ezsrMV3bx1hQkLCDp1Od59hmHRfkMfj+Waz2VQ5OTlNo6OjjvT09AiyPzAwYI2KiuK1trZeSU1NrYJo0zrjDGOA/CRS/ea3/A8hIotGZBpEFk95+53P5xcjmvbm5mYpDFSipmI0DDM5OTk3ODjYVF1dPVxcXHwKTdUO5zb66i8tLZkWFhaOZmRkmIjcSxgbGxszNDT0DL876ZwjNdrc3Nwc1FQCg2oY3EJhvlRWVub19/fre3t7u9BcWbQN6Hwwm80HJRLJNEPS2N3d/RRAMUtzkLTlKpVKNTydwP4eNgxkb1paWnZLpdL9eLT+MCiJgoEhEpncD8iJlG3hcrkxKSkpL/1gvGJk6JDBYNCVlJSQJglmwyLSIULo+YehlfHx8c12u10Jwq4AhOezsrLuwd474CL9YRmk7Doa5jIAPBaQR6/Xb+fxeAKZTDaDfa4/Q8jEXr6NPy+Tyz4iEj6NQ+e7cDrdZUQiUbBarX6IzjvKZgypKoXnLVar9QGUTvtJlSY8PDwPvXAWI3OHDYO5fV5bW5vn7dKOjg6uQqHoQqsfgXfrIgXJdHZ29gGLxSJAFz4MCwvbB8yGX0ZdKysrBuwXREREWDUazQvIJRQhOeZ0aCplTU2N7c8cYr42NTY23kJ6CygFt9Fo7ET3nUhMTBQNDw/LHA5HJpzj4MTRZWZm6jHYH1Ga29A9S6cdDacuLy+/2NbWZiV2/zraUIubmMtLiEzgS4yoejDg18bGxuZGRka8twKcDMYoRNfV1V2FA8cpR+04GB4hxZd85WyHNx+kctT0BoDRP8Gkkb1Q0vJvEZGZCIHZjm8UXhFF9h6Y0rS0tCeQ2wMRevdxYwjRTE04EA4jum0Qsd0M65KAxSfU9DlqWoIyfKKc8C4D3YfcoqKiGJVKpXA6nWeAJ5cvPRpuODSN91FVVVU3LuHXfX19Tjay/yH01eNgNCIxS7tRr61kA/+fQWQqLCw0d3Z2+r10fY38ANrcwzYG8Q5BAAAAAElFTkSuQmCC" />
+          SHOW CARDS
+        </button>
+      </div>
+      <!--Bottom Button-->
+    </div>
+    <div class="">
+      <div class="target">
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 1 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 2 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+        <div class="div_doller sidePot box">
+          <span class="Side">Side port 3 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+      </div>
+      <div class="target_ser">
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 4 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 5 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 6 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 7 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
+      </div>
+    </div>
+    <div id="turnActionsDiv" style="visibility: visible !important">
+      <div class="onclick" id="myDIV" style="visibility: visible !important">
+        <div class="width-50 bet-mannual" id="betDivWrapper">
+          <div id="betShow" style="display: none">
+            <input type="number" />
+          </div>
+          <div id="betDiv">
+            <table class="slider_small">
+              <tr>
+                <td>
+                  <div>
+                    <div id="allInButton">ALL-IN</div>
+                    <!-- <div id="lineUnderAllIn"></div> -->
+                    <div id="bet70">4X</div>
+                    <!-- <div id="lineUnderAllIn"></div> -->
+                    <div id="bet50">3X</div>
+                    <!-- <div id="lineUnderAllIn"></div> -->
+                    <div id="bet33">2.5X</div>
+                  </div>
+                </td>
+                <td class="td_id">
+                  <div id="betPlus">+</div>
+                  <div id="betSlider" style="margin: auto" class="slider">
+                    <div id="betSliderArea">
+                      <div id="betSliderThumb" class="thumb"></div>
+                    </div>
+                  </div>
+
+                  <div id="betMinus">-</div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="bottom_buttons_Wrapper p-0">
+        <button class="flod_1" id="fold-button">FOLD</button>
+        <button class="flod_2 d-flex" id="call-button">CALL</button>
+
+        <button
+          class="flod_3"
+          id="raise-Button"
+          style="visibility: visible !important"
+        >
+          BET
+          <!-- <span class="valueDisplay betSlider moneyDisplay">50</span> -->
+        </button>
+      </div>
+
+    </div>
+    <div id="tip-button">
+      <p class="lang" key="tip">Tip:</p>
+      <div class="button-prents">
+        <button class="first_bb" value="1">1BB</button>
+        <button class="first_bb1" value="2">2BB</button>
+        <button class="first_bb2" value="4">4BB</button>
+      </div>
+    </div>
+    <!-- <div class="modal fade" id="TipToDealer">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content Mod_Con3">
+          <div class="modal-header d-flex justify-content-end Mod_head3">
+            <button type="button" class="But1">
+              <i class="bi bi-x" data-bs-dismiss="modal" aria-label="Close"></i>
+            </button>
+          </div>
+          <div class="modal-body Mod_body3">
+            <div class="d-flex justify-content-center img_div">
+              <img src="./images/Group 177714 (1).png" alt="" />
+            </div>
+            <div class="d-flex justify-content-center mt-1 cash_div">
+              <div>
+                <div style="font-size: 25px" class="lang" key="thankYou">
+                  Thank You
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button id="GO" class="lang" key="GoToTable">GO TO TABLE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div
+      class="modal fade"
+      id="insuranceModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog Second-mod"
+        style="
+          transition: transform 0.3s ease-out !important;
+          transform: translate(13px, 64px) !important;
+        "
+      >
+        <div class="modal-content second-top">
+          <div class="modal-body">
+            <div class="border-around mt-3">
+              <p class="border-p lang" key="allInsurance">All In Insurance</p>
+              <p class="border-p-text allInPrice1">$119.40</p>
+            </div>
+            <div class="card-prents mt-4">
+              <img src="./assets/image 1.8afa0c70.png" alt="" class="img_12" />
+              <img src="./assets/image 2.f6d169e7.png" alt="" class="img_2" />
+              <img src="./assets/image 3.23a466db.png" alt="" class="img_3" />
+              <img src="./assets/image 4.52ef6b21.png" alt="" class="img_4" />
+              <img src="./assets/image 5.7e102b49.png" alt="" class="img_5" />
+              <img src="./assets/image 6.ee53e06a.png" alt="" class="img_6" />
+              <img src="./assets/image 7.251ee81d.png" alt="" class="img_7" />
+              <img src="./assets/image 8.57f3b077.png" alt="" class="img_8" />
+              <img src="./assets/image 9.2c659fc2.png" alt="" class="img_9" />
+              <img src="./assets/image 10.0eecbd1d.png" alt="" class="img_10" />
+              <img src="./assets/image 17.bbd45916.png" alt="" class="img_17" />
+            </div>
+            <div class="doller_prents m-2">
+              <p class="doller_p">
+                <span class="pay lang" key="pay">Pay</span>
+                <span class="sane insurancePrice">$8</span><br />
+                <span class="pay lang" key="save">Save</span>
+                <span class="sane allInPrice1">$119.40 </span>
+              </p>
+            </div>
+            <div class="two_btn">
+              <button class="text_btn insuranceYesButton lang" key="yes">
+                Yes
+              </button>
+              <img
+                src="images/Light Effect PNG Clip Art Image 5.png"
+                alt=""
+                srcset=""
+              />
+              <button class="next insuranceNextTime lang" key="nextTime">
+                Next Time
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toggleButton" style="display: flex">
+      <div style="margin-bottom: calc(1 * var(--aspect-ratio)); width: 47.5px">
+        <img src="data:image/png;base64,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" alt="Show Image" class="w-100" />
+      </div>
+    </div>
+    <div class="body-content body_pran" style="display: none">
+      <div id="body_toge">
+        <!-- <div class="fund_prent mb-1">
+            <div class="fund  font">
+                <div class="hudge lang" key="hudgeFundPanel"> Hudge Fund Panel</div>
+                <div><i class="bi bi-question-circle" data-bs-toggle="modal" data-bs-target="#modal-note"></i></div>
+                <div class="troffie" id="open_history"><img src="images/Frame 161.png" alt=""></div>
+            </div>
+        </div> -->
+        <div class="fund_prent1 mb-1">
+          <div class="fund1 text-center">
+            <button
+              id="button31_q31"
+              class="div_fund1"
+              style="width: calc(30 * var(--aspect-ratio)) !important"
+            >
+              <p class="Balance2" id="free-balance">$200</p>
+              <!-- <p class="Balance lang" key="freeBalance">Free Balance</p> -->
+            </button>
+            <!-- <button id="button32_q31" class="div_fund2">
+                    <p class="Balance2">$200</p>
+                    <p class="Balance lang" key="totalPaid">total paid</p>
+                </button> -->
+          </div>
+        </div>
+        <div class="street" style="display: none">
+          <p class="text-street lang" key="street">street</p>
+          <div class="img-1"><img src="images/21.png" alt="" /></div>
+          <div class="img-2"><img src="images/22.png" alt="" srcset="" /></div>
+        </div>
+        <div id="scroll_bar" style="display: none">
+          <div class="start_prents">
+            <div class="scroll_prents"></div>
+          </div>
+          <div class="text-center text_div">
+            <div class="dum">
+              <div class="dum2">
+                <p class="text_last_sum" id="total-payout">$0</p>
+                <p class="text_last_sum2 lang" key="payOut">PAY OUT</p>
+              </div>
+            </div>
+            <button id="submit-sidebet1" class="last_sum">
+              <p id="total-amount" class="text_last_sum22">$0</p>
+              <p class="text_last_sum2 lang" key="submit">Submit</p>
+            </button>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      <div class="" id="body_toge1" style="display: none">
+        <div class="fund_prents mb-1">
+          <div class="fund fonts">
+            <div class="troffies mx-2">
+              <img src="images/Group 177703.png" id="back_button" alt="" />
+            </div>
+            <div class="win_win mt-1 lang" key="winingHistory">
+              Wining history
+            </div>
+          </div>
+        </div>
+        <div class="fund_prents1 mb-1">
+          <div
+            class="bg-imges"
+            style="
+              background-image: url('images/Group\ 177702.png');
+              background-size: 100% 100%;
+            "
+          >
+            <img
+              src="images/Group 177685.png"
+              class="w-100 winner_image"
+              alt=""
+            />
+            <p class="total">
+              <span key="totalWins" class="lang">Total Wins</span>:<span
+                class="sidebet-total-win"
+              >
+                $0</span
+              >
+            </p>
+          </div>
+        </div>
+        <div id="scroll_bar ">
+          <div class="start_prentss mt-5">
+            <div class="scroll_prentss"></div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <div class="button-section bets_buttons">
+        <div class="f-btn hitting_pair_1 sidebet">
+          <div class="f-sec">
+            <h5 class="hitting_head">Hitting Pair</h5>
+          </div>
+          <div class="s-sec 1 " id="submit-sidebet-2">
+            <div class="price_button " style="display: block;">
+              <div class="child_hit">
+              <div class="p-out">
+                <p class="pay_out">
+                  Payout: <br /><span class="p_color">$400</span>
+                </p>
+              </div>
+              <div>
+                <button class="price round_button">$40</button>
+              </div>
+            </div>
+            </div>
+
+            <div class="confirm_button" style="display: none;">
+              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="s-btn hitting_pair_1 sidebet">
+          <div class="f-sec">
+            <h5 class="hitting_head">Hitting Pair</h5>
+          </div>
+          <div class="s-sec 2" id="submit-sidebet-2">
+            <div class="price_button" style="display: block;">
+              <div class="child_hit">
+              <div class="p-out">
+                <p class="pay_out">
+                  Payout: <br /><span class="p_color">$400</span>
+                </p>
+              </div>
+              <div>
+                <button class="price round_button">$40</button>
+              </div>
+            </div>
+            </div>
+
+            <div class="confirm_button" style="display: none;">
+              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-btn hitting_pair_1 sidebet">
+          <div class="f-sec">
+            <h5 class="hitting_head">Hitting Pair</h5>
+          </div>
+          <div class="s-sec 3 " id="submit-sidebet-2">
+            <div class="price_button" style="display: block;">
+              <div class="child_hit">
+              <div class="p-out">
+                <p class="pay_out">
+                  Payout: <br /><span class="p_color">$400</span>
+                </p>
+              </div>
+              <div>
+                <button class="price round_button">$40</button>
+              </div>
+            </div>
+            </div>
+
+            <div class="confirm_button" style="display: none;">
+              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="buyInMenu" class="menuDiv">
+      <!-- <div
+        style="display: flex; justify-content: center; flex-direction: column"
+      > -->
+      <div
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal_top_tra">
+          <div class="modal-content modal_width">
+            <div class="modal-body p-1">
+              <div class="Wallet">
+                <div class="child">
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <div
+                      style="
+                        text-align: center;
+                        color: #fbf201;
+                        justify-content: center;
+                        display: flex;
+                        align-items: center;
+                      "
+                      class="img_p"
+                    >
+                      <div>
+                        <img
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAgCAYAAAB6kdqOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGJSURBVHgB7ZfdTcMwFIWPTd8pEzTdIExAu0GZoDABVCyQvCN+JiBMABvACNkAj9AJYo4TJ0RRfihKGkvkk66culbuyfW1fS0wMMGjnrPxaKaNg53Yt40X6Ne5x2YFDZ9vXvDZt2LKvNN2FKbQlyDr2BcaCy1Sp6sax20o2rpO1AyHOc6/2IQf+u/x9WgvRlT1D1ERYMK9Ye9F2fGAnDNKcbljVhJzJSROdYKIP59wHOoT3K4EJyimLM0XjVv2bDH8VOUo2ictzBNcFGKADxy2UvpEwa46aTvGFAP8rDqI4F5vcII3uMFaIttfnIAr3JdwCCb03ClBhklQF/9SkDmvLmlntCWyeqiR1vKjFxI8B3ciF7HnqXCNrH6qPZ6Gj5BMz6oCW8LGzcOHJkmjUWArC388QRI34YPeWjEesjOrsZoYPofonKVuRDHRbwZP+1AXk6AunBKkuXHK6sY1JryGxXmR/4Vxa2qD4i6+zKfMXGkVxkNZDVkO2TvRmpP4iuMKU7QQ2ZXaPOMbV7psPRglk34AAAAASUVORK5CYII="
+                          alt=""
+                          style="
+                            margin-right: calc(1 * var(--aspect-ratio));
+                            height: 12px;
+                            width: 12px;
+                          "
+                        />
+                      </div>
+                      <div class="mx-2">
+                        <p class="Transfer mx-1">Transfer To Table Wallet</p>
+                      </div>
+                    </div>
+                    <div
+                      style="
+                        text-align: center;
+                        margin-top: calc(2.5 * var(--aspect-ratio));
+                        font-size: calc(5.6 * var(--aspect-ratio));
+                      "
+                      class="second_1"
+                    >
+                      <p class="Global mx-3">
+                        Your Global Balance:
+                        <span id="global-balance">1450</span>
+                      </p>
+                    </div>
+                    <div>
+                      <div id="transferSliderContainer">
+                        <div
+                          style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                          "
+                          class="progresss mt-1 mb-1"
+                        >
+                          <div id="transferMinus" style="font-size: 10px">
+                            Min
+                            <span style="font-size: 14px">50</span>
+                          </div>
+                          <input type="number" id="transferCount" />
+                          <div id="transferPlus" style="font-size: 10px">
+                            <span style="font-size: 14px">2000</span> Max
+                          </div>
+                        </div>
+                        <div id="transferSlider" class="slider">
+                          <div>
+                            <img
+                              class="thumb"
+                              src="./assets/1 copy 4-1@2x.87a6e0e6.png"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="transferWaitingClock">
+                        <svg
+                          class="hourglass"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 120 206"
+                          preserveAspectRatio="none"
+                        >
+                          <path
+                            class="middle"
+                            d="M120 0H0v206h120V0zM77.1 133.2C87.5 140.9 92 145 92 152.6V178H28v-25.4c0-7.6 4.5-11.7 14.9-19.4 6-4.5 13-9.6 17.1-17 4.1 7.4 11.1 12.6 17.1 17zM60 89.7c-4.1-7.3-11.1-12.5-17.1-17C32.5 65.1 28 61 28 53.4V28h64v25.4c0 7.6-4.5 11.7-14.9 19.4-6 4.4-13 9.6-17.1 16.9z"
+                          />
+                          <path
+                            class="outer"
+                            d="M93.7 95.3c10.5-7.7 26.3-19.4 26.3-41.9V0H0v53.4c0 22.5 15.8 34.2 26.3 41.9 3 2.2 7.9 5.8 9 7.7-1.1 1.9-6 5.5-9 7.7C15.8 118.4 0 130.1 0 152.6V206h120v-53.4c0-22.5-15.8-34.2-26.3-41.9-3-2.2-7.9-5.8-9-7.7 1.1-2 6-5.5 9-7.7zM70.6 103c0 18 35.4 21.8 35.4 49.6V192H14v-39.4c0-27.9 35.4-31.6 35.4-49.6S14 81.2 14 53.4V14h92v39.4C106 81.2 70.6 85 70.6 103z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        style="
+                          display: flex;
+                          justify-content: center;
+                          margin: calc(1 * var(--aspect-ratio)) 0px 0px 0px;
+                        "
+                        class="d-flex justify-content-center mb-3"
+                      >
+                        <button
+                          class="transferButton tranf"
+                          style="background-color: #343964"
+                        >
+                          Transfer
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAANCAYAAACZ3F9/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACiSURBVHgBtZA9CsIwAEa/iCgFJ3EQXFwEb+EJXMTBU3gNVzcRJxcX7+Gqu4Mujp4hvtJYKE1/Au2DR0uSF5JIbWCt7SoUohnuse+b75S0E1xgFBqWkgk51hC9m8X3xUEuZDA+2gPXnqjH54KH/1j6asaYDwu2/B7dzm83NcKdkjuvVATRBp94whde8YZTVeHir02441h1YfESzzhXKESRmuYHn/9j7bcb0pcAAAAASUVORK5CYII=" class="down" alt="" />
+                        </button>
+                      </div>
+                    </div>
+                    <hr
+                      style="
+                        background-color: #ffeb00;
+                        color: #ffeb00;
+                        width: 80%;
+                        margin-top: calc(1 * var(--aspect-ratio));
+                        margin-bottom: 0rem;
+                      "
+                    />
+                    <div class=" buyin d-flex justify-content-center">
+                      <div
+                        style="
+                          text-align: center;
+                          color: #ffeb00;
+                          display: flex;
+                          align-items: baseline;
+                          margin-bottom: calc(1.5 * var(--aspect-ratio));
+                          margin-top: calc(1.5 * var(--aspect-ratio));
+                        "
+                      >
+                        <div>
+                          <img
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAYAAACoYAD2AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAN9SURBVHgBzViNWdswEH3y1wHSDZwJSibAmaB0giYT4NABcAYAwgQJEwATYCYgG8QbkAlQ7yyZOrJl65JAed+nz7asn+eT9O7OCgcgu9EJNE6hcEKPXOLa66Isb3hGhDybqRx7QkEIIjYgYufUM6XHgaBroTQyrfBIhLeCfjKS2ZWekFVuhORclGQvL9RdaIcgkqX1UJKb4HhYUZmFWLWXJBGM6XIPs+eOjYLKmIgWXY06SVoLvmD3QBwbBZVRl0UjdGOJjyUIO/6yq4GX5Pxan9PlDDLkVKZUHiDD2eWVTn0vW5fb7sMnyKy4pSX7bvvzNtlApgK83MO2ZW+3JEmElCCJ9m31UE5knvPwIeiD3tBqTZ8lNwKSTCbzbfzSK5lVCUGrNRuWLAU7nOCKBky7TqbQHbI1G+fgW6OZQoJwvHsNuw/PaJKYPn2NynezC5UgoljACH0nyR8Ix7p2vyxJRo3xpEjciraDI/Es9dM7I6uxZQschtit2PlOKz0bhGNBe27mVtI4J0Q4pdFPsZ8zGNZdZZ/H6UOaXetLt5ImWGcXakK3YyJ7iwNxqCUrVLHic1uwQOOyBCUIR6clRcFoDTERXNF1w4TIpf523s8hg18nrd5JiRbOc8KEaRvU/fca4dj2ijkErkyboHVIt1yqwGJdjqGwqDWNEY7GBzV0UlPipKKw6EdZ0bX7ZwVHhN/bUbKmA/WS5l65dVFIIy8CvAnLERHMEAg2klvnCzAkp7GA2SJ3dT9ttfKnMKvkWGDqVn7zNJ4LSMYwCRq3H9bqn4igNKtsVQHvTqHTuaC3suCA41BF4m3y8gwytFqR4fc4ZpICEpg+r3sQLNChpX3ZIgcbvD8P+RnQB9bEUVdaqyyZgV0qDggGdMJu53/U4hOIMkHOu0tt5ORPm4NW2DJn8sqTdO103jMx60NB5VdtDjbGS0ubceRJuthqT7ZjJdZjGy8eA+yZRg7BtjwoprJkS77Cv5RbWvp5tfR2wIQuHJ4lkCOHWcK8quBgRBsX6uXAJDX6sbCDb2tkWawndh93RfOc5zxSuwdH7JkUf2yKHvjEfIqm/PCg/0iapUprE8bYtQa3LToySW7/aEt9jnu3oc+Sw74/XR8BX9Dts2RMHfAfELdV+kiG/nH4FByaiH0KmGSOr42cSXLevG8C9tFgXtPISskIX8+iOez/9L8mSl9McSibQgAAAABJRU5ErkJggg=="
+                            style="
+                              margin-right: calc(1 * var(--aspect-ratio));
+                              height: 12px;
+                              width: 12px;
+                            "
+                            alt=""
+                          />
+                        </div>
+                        <div>
+                          <p class="add">Add To Table</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-around;
+                        width: 90%;
+                      "
+                      class="pp buyin"
+                    >
+                      <div
+                        style="display: flex; align-items: center"
+                        class="d-ff_div justify-content-around"
+                      >
+                        <div class="imd_div">
+                          <img
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAgCAYAAAB6kdqOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGJSURBVHgB7ZfdTcMwFIWPTd8pEzTdIExAu0GZoDABVCyQvCN+JiBMABvACNkAj9AJYo4TJ0RRfihKGkvkk66culbuyfW1fS0wMMGjnrPxaKaNg53Yt40X6Ne5x2YFDZ9vXvDZt2LKvNN2FKbQlyDr2BcaCy1Sp6sax20o2rpO1AyHOc6/2IQf+u/x9WgvRlT1D1ERYMK9Ye9F2fGAnDNKcbljVhJzJSROdYKIP59wHOoT3K4EJyimLM0XjVv2bDH8VOUo2ictzBNcFGKADxy2UvpEwa46aTvGFAP8rDqI4F5vcII3uMFaIttfnIAr3JdwCCb03ClBhklQF/9SkDmvLmlntCWyeqiR1vKjFxI8B3ciF7HnqXCNrH6qPZ6Gj5BMz6oCW8LGzcOHJkmjUWArC388QRI34YPeWjEesjOrsZoYPofonKVuRDHRbwZP+1AXk6AunBKkuXHK6sY1JryGxXmR/4Vxa2qD4i6+zKfMXGkVxkNZDVkO2TvRmpP4iuMKU7QQ2ZXaPOMbV7psPRglk34AAAAASUVORK5CYII="
+                            alt=""
+                            style="
+                              margin-right: calc(1 * var(--aspect-ratio));
+                              height: 12px;
+                              width: 12px;
+                            "
+                            class="vec_img"
+                          />
+                        </div>
+                        <div>
+                          <p class="Wallet_text">
+                            Table Wallet:<span id="table-balance">0</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        style="display: flex; align-items: center"
+                        class="d-ff_div justify-content-around"
+                      >
+                        <div class="imd_div">
+                          <img
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAOlSURBVHgBzVjhddowED7pMQCdoGaCwASFCdpMEJgA6ALgARpggjgTpBvEmSB0gqgT1BPg3kmyLZ0l2zT9ke89AZZOp0+nO90ZAVdifyjnUMI3EPAZHxNsYzuksBVwgV8gId9vRQ5XQAwRwsUTXHyD0nfOwn1Q2HJsKZJSfcKihwAtusO2gffhiO3URUh0kJji1xMY8/8PKGy3SOYcGpShzvS+pCN4jZDIsa2wTaxyd6GJHivhMTAvIZ3pSetuQYRIlAKygOwJ2x53VFQdaLU3aMgqHJs4Y+RXe+tX/qISlru1eIwSscfxyieWANt0K468v4tIhd2PcoMLH6CNmXtM0tuB8YkWkO3OknRJjAPExux5iiR2EMaTK19bZH9fZiEzOqAjWYAJX1I+j8hl2FIr9wzd4X5Eq2xrItYab64EHYcwCw69N0LE3bkF6kxRJz+mCYW1tKvu2WBmfWJhFf4LPBKkS+sstdM3uMCSvgwRAV+YEjItWGeKkSms0hU0IasgjEXtmIJtWsKavkY6d/j3RcZuQG5iggnl76Lw5pHzmZBdM/l6PoU/yuXQ+NiYOIzQNHP3WkMvzz0VRrFHApUFr3x7x2zQ8YGRIV/L66cLWk86zo4cJHbceOte4KVWTDv0I0lRN/TBmN+11twLbb5ZAVOBAnSBTdliLhLnNx3bCgYArXJkVlEdes8jaJ9/AjE41upFCWd2pEmH9FjCBwFZhIemYs9J/Ut4R9gN0bp5VVQvcpABAYr5iU1gM6b8LpRjOKyT87tp5uhdeCMl/Jb04XVemp3YcMyd0SrP9IFkEuc5c8sHdw1L5CyR+U+vU7YSX8qeN7jjQyz70hi0S0tfBz82DOcq6f0BP3o+VTuI1SjQFMcvdlfTSHGt80x1xQcSrK5jqqTHS7udQ+IZwkiwLbE96GbujJD/6HKgrmfaCTanj3gZcMEyQLbKgALeURYIJIFl6JH1N2WATnIsPdvyrpXKaWKkOK6QW7kZ+FfDOECiTrCjZmVtsq8QvgG9c0Ys0YrkkG6lr8CEqFtcE6FYlUbytRM3NatRcBuYQNVayt9HvHCM9NEcUUaT5K1bbkg+EUyh44HKO9zdg/WlQahCOXAchBXfmIgoWYKJhhAy3GWOC1DYktkT26/A+MYc2x3Ei2sikfFOERH+GK+cmkhVr3ZHyFBQRM5iJAgCBsB5faRElsAwFHoTQr+7qD7hQUQYqbmtc2/A/6OGIkbpJIr569o/av4CykGDGnltnmYAAAAASUVORK5CYII="
+                            alt=""
+                            style="
+                              margin-right: calc(1 * var(--aspect-ratio));
+                              height: 12px;
+                              width: 12px;
+                            "
+                          />
+                        </div>
+                        <div>
+                          <p class="Wallet_text">
+                            Table Balance:<span id="table-chip">0</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="buyInSliderContainer" class="buyin">
+                      <div
+                        style="
+                          display: flex;
+                          justify-content: space-between;
+                          align-items: center;
+                        "
+                      >
+                        <div id="buyInMinus" style="font-size: 10px">
+                          Min
+                          <span style="font-size: 14px">50</span>
+                        </div>
+                        <input type="number" id="buyInCount" />
+                        <div id="buyInPlus" style="font-size: 10px">
+                          <span style="font-size: 14px">2000</span> Max
+                        </div>
+                      </div>
+                      <div id="buyInSlider" class="slider">
+                        <div>
+                          <img
+                            class="thumb"
+                            src="./assets/1 copy 4-1@2x.87a6e0e6.png"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="buyin" id="autoRebuyContainer">
+                      <div class="Chips text-center">
+                        Auto re-buy chips when:
+                      </div>
+                      <div>
+                        <div class="two_input d-flex mx-2">
+                          <div
+                            id="chipsLowerThenBuyInCheckbox"
+                            class="checkbox"
+                            style="border-radius: 50%"
+                          >
+                            <img
+                              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAARCAYAAADZsVyDAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADUSURBVHgBrdLRDcIgEAbg38P47AA+tBt0hBoHqW7kCHUCBzDGOoFsYB8cwAEs9Q5TU1OpAfkTEi7AR8IxQcRcszwHiMesnCBSbtmqaIBS5oxWhAjpoxLzwuOiQFsbmOVfsAtNdVUHw2OoVEHwL9TC/EXmU6jiATqn+qBjoBJSUHvu4pZgLnIoBmrhfiGHXLgPauEGzUY2jeG+qMQ2j985IdCJy6RbUMB6oY+7EPQNu3BeLFu+wBf9gF14CDqA3bgf+hUe4v6oE+5wbmHG/6Ri9A7PPAHeZqoJBZm0qwAAAABJRU5ErkJggg=="
+                              style="height: 15px; max-width: 15px; bottom: 0px"
+                            />
+                          </div>
+                          <p class="lower">chips are lower than buy in</p>
+                        </div>
+                        <div class="two mx-1 d-flex">
+                          <div
+                            id="runOutOfChipsCheckbox"
+                            class="checkbox"
+                            style="border-radius: 50%"
+                          >
+                            <img
+                              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAARCAYAAADZsVyDAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAADUSURBVHgBrdLRDcIgEAbg38P47AA+tBt0hBoHqW7kCHUCBzDGOoFsYB8cwAEs9Q5TU1OpAfkTEi7AR8IxQcRcszwHiMesnCBSbtmqaIBS5oxWhAjpoxLzwuOiQFsbmOVfsAtNdVUHw2OoVEHwL9TC/EXmU6jiATqn+qBjoBJSUHvu4pZgLnIoBmrhfiGHXLgPauEGzUY2jeG+qMQ2j985IdCJy6RbUMB6oY+7EPQNu3BeLFu+wBf9gF14CDqA3bgf+hUe4v6oE+5wbmHG/6Ri9A7PPAHeZqoJBZm0qwAAAABJRU5ErkJggg=="
+                              style="height: 15px; max-width: 15px; bottom: 0px"
+                            />
+                          </div>
+                          <p class="lower">you run out of chips completely</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="menuBottomButtons mb-3">
+              <button
+                type="button"
+                class="btn btn_btt close cancleButton"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-blue okButton buyin">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+
+    <div id="settingsMenu" class="menuDiv">
+      <div
+        class=""
+        id="staticBackdropran"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal_top_tra m-0">
+          <div class="modal-content modal_width m-0">
+            <div class="modal-body p-1">
+              <div class="conatiner-fluid mt-4">
+                <div class="row m-0">
+                  <div class="col-12 p-0 m-0">
+                    <div
+                      class="menuTitle Settings d-flex justify-content-center"
+                    >
+                      <img
+                        src="data:image/png;base64,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"
+                        class="sett"
+                        style="height: 28px; width: 28px"
+                      />
+                      <span class="ss"><b>Settings</b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="conatiner-fluid mt-4 mb-4 mx-2">
+                <div class="row p-0 m-0">
+                  <div id="muteCheckbox" class="checkbox col-auto">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                  </div>
+                  <div class="col-auto png_img">
+                    <div class="png_img">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAABHNCSVQICAgIfAhkiAAABWhJREFUWEfNmUlMG1cYx2ubRW4g1CwhdhzMZsLWAgqBAq7E7hQQFINZCgYcgSBtQawSEioFpYA49FKVVGwX1IUCAlVIcIl66QkEBxQpiKqR4NBcEFuBQtjc/2fZlXGGYHvA0yc92TPz3sxvvu197xveO9fYBgcHM/Lz84t5PJ7U0dHx2fz8fG9SUtKJLY/k2TLpkjn8sbExD5FIVOHv75/j4eFxD+OdAPtid3e3TSqV/o7jY2ufe6WgoaGhLi0tLdEZGRnlzs7OcTqdzgeAQgPU6ubm5teA/wHHr7kC5bW1tUm9vb3TysvLs8/OzlIB+C5gTAWxBtDu5OTkkdXV1UO7gyYkJLjW1tbKs7Oz046OjtQAuH8BxOrGxsaTgICAH+0u0aCgIM/e3t4HkFIx1PwxADzfIilOQAVeXl7C8fFxTURExGdQc7gFqrQvKBzGaXp6WiYQCL5ydXVNxu8tQAr+V6CJiYm3e3p6HoaEhDwGmBz9poWQ9B7XL9GOjg6+TCa7L5FIVLGxsQ9J1bBJBwukaDqEHSggXA4ODj7AHUXofKaH5+Xl3YbKE05OThJxXWYloHE4O9C9vb2S09NTJSQkZlCjzhALpfiVoN+wEZK96nd2dl4C8g7u5MwCwpKp7CS6vb19ZpCaJQ9jM4YJlFYu4+pFHOaNrunNkbe1tbVnWI8Z7ZMNmdncN0Cbm5tv1NTUuC8tLfHhB2vmz1Kr1S5dXV23hEKhgAeJ/o0BtC5bEgvZcJ8DhRNLCwsLNWKxOBd+sosUcFKlUg3jAfo8oKKiIriurk6NJEYFQeo4Ax0eHi6AFD8HkwIdacLRyszMzNPu7u7J+Ph4UXV1dQnidSmuBaCfcQY6NDQEzapr4cgfGdR0gv9LIyMjo9HR0dLw8PA0HIfq7ZNLiUK18qqqqrKwsDCSmq+JTb3Efw/09wznKHd9xVqixkBrgfG+4UyAfR92WAI7/BTzKVabJ/IH+/v7f6ysrEyyBrUA0DiEMY5C/T7YW5Vg0BNzh6bty8LCwvcpKSnf2QZqhRhNXoQRtKioSNLf36+GPX7DEHmeLy4ufgvQIdtArRDj20BLS0vvNTU1Ffn5+WkxzodB9f9A9S+Wl5d/vlLQSwR9TqKwT9/KykoNvLsMgIEmL/QX/ruhuxjOUVxdu1LQSwR9DhR2qaLwhDmJhnmn+F1GePoF4ekOsrVkHAeh62Cr3MVRgBajOPEFIOIB8/r4+PjP2dnZoc7Ozp+wB/PSarWlgC3ENV907kBbW1t9sbXW0hIKO9zGEvprbm7uU0AdkIQ1Gk14Y2Mj2W8OXoZHqt+lpAReZ9e1nmAaGhrc6+vrxXNzc/yCgoLn5qaTmZkp6uvr8+Xz+Q4EynWaZ8zayEbNGy0AegFSmvcKEqX9uOMlzmC4bFsQxWTWiXM1bqJEp63GReqnbYoXupNlL8M4ih0o8kL3w8PDSNyaEgHG5BnlGjE8MA7XyUNpTbalsQO15ImoLTlHRkY+QMlQFRMTo4Sp6NMvK9v1gxqB0tPT7yLOfRIcHFwN2Ls4T6uHpVsY+4EScFxcnHB0dDQUpUUq6Xzo4ODgfs62L/Y1+4JSpCAwT09P4cTExOOoqKhHiMFUVb6s2R30PyAkFN5wRkVqaiolvqnoVIu6qHEHSkQKhUKELUVwVlaWEpW9PJy6qATJLSjBIgsSoJIsQxFNWVZWloNTlPmcW0BgHmtYXLgrjZvqOTAw8GZ7e7tCqVQ+wscGKpHTQmEsFdHHhi7Dxwb71/AZDJI/NTXl4+bmpkWpMgOfbwIgTf3nm/X19S/lcvlvmMPt5xtz6IGBgQJUQ0oAKkE4e4aCXCfSNtr+UhCzqv0L8uqaLhAEtKgAAAAASUVORK5CYII=" />
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <span class="same_class"><b>Muted sound</b></span>
+                  </div>
+                </div>
+              </div>
+              <div class="conatiner-fluid mt-3 mb-4 mx-2">
+                <div class="row m-0 p-0">
+                  <div id="autoMuckCheckbox" class="checkbox col-auto">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                  </div>
+                  <div class="col-auto png_img">
+                    <div class="png_img">
+                      <img src="data:image/png;base64,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" />
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <span class="same_class"><b>Auto Muck Cards</b></span>
+                  </div>
+                </div>
+              </div>
+              <div class="conatiner-fluid mt-3 mb-4 mx-2">
+                <div class="row">
+                  <div id="showAsBBCheckbox" class="checkbox col-auto">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                  </div>
+                  <div class="col-auto png_img">
+                    <div class="png_img">
+                      <img src="data:image/png;base64,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" />
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <span class="same_class"
+                      ><b>Show values as BB ratio</b></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: none">
+                <div class="conatiner-fluid mt-3 mb-4 mx-2">
+                  <div class="row">
+                    <div id="showAsSUDCheckbox" class="checkbox col-auto">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <div class="col-auto png_img">
+                      <div class="png_img">
+                        <img src="data:image/png;base64,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" />
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <span class="same_class"><b>Show values as USD</b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="conatiner-fluid mt-3 mb-4 mx-2">
+                <div class="row">
+                  <div id="fourColorsCheckbox" class="checkbox col-auto">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                  </div>
+                  <div class="col-auto png_img mx-1">
+                    <div class="png_img text-end">
+                      <img src="data:image/png;base64,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" />
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <span class="same_class"><b>4 colors deck</b></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="menuBottomButtons modal-footers" style="margin-top: -43px">
+          <button class="okButton btn-yellow">OK</button>
+        </div>
+      </div>
+    </div>
+    <div id="breakTime" class="menuDiv" style="display: none">
+      <div>
+        <div class="menuTitle">Break Time</div>
+        <div class="timer">00:45</div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="msgModal"
+      style="display: none !important"
+      tabindex="-1"
+      aria-labelledby="msgModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="max-width: 350px">
+        <div
+          class="modal-content modal_width"
+          style="color: white; height: auto !important"
+        >
+          <div class="modal-body">
+            <div class="modal-header">
+              <h5 id="myModalLabel">Error Message</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                ×
+              </button>
+            </div>
+            <div class="modal-body" style="font-size: 1rem">
+              <p class="error-message">One fine body…</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn cancel"
+                data-dismiss="modal"
+                aria-hidden="true"
+                style="color: white"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="tournamentResultModal"
+      style="display: none"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="modal-dialog" style="max-width: 400px;transform: translate(10px,61px);">
+        <div class="modal-content" id="mContent">
+          <div class="modal-body p-0">
+            <div class="menyos">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                style="
+                  width: 30px;
+                  height: 30px;
+                  background: transparent
+                    linear-gradient(0deg, #e50202 0%, #676060 100%) 0% 0%
+                    no-repeat padding-box;
+                  box-shadow: 0px 2px 5px #ffffff45;
+                  border-radius: 50px;
+                  opacity: 3;
+                  position: absolute;
+                  right: -9px;
+                  top: -8px;
+                "
+              >
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+              <div class="row" style="padding-top: 5rem">
+                <div
+                  class="col-12 d-flex"
+                  style="justify-content: center; align-items: center"
+                >
+                  <img src="./assets/trophy.c5d9983d.svg" alt="" />
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div
+                  class="col-12 d-flex"
+                  style="justify-content: center; align-items: center"
+                >
+                  <h5>
+                    <span style="color: #ce152e">Finished Tournament :</span>
+                    <span style="color: #e78d2b"
+                      ><span id="tournamentRank">39</span>
+                      <span id="tournament_place">th</span> place</span>
+                  </h5>
+                </div>
+              </div>
+              <div class="row my-4 tournament-prize">
+                <div
+                  class="col-12 d-flex"
+                  style="justify-content: center; align-items: center"
+                >
+                  <h5>
+                    <span style="color: #254a98">Price:</span>
+                    <span style="color: #c92138"
+                      ><span id="tournamentPrize">150</span></span
+                    >
+                  </h5>
+                </div>
+              </div>
+              <div class="row mt-2 mb-5">
+                <div
+                  class="col-12 d-flex"
+                  style="justify-content: center; align-items: center"
+                >
+                  <button
+                    data-dismiss="modal"
+                    style="
+                      width: 340px;
+                      height: 60px;
+                      background: transparent
+                        linear-gradient(0deg, #e50202 0%, #676060 100%) 0% 0%
+                        no-repeat padding-box;
+                      box-shadow: 0px 2px 5px #ffffff45;
+                      border-radius: 6px;
+                      opacity: 1;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      color: white;
+                    "
+                  >
+                    <h5 class="m-0">Back to Lobby</h5>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="automaticActionsDiv" style="display: none">
+      <button id="autoCheckButton" class="actionButton">
+        <div class="checkbox">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+        </div>
+        CHECK
+      </button>
+      <button id="autoCheckOrFoldButton" class="actionButton">
+        <div class="checkbox">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+        </div>
+        CHECK/FOLD
+      </button>
+    </div>
+    <button id="backButton">
+      <img src="data:image/png;base64,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" />
+      I AM BACK
+    </button>
+
+    <div id="uiTable" class="menuDiv">
+      <div
+        class="modal"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal_top_tra">
+          <div class="modal-content mod-high">
+            <div class="modal-body p-1">
+              <button class="closeUiTable">X</button>
+              <div class="Wallet">
+                <div class="first_row pt-2">
+                  <div class="img_first1 mb-1 backLobbyButton">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACPSURBVHgBpZOBCYAgEEXPaIBGcARHcIRGaQPboDapJqgNGqERGsHuQOiQiH4+EEV4n7sTiR6IMR7xpiUEFgYl94grclDyhMpOydKCRWSr+j4RuU67lGvTeePlOeRTQD40mIozDBVgUhU7by7dzbwWQigZog7x2TM2hMJSp0JW+gOLowoJhCKly1BVyOtnugBrG+88wp0R8QAAAABJRU5ErkJggg==" alt=" chair" /><span
+                      >Back to Lobby</span
+                    >
+                  </div>
+                  <div class="img_first2 mb-1 sitOutButton">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAVCAYAAACt4nWrAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJTSURBVHgBrVS/jxJBGB2Wn4d4ZDWEcB4oxRUkFCKFlUpzJkdCYm+DBYUWng2t4V+Azo4YsOGXxUGikpw9iRESO5KLeMQEYrIQAgjsrm90D49ll12ML3k7y8w373s733wQIkEUxRcgB94m/xMQjIt/EJev9fv91HA4nIO8nIPBgOc4rqama4BgBOMpmJW4xHQ6ZSaTyVu87pINyGQyV1Op1Eg+bwJT0ntc4gp4nhdggGzCYrFwYVgTZ8BH4Ffq2iBDIBDwYCODBGQTEXOolNRAH1IRP4IVaD65WOx2u4eCILwn2njj9XofKzknEPyMIQL6pRr8xnw+fwZXRAfvKWU0LT/hbwJySfwh0QEYcivNM2obUH161jt6nCPOUqvVrETNuRy43yycG4hOGI3GPQxnquI+n4+FiysoZBfBt6grvZBqdeb3+92z2cwMifMVZ41G4xuC9vH6nWGYmy6X68t4PD7QuudWq3WIZnOB72gS7CUWi+XainN05AOPx3Pc6/WeN5vNp61W667ZbL5BtDEsFAq7pVIp4nQ6T5HgZTAY5NbONBQK7aXT6XOaC0E7RD8GoNPhcMTC4fAJnVAsqHTW2whTOOmj3W4vDa+JoyMN2xRSDhRTXZxl2R8o0HQ0Gm3rnNhsNur808Vv1XuMoCN8hfHyHG6Ov9PpZNxu9yuYOJHviUajH7DvJ/kXJJPJO+VyWaxUKsd64k1aAbFY7CiRSBzY7XaCK7pP/2KB+/V6XUQHk3w+z+VyuddKe7Xa21QsFnsQZNUC0DBCtVq9ns1mOfnaL8heeofWt74WAAAAAElFTkSuQmCC" alt=" chair" /><span
+                      >Sit Out</span
+                    >
+                  </div>
+                  <div class="img_first1 mb-1 leaveButton">
+                    <img src="data:image/png;base64,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" />
+                    <span>Leave Game</span>
+                  </div>
+                  <div class="img_first1 mb-1 forhid">
+                    <img src="data:image/png;base64,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" />
+                    <span>Rebuy/Add-on</span>
+                  </div>
+                  <div class="img_first3 mb-1 addChipsButton">
+                    <img
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAVCAYAAAB2Wd+JAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMESURBVHgBVZNLSFRhFMfn3rnzzBl1xtHQJiuSJkLDahG4sIgEadfKVoGLNiEt2rQQkgha2LKNErgIykUbpQQ3WWHYTIRFTJlQCpPjYyab5tG983BuvzNcIy/8Oeeec/7n9X2fYrO+VCp1GnFTUZQBZE7TtGelUimOrqiqegbZY5pmA1ipVCp92i5xZ2enB9IpCQQ6zmkIdwlUq9VqArmNPQTqsZ+tEUdGRlQCQxjqCRCTB1yw2+1T2M7jOwG5wfI5KXBEsQoqq6urwwReQz8ATHSDLpYhPKbtLki9QHzb2O6oFtEk8ycc3wi2USGNU+Y9COkyNge2FDYT6C6X6+2/GXEsECQzdhHoIeCK0+m8hb0O9GI/TPI0tnlkfLfV2re2ttYNaRDSJTbaTAeToI3ATpIWkc/L5fKTjo6OBe1/Ymtr6+dkMjmJ+gtChFbdoAzeQFpGzi4uLsZs1uptBO2pPD4+rvX394eYpR0CxUtbmH+SWN+NqRFisVjY6/WWCVIMw6gkEgmDdvaz6c2WlpZmj8dTyOfzJrPa3W63JHIJ0R6NRidYf47KHtrJkeA9+j30G8hh8Aqbg9nDxEvLRzWr1XqWIkfjlbaBl0QhAiVRE9IP0YXeiM8PAtrQ0JDGLC8gFYCLgDytJLFNFIvF76z/KcQPQG5MI9hgw0vK3NzcA2aIUvEkRINKeVZ+XA6ZebshbuIz8ElVjWqJQCAwJa0O6Lq+RKYusqZke5DPFQqF1+gX8c3ic0CQC14FpUgksqJhXKdCweFwZMiYIbu0vC7V+d+A8Bs40e3IKvGZ2nHE4/HBdDr9g+MIk0Cnf3mLbZlMZsXn8x3iGCSBQesOSCqJt7LZ7Ec5DnVmZuYRMivPiXZzBMjtGAXX0W8jX0pV9DD4in5MZpT1+6zb48Uh/3XoTch9ICiLkeuHlK36kQ3a2NiYym2YltloyUmbf/i22PR9tvqFFh/ii8uC5PXLk8P3TgsGg6O5XG4BYydOgwoFAvvY7Dybvcrc6wS3SyVrQTa/3z/1Fw6K2xr/d1otAAAAAElFTkSuQmCC"
+                      alt=" chair"
+                    /><span>Add Chips</span>
+                  </div>
+                  <div class="img_first1 mb-1 settingsButton">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAVCAYAAABCIB6VAAAABHNCSVQICAgIfAhkiAAAA0dJREFUOE9jZCAAoqKilKZPn34bqIwRCP5t3bo1KDIychMhfYzoClatWsUcFhb2Fya+fv36SAcHh2Uw/pYtW/piY2OLkfSBzPiPbg6KwWvWrHG3t7efd/bs2SwPD4+NIMVv3rzJ+v///1SYRiB7p5iYmAeIP2nSJOWIiIg1z58/36uvr1+CbDjc4E2bNvmbmZmtB2oEefn/jRs3lurp6TH9+vUrHCjGDNMECo6HDx/uuXnz5ik3N7dKmNzLly8nGRgY5MPVwRhAWw/8/fvXnlDY4ZJnYmJ6LSUlJYZhcEVFhUJOTs7tP3/+sJBqONDQv5cvX/b09vbejWEwSGDKlCmZnp6e00g1GBg0y5ycnKKxhjFIEGjrHDY2tmRkBUD+p7t376bNmDHjmZGRkTAwRXR8+/ZNHVkNMJxvaGhoaKIY3NXV5REYGBj9/ft3XqCXfIGSTDAFLCwsX0JCQrSuXLnyGCYGDEeugwcPHvr586cxUoT+BUbq9t+/f//Ys2fPvs+fP89nPH/+/DegICc27wOTXW9ycjJKMgKpKyws9IiPj9+OK8iA8aTJePr06a9Ag7mwKdqwYUNVS0tLO7ocMMPo9PT0XMYTF5qMQFd9AXqBG5siYNqc6+/vn4Iut2jRogg1NbXl2PQwMzOD8r4mo5WVFSjtSTU1Ncnw8/OvAYYdO5KG39OmTXNftmzZfpgYMMtLA8P5EpAvBBMDxs1PYIQmVFdX32ZnZ38lLi7+DCVLl5aW1nh5eTWjxC4j4y9gxjl97dq1w5qamsbACDUHpgI+ZDWcnJwnLYAAZ3JbunRpPbAcaCA1HQNdexIYZNgNBia7YGDZsBpUVpBqMEj99evXO4qKiirhSRDKYNq2bds7oJf5yTEUpAcYad+BwQhPXXDXAW1TAxaV14HeYuLh4fl+8eLFMD8/P86nT59O+PDhgxTMQmB4flVWVm4ARtSOvLy8A69fvxYG5s6/X7588QeW41vRXQzmFxQUKKSlpU0A2pzw4MGDDyCx1atXpwNjfQZMAzDyNgHD0x/KZwNGahMwk+2Jjo7egzPysAWDj49PILB8WAeTO3PmTEt3d3ctoSAjGFGhoaE8wNwHT8fAqioBWMReJWQwAPxuU1OlPKEwAAAAAElFTkSuQmCC" /><span
+                      >Settings</span
+                    >
+                  </div>
+                  <!-- <div class="img_first4 mb-1 multiTableButton">
+                    <img
+                      src="./images/img/multi table 1.png"
+                      alt=" chair"
+                    /><span>Multi Table</span>
+                  </div> -->
+                  <div class="img_first5 mb-1">
+                    <img
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAN3SURBVHgBnVNdSJNRGD7ft29/bs6/0qZ5MaSUREGULiLEyowgyAu9CNGYmgaWsMQLSfwjJKJCRe9CaFCQoUHCMiSKRXahI2SBoWbpdFO3OffHNt1czxl+MNfFqAPb+c457/u8z3me9zBer7chHA43E0L8mE8wDBNgWdZB4gzEikOh0EnE/sRSFAwGPy4vLz9kdnZ2lvR6/XUMk8PhGBaJRC87Ojo+RSe3traSoaGhI4CNjY1J2dnZ7zmOKwcQq1KpdCjSSzY3N1fBUrm9va222Wyv6+vrE6MTe3p62PX19QtjY2PyGJKUzBDyHrhcrmNbW1t6fFeTjY0NG0DfWq3WF1qtVhULtra2dsVisRjNZvPg7u7ukXPEyygoznXAQd31KhY6BBISEh719/c31tXV/dZoNFJanSbgOtmY7gmFwieI0UMvFw9G4yYnJ/3Nzc0ak8nUfnBwYAMWw+3t7QW7urq+DwwM+BYWFs4JBIK2mpqa+yUlJT+QF0RQ0Ol0pkKfJSQ6KdjIyIi8oqLiGQq+gXavqqurl9LS0lwAJSwAmUAgEGEkFosFMEWclZUloOvOzk6zXC7vBjsOy76UlJQCui+RSBjEilFEyDMGBkFxwsFuQVtb25mMjAwDNPkCzW6Mjo56aFBTU5MURslQ2YjkSzKZTEL3Gxoa3DCvbmVlxVdWVsYpFIpT+/v7iWg5wgFVBJbtlZWV9rm5uT4YscpXzczMTIB+l30+XxVYDqK9vvFnKOqmpuTn5/fg7DQwjoNlmMWfLykpqRWbs4WFhf3QQx7lsi0nJ6dbKpVqJiYmtGq12h/dNrm5uVSOILRs8fv9v3AThpmZmVk2Go3XiouLLbj+MNg8R/JnEmcUFRUp8vLypiDDVbRcCEWnANzLGAyGW7h2LTTyQoMsxPpQyc4nolX+AqNuIpbqqcK8gFwJzPyKDnnMoTEJLK/FhhAdT50mqamp8QgStFLE2fT0dOJ2u4N2u/08bpjGAfUmOlyCAANtTPKPY3FxkSQnJytxdQ3ItHB4x2q4eVupVJ4F9QggrhHmvzHC5PDlxA4+Dtp5wPIu3vMsgQHv4CZ9CQx9u3Tmf/HW/E+n04nHx8e1wLrITE9PP/V4PAXoIxM95E2IPKPD7wgN2rUx+1FM0dsKFkzvMPPz8zKAlSMwmfznQL0AMD6UlpZa/wAspQg+SqIh4AAAAABJRU5ErkJggg=="
+                      alt=" chair"
+                    /><span>Cashier</span>
+                  </div>
+                  <div class="">
+                    <div class="img_first mb-1 waitingList">
+                      <div class="waitingListSide">
+                        <span class="span_5">5</span>
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAD/SURBVHgBrZSLDYMgEIbPpgM4AhvoCHYDnKBsoCOwQd1AN2g3oBu0GzBC3YDeEWwMAtbWP/ki8fHxOBAgnArpkAfyQoy7KkQgDL5Ijlzdxyk00qZEzL1kNnDZS7QQZu46IOdFD4yBEMK2x3GErusgkhNyn0YV7BVFZp7E6BSJDoiE/1MRJCtgn5QkK2GfFEf/DuccmqaxbSrAPEqpT7uua1sUP9MOt6DAaK1NKlLKUBFsqZX/ICWMiAhOsjb0MCRMiAhGstyfaki4Iurn69bGXiQhbV5IH3oGXgb47WxyiERukNDSVLASAet/kD40tSwhLV3P9BEViXboE7m59iJvwkkXwM2oRLgAAAAASUVORK5CYII=" alt=" chair" />
+                      </div>
+                      <span class="Join">Join Waiting List</span>
+                    </div>
+                    <div id="usersDropdown">
+                      <div class="users" id="user">
+                        <div class="innerUser">user 1</div>
+                        <div class="innerUser">user 2</div>
+                        <div class="innerUser">user 3</div>
+                        <div class="innerUser">user 4</div>
+                        <div class="innerUser">user 5</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="img_first6 mb-1 chatButton2">
+                    <div
+                      type="button"
+                      class="dropdown-toggle w-100 d-flex"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAUCAYAAABiS3YzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAACCSURBVHgB7ZHBDYAgDEUrOgAjeHQNN3EENyBMpBsYN+nVKfBzMDHKAdLiyZf8Hgh5yW+JQAhhCzosiG0xJnhn0mFADoPRky7WUAVSUt8UEP/nSMV0iTeH4zkS8Nd/4Uvr5kjFfFZfTA0pa0t3ZH3ulJERR2YSYLSFdylrCS8pawojJ7nLbTsekBxGAAAAAElFTkSuQmCC"
+                        alt=" chair"
+                      /><span>Chat</span>
+                    </div>
+                    <div class="dropdown-menu leftArrow py-0" id="third">
+                      <div class="activities style-2" id="">
+                        <div class="activInner main_div_mes" id="thirdss">
+                          <div
+                            class="main d-flex mx-2 pt-4 justify-content-around"
+                          >
+                            <div class="smike">
+                              <button
+                                class="btn-emoji emoji_pic chatButtons1 active"
+                                id="button1"
+                                data-divshow="divemojis"
+                              >
+                                <i
+                                  class="bi bi-emoji-smile-fill fs m-0"
+                                  id="gray1"
+                                  style="color: #ffffff"
+                                >
+                                </i>
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                class="btn-emoji emoji_pic chatButtons1"
+                                id="button2"
+                                data-divshow="divmessage"
+                              >
+                                <i
+                                  class="bi bi-chat-left-text-fill fs m-0"
+                                  id="gray2"
+                                  style="color: #9499a6"
+                                ></i>
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                type="button"
+                                id="btn-closes"
+                                class="btn-closes"
+                              >
+                                <i class="bi bi-x-lg fr text-ic m-0"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div
+                            class="message blocks position-relative act_scroll act_scroll1 mx-3 mt-4 mb-3"
+                            id="divmessage1"
+                            style="display: none"
+                          >
+                            <div class="userMessage"></div>
+
+                            <div class="pre1">
+                              <div class="pre input_div1">
+                                <input
+                                  type="text"
+                                  class="send_in"
+                                  placeholder="Type your message"
+                                  id="msg"
+                                />
+                                <i class="bi bi-send-fill send-ig"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- other div for emoji button -->
+                          <div
+                            class="main_emoji blocks"
+                            id="divemojis1"
+                            style="display: block"
+                          >
+                            <div class="emoji mt-5 mb-4 w-100">
+                              <button class="em mx-1 preChatEmoji">👍</button>
+                              <button class="em preChatEmoji">😊</button>
+                              <button class="em preChatEmoji">😂</button>
+                              <button class="em preChatEmoji">🤮</button>
+                              <button class="em preChatEmoji">☹️</button>
+                              <button class="em preChatEmoji">🥱</button>
+                            </div>
+                            <div class="emoji mt-3 mb-4 w-100">
+                              <button class="em mx-1 preChatEmoji">😡</button>
+                              <button class="em preChatEmoji">🎉</button>
+                              <button class="em preChatEmoji">😮</button>
+                              <button class="em preChatEmoji">👻</button>
+                              <button class="em preChatEmoji">🐵</button>
+                              <button class="em preChatEmoji">💐</button>
+                            </div>
+                            <div class="emoji mt-3 mb-4 w-100">
+                              <button class="em mx-1 preChatEmoji">🎁</button>
+                              <button class="em preChatEmoji">🤫</button>
+                              <button class="em preChatEmoji">😇</button>
+                              <button class="em preChatEmoji">😈</button>
+                              <button class="em preChatEmoji">🐱</button>
+                              <button class="em preChatEmoji">🤪</button>
+                            </div>
+                            <div class="emoji mt-3 mb-4">
+                              <button class="em mx-1 preChatEmoji">️😎</button>
+                              <button class="em preChatEmoji">😭</button>
+                              <button class="em preChatEmoji">🐟</button>
+                              <button class="em preChatEmoji">👎</button>
+                              <button class="em preChatEmoji">🙋‍♀️</button>
+                              <button class="em preChatEmoji">🙄</button>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="input_div">
+                            <input type="text" placeholder="Type your message" id="msg">
+                            <i class="bi bi-send-fill send"></i>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="img_first7 mb-1 logTabButton">
+                    <div
+                      type="button"
+                      class="dropdown-toggle w-100 d-flex"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEXSURBVHgBrVQLEcIwDM1QgAPmACRUwiRUAg4ABeAAUAAOhgNw0KFgOAgJl96yXva5sXeX65qkry9tOgADiLgk25LdyAI2COLzMBacTFZjG5UYJuR+iOyoFjzIHKtNcth3UXnHLrKd2tkl5buUXObBJJUyI1luKIpwSSxXpIUOBGvBEGESr38VKHVnsI+il1BySon7Bc2j1CtMx0HGgglX/JVl2QOm4yXjmgk3ZBX8ARLzoeFNli9gbmDzApYdcbMPjTzGkz/ufTc4UlTshLtumxImKsTmKfq4oJ6hsYN2FtGJ05+eT3c6KVI3VDK2fw576DiLvVJzNhRF8lLlnaAPckkB2wiGj8+9gLEQYm6plyKpxOex48a/QNBpne+weokAAAAASUVORK5CYII="
+                        alt=" chair"
+                      /><span>Log Tab</span>
+                    </div>
+                    <div class="dropdown-menu righht leftArrow py-0">
+                      <div class="activities pb-3 style-2">
+                        <div class="activInner">
+                          <div class="act">
+                            <div
+                              class="main_dib d-flex justify-content-between mt-2"
+                            >
+                              <div class="text-white mt-2 acc px-3">
+                                Activitie:
+                              </div>
+                              <div class="mt-2" style="margin-right: 10px">
+                                <button type="button" class="btn-closes">
+                                  <i class="bi bi-x"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="maindiv_bar">
+                              <div class="act_scroll">
+                                <div class="message_div mx-3 mb-3">
+                                  <div class="log_data1"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="img_first8 mb-1 autoFoldButton">
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <span>FOLD TO ANY BET</span>
+                  </div>
+                  <div class="img_first9 mb-1 sitOutNextHandButton">
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <span>SIT OUT NEXT HAND</span>
+                  </div>
+                  <div class="img_first1 mb-1 waitForBBButton">
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <span>WAIT FOR BB</span>
+                  </div>
+                  <div class="img_first1 mb-1 AutoTip">
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <span class="lang" key="AutoTip">Auto Tip</span>
+                  </div>
+                  <div class="img_first10 mb-1 autoModeButton">
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <span>AUTO MODE</span>
+                  </div>
+                  <div class="img_first10 mb-1 autoFoldModeButton1">
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
+                    </div>
+                    <span>AUTO FOLD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let box = document.querySelector("#uiTable");
+    let box2 = document.querySelector("#tableDiv");
+    document
+      .getElementById("toggleButton")
+      .addEventListener("click", function () {
+        var bodyContent = document.querySelector(".body-content");
+        if (bodyContent.style.display === "none") {
+          bodyContent.style.display = "block";
+          box.style.width = "89.3%"; // Corrected the property name to 'width'
+          box2.style.width = "65.3vw"; // Corrected the property name to 'width'
+        } else {
+          bodyContent.style.display = "none";
+          box.style.width = "100%"; // Corrected the property name to 'width'
+          box2.style.width = "80vw"; // Corrected the property name to 'width'
+        }
+      });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let box1 = document.querySelector("#button31_q31");
+      let box22 = document.querySelector("#button32_q31");
+
+      box22.addEventListener("click", () => {
+        box22.style.background = "linear-gradient(-180deg, #827EFC, #2B26DD)";
+        box1.style.background = "#1e2142";
+      });
+
+      box1.addEventListener("click", () => {
+        box22.style.background = "#1e2142";
+        box1.style.background = "linear-gradient(-180deg, #827EFC, #2B26DD)";
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      let historyopen = document.getElementById("open_history");
+      let historynone = document.getElementById("body_toge");
+      let historynone1 = document.getElementById("body_toge1");
+      let historyback = document.getElementById("back_button");
+
+      historyopen.addEventListener("click", function () {
+        historynone.style.display = "none";
+        historynone1.style.display = "block";
+      });
+
+      historyback.addEventListener("click", function () {
+        historynone.style.display = "block";
+        historynone1.style.display = "none";
+      });
+    });
+  </script>
+  <script>
+    setTimeout(() => {
+      const divsToAnimate = document.querySelectorAll(".player_wrapper");
+      divsToAnimate.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+      const lastBetDiv = document.querySelectorAll(".lastBetDiv");
+      lastBetDiv.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+      const betAnimation = document.querySelectorAll(".betAnimation");
+      betAnimation.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+      const sidePot = document.querySelectorAll(".sidePot");
+      sidePot.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+
+      $("#backButton").css("visibility", "visible");
+      $("#turnActionsDiv").css("visibility", "visible");
+      $("#raiseButton").css("visibility", "visible");
+      $("#betDivWrapper").css("visibility", "visible");
+      $(".action").css("visibility", "visible");
+    }, 5000);
+  </script>
+</html>
+

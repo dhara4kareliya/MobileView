@@ -1,0 +1,35 @@
+
+
+#breakTime > div {
+    border-style: none;
+    --barFillColor: #FFEB00;
+    --barBackground: #2F2F2F;
+    --insideBackground: #15122D;
+    --barWidth: 3;
+    --pgPercentage: 0;
+    background: 
+      radial-gradient(closest-side, var(--insideBackground) calc((100 - var(--barWidth)) * 1%), transparent calc((101 - var(--barWidth)) * 1%) 99.9%),
+      conic-gradient(var(--barFillColor) calc(var(--pgPercentage) * 1%), var(--barBackground) 0);
+    animation-name: progressAnimation;
+    animation-duration: 60s;
+    animation-iteration-count: 1;
+
+    font-size: calc(3 * var(--aspect-ratio));
+    padding-bottom: calc(9 * var(--aspect-ratio));
+    padding-top: calc(9 * var(--aspect-ratio));
+}
+
+@keyframes progressAnimation {
+    0% {
+        --pgPercentage: 0;
+    }
+    100% {
+        --pgPercentage: 100;
+    }
+}
+
+@property --pgPercentage {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+}

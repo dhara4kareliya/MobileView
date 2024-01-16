@@ -1,0 +1,37 @@
+.checkbox {
+    box-shadow: inset 1px 2px 5px #000000BF;
+    width: calc(2 * var(--aspect-ratio));
+    height: calc(2 * var(--aspect-ratio));
+    display: inline-block;
+    border-radius: calc(0.3 * var(--aspect-ratio));
+    overflow: visible;
+    cursor: pointer;
+}
+
+.checkbox img {
+    display: none !important;
+    height: 130%;
+    object-fit: contain;
+    position: relative;
+    bottom: calc(0.5 * var(--aspect-ratio));
+}
+
+.checkbox.checked img {
+    display: block !important;
+}
+/*
+@media (max-aspect-ratio: 1/1) {
+    .checkbox {
+        width: 3vw;
+        height: 3vw;
+    }
+
+    .checkbox img {
+        bottom: 1vw;
+    }
+
+    #mobileSideBar .checkbox img {
+        right: 2vw;
+    }
+}
+*/
