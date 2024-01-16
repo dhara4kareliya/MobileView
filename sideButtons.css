@@ -469,7 +469,7 @@ button:focus {
 
 .send-ig {
     position: absolute;
-    top: 20px;
+    top: 23px;
     right: 24px;
     color: #99a1b6;
 }
@@ -578,7 +578,7 @@ button:focus {
     background-color: #334060!important;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, .15);
-    height: calc(121.8 * var(--aspect-ratio))!important;
+    height: calc(141.8 * var(--aspect-ratio))!important;
 }
 
 .send {
@@ -740,14 +740,13 @@ button:focus {
 }
 
 #tip-button {
-    position: absolute;
-    display: flex !important;
-    flex-direction: row;
-    right: calc( 70 * var(--aspect-ratio));
-    align-items: center;
-    visibility: hidden;
-    /* top: 76%; */
-    bottom: 14%;
+	position: absolute;
+	display: flex !important;
+	flex-direction: row;
+	right: calc(129 * var(--aspect-ratio));
+	align-items: center;
+	visibility: hidden;
+	bottom: 11%;
 }
 
 #tip-button p {

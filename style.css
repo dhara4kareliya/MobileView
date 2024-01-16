@@ -10,9 +10,9 @@
 @import "./menu.css";
 @import "./sidebet.css";
 
-/*@import "./breakTime.css";
-@import "./checkbox.css";
-@import "./slider.css";*/
+@import "./breakTime.css";
+/* @import "./checkbox.css";
+@import "./slider.css"; */
 
 .mobile_wrapper {
   background-size: 100% 100%;
@@ -538,7 +538,8 @@ body {
 @media only screen and (min-width: 390px){
   .slider_small {
     position: absolute;
-    right: calc(4 * var(--aspect-ratio));
+    bottom: calc(36 * var(--aspect-ratio));;
+    right: calc(6 * var(--aspect-ratio));
   }
   /* .bottom_buttons_Wrapper {
     top: calc(375 * var(--aspect-ratio)) !important;
@@ -872,7 +873,7 @@ input {
 .onclick {
   width: 100%;
   float: right;
-  bottom: 27%;
+  bottom: 0%;
   position: fixed;
 }
 
@@ -1882,10 +1883,9 @@ input {
   border-collapse: separate;
 }
 .slider_small {
-  position: absolute;
-  bottom: 11%;
-  right: calc(6 * var(--aspect-ratio));
-  /* margin-top: 18px; */
+	position: absolute;
+	bottom: calc(36 * var(--aspect-ratio));;
+	right: calc(6 * var(--aspect-ratio));
 }
 #allInButton {
   width: 52px;
@@ -2679,8 +2679,11 @@ filter: drop-shadow(2px 365px 173px #15A3F5);
   margin: 0 !important;
   
 }
-#buyInMenu .imageFeatures1 img,#buyInMenu .imageFeatures img, .imageFeatures img{
+#buyInMenu .imageFeatures1 img, #buyInMenu .imageFeatures img, .imageFeatures img{
   width: calc((6 * var(--aspect-ratio)));
+}
+.bets_buttons .imageFeatures img{
+  width: calc((3.5 * var(--aspect-ratio)));
 }
 #insuranceModal .imageFeatures img{
   width: calc((13 * var(--aspect-ratio))) !important;
@@ -2699,6 +2702,11 @@ filter: drop-shadow(2px 365px 173px #15A3F5);
 }
 #insuranceModal .imageFeatures img{
   width: calc((3 * var(--aspect-ratio)));
+}
+.bets_buttons .imageFeatures span {
+
+	font-size: calc((4.5 * var(--aspect-ratio)));
+
 }
 .bets_buttons{
   display: flex;
@@ -2723,11 +2731,12 @@ filter: drop-shadow(2px 365px 173px #15A3F5);
   color: rgba(255, 235, 0, 1);
   margin-left: 0!important;
 }
-.pay_out{
-  color: rgba(255, 255, 255, 1);
-  margin-left: 0!important;
-  
-}
+.pay_out {
+	color: #fff;
+	margin-left: 0 !important;
+	white-space: nowrap;
+} 
+
 .hitting_pair_1{
 background: linear-gradient(180deg, #172040 0%, #253874 100%),
 linear-gradient(0deg, #3751A3, #3751A3);

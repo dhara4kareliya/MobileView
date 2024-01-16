@@ -772,6 +772,7 @@ export class MainUI {
     }
 
     showTipDealer(value) {
+        this.setActive(tipButtonDiv, value);
         this.setActive(AutoTip, value);
     }
 
@@ -941,6 +942,15 @@ export class MainUI {
         }
 
         $('#tournamentRank')[0].innerText = rank;
+        
+        if (/^[1]$/.test(rank)) {
+            $('#tournament_place')[0].innerText = 'st';
+        } else if(/^[2]$/.test(rank)) {
+            $('#tournament_place')[0].innerText = 'nd';
+        } else if(/^[3]$/.test(rank)) {
+            $('#tournament_place')[0].innerText = 'rd';
+        }
+        
         $('#tournamentPrize')[0].innerText = prize;
 
         $('#tournamentResultModal').modal('show');

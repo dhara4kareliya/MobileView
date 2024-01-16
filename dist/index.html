@@ -67,8 +67,8 @@
       crossorigin="anonymous"
     ></script>
     <title>Poker Thing</title>
-    <script type="module" crossorigin src="./assets/index.67074a84.js"></script>
-    <link rel="stylesheet" href="./assets/index.b3542808.css">
+    <script type="module" crossorigin src="./assets/index.915a00a7.js"></script>
+    <link rel="stylesheet" href="./assets/index.921d67e0.css">
   </head>
 
   <div class="modal fade" id="modal-wining-payout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-wining-payoutLabel" aria-hidden="true">
@@ -701,7 +701,7 @@
                         margin-bottom: 0rem;
                       "
                     />
-                    <div class="d-flex justify-content-center">
+                    <div class=" buyin d-flex justify-content-center">
                       <div
                         style="
                           text-align: center;
@@ -734,7 +734,7 @@
                         justify-content: space-around;
                         width: 90%;
                       "
-                      class="pp"
+                      class="pp buyin"
                     >
                       <div
                         style="display: flex; align-items: center"
@@ -780,7 +780,7 @@
                         </div>
                       </div>
                     </div>
-                    <div id="buyInSliderContainer">
+                    <div id="buyInSliderContainer" class="buyin">
                       <div
                         style="
                           display: flex;
@@ -806,7 +806,7 @@
                         </div>
                       </div>
                     </div>
-                    <div id="autoRebuyContainer">
+                    <div class="buyin" id="autoRebuyContainer">
                       <div class="Chips text-center">
                         Auto re-buy chips when:
                       </div>
@@ -822,7 +822,7 @@
                               style="height: 15px; max-width: 15px; bottom: 0px"
                             />
                           </div>
-                          <p class="lower">chips are lower than by in</p>
+                          <p class="lower">chips are lower than buy in</p>
                         </div>
                         <div class="two mx-1 d-flex">
                           <div
@@ -851,7 +851,7 @@
               >
                 Cancel
               </button>
-              <button type="button" class="btn btn-blue okButton">OK</button>
+              <button type="button" class="btn btn-blue okButton buyin">OK</button>
             </div>
           </div>
         </div>
@@ -1032,7 +1032,7 @@
       tabindex="-1"
       role="dialog"
     >
-      <div class="modal-dialog" style="max-width: 400px">
+      <div class="modal-dialog" style="max-width: 400px;transform: translate(10px,61px);">
         <div class="modal-content" id="mContent">
           <div class="modal-body p-0">
             <div class="menyos">
@@ -1074,8 +1074,8 @@
                   <h5>
                     <span style="color: #ce152e">Finished Tournament :</span>
                     <span style="color: #e78d2b"
-                      ><span id="tournamentRank">39</span>th place</span
-                    >
+                      ><span id="tournamentRank">39</span>
+                      <span id="tournament_place">th</span> place</span>
                   </h5>
                 </div>
               </div>

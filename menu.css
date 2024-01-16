@@ -287,11 +287,17 @@ input[type=number] {
     margin: calc(1.5 * var(--aspect-ratio)) calc(45.5 * var(--aspect-ratio)) 0;
 }
 
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+
 .hourglass {
     display: block;
     background: #15122d;
-    width: 1.5vw;
-    height: 1.5vw;
+    width: 2.5vw;
+    height: 3.5vw;
     animation: hourglass 3s linear infinite;
     transform-origin: 50% 50%;
 }
@@ -1079,11 +1085,7 @@ color: #FFFFFFCC;
         border-top: 0.7em solid !important;
         border-right: 0.7em solid transparent !important;
         border-left: 0.7em solid transparent !important;
-    }    
-
-    #tournamentResultModal.modal{
-        z-index: 60 !important;
-    }
+    } 
     #uiTable .modal, #uiTable.menuDiv{
         z-index: 70 !important;
 

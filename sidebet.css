@@ -309,7 +309,7 @@ p {
     color: #FFFFFF80;
     transform: rotate(44deg);
     bottom: calc(2 * var(--aspect-ratio))!important;
-    font-size: calc(2 * var(--aspect-ratio))!important;
+    font-size: calc(9 * var(--aspect-ratio))!important;
 }
 
 .p-green {

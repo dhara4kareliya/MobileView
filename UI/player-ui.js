@@ -193,16 +193,11 @@ export class Player {
     
     setTip(player) {
         const TipsOptions = document.querySelectorAll("#tip-button button");
-    
-        const tipButtonDiv = document.getElementById('tip-button');
         if (player === true) {
-            tipButtonDiv.style.visibility = "visible";
     
             TipsOptions.forEach(function(button) {
                 button.addEventListener('click', tipButtonClickHandler);
             });
-        } else {
-            tipButtonDiv.style.visibility = "hidden";
         }
     }
 

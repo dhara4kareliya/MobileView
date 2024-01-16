@@ -139,6 +139,9 @@ function onTableSettings(settings) {
         mainUI.setLevelInfo(settings.level, settings.duration, settings.nextSB, settings.nextBB, settings.displayAnte, settings.displaySB, settings.displayBB);
         mainUI.showTrophyInfo(true);
         table.setSitVisible(false);
+        mainUI.showTipDealer(false);
+        actionUI.showSidebetUI(false);
+        mainUI.showSitIn(false);
         // setShowDollarSign(false);
     } else {
         mainUI.showLevel(false);
@@ -175,6 +178,7 @@ function onPlayerState(state) {
         mainUI.showAutoFold(true);
         mainUI.showSitOutNextHand(state == "Playing");
         mainUI.setSitOutNextHand(false);
+        mainUI.showTipDealer(state == "Playing");
 
         if (getPlayerSeat() >= 0 && (state == "Playing" || state == "Waiting") && buyInUI.visible) {} else if (getPlayerSeat() >= 0 && state == "Joining") {
             showBuyIn();
@@ -186,6 +190,7 @@ function onPlayerState(state) {
         // tableUi.setShowDollarSign(true);
     } else {
         mainUI.showWaitForBB(false);
+        mainUI.showTipDealer(false);
         // mainUI.setWaitForBB(false);
         mainUI.showSitOutNextHand(false);
         mainUI.setSitOutNextHand(false);
@@ -210,15 +215,11 @@ function onTableStatus(status) {
     if (mainPlayerSeat != previousMainPlayerIndex) {
         if (previousMainPlayerIndex != -1 && mainPlayerSeat == -1) {
             table.restorePlayerWrappers();
-            mainUI.showLeaveGameButton(false);
             mainUI.showTipDealer(false);
-            // mainUI.showTipDealer(false);
             mainUI.showBackLobbyButton(true);
         } else {
             table.rotatePlayerWrappers(mainPlayerSeat, mainPlayerIndex);
-            mainUI.showLeaveGameButton(true);
             mainUI.showTipDealer(true);
-            // mainUI.showTipDealer(true);
             mainUI.showBackLobbyButton(false);
         }
         previousMainPlayerIndex = mainPlayerSeat;
@@ -226,10 +227,12 @@ function onTableStatus(status) {
 
     if (mainPlayerSeat != -1) {
         mainUI.setHandResult(status.seats[firstSeat].handRank);
-        mainUI.setPlayStatus(true);
+        mainUI.setPlayStatus(true); 
+        mainUI.showLeaveGameButton(status.seats[mainPlayerSeat].lastAction === 'fold' || status.seats[mainPlayerSeat].state !== 'Playing');
     } else {
         mainUI.setHandResult();
         mainUI.setPlayStatus(false);
+        mainUI.showLeaveGameButton(false);
     }
 
     if (tableSettings.mode == "cash" && mainPlayerSeat >= 0) {
