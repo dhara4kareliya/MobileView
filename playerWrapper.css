@@ -238,13 +238,24 @@
 .missBb {
   visibility: hidden;
 }
-
+/* 
 .avatar {
   width: 11vw;
+  height: 11vw;
+} */
+.avatar {
+  width: 16vw;
+  height: 14vw;
 }
-
+/* 
 .player_wrapper:nth-child(6) .avatar {
   width: 18vw;
+  height: 18vw;
+} */
+
+.player_wrapper:nth-child(6) .avatar {
+  width: 20vw;
+  height: 20vw;
 }
 .player_wrapper:nth-child(6) .title {
   font-size: calc((5 * var(--aspect-ratio))) !important;
@@ -480,7 +491,8 @@
     width: fit-content;
     margin: 0 auto;
     position: absolute;
-    top: calc((150 * var(--aspect-ratio)));
+    top: calc((130 * var(--aspect-ratio)));
+    left: calc(23.8 * var(--aspect-ratio));
     padding: 0px calc((15 * var(--aspect-ratio)));
     border-radius: calc((2 * var(--aspect-ratio)));
     font-weight: 500;

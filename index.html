@@ -86,6 +86,7 @@
 </div>
 
   <body>
+   <div class="loader"></div>
     <div class="container mobile_wrapper p-0">
       <table>
         <tr>
@@ -98,7 +99,7 @@
             </div>
           </td>
           <td>
-            <div class="tableName">BLUE TABLE</div>
+            <div class="tableName" >BLUE TABLE</div>
           </td>
           <td></td>
         </tr>
@@ -111,7 +112,7 @@
       <div id="playerWrappers">
         <div class="player_wrapper">
           <div class="avtar_img">
-            <img src="./images/avtar.png" class="playerLogo" />
+            <img src="images/avtar.png" class="playerLogo" />
             <div class="player-cards"></div>
           </div>
           <div class="tangoHeadBlack">
@@ -136,33 +137,6 @@
         <div class="player_wrapper"></div>
         <div class="player_wrapper"></div>
         <div class="player_wrapper"></div>
-        <div id="betDiv" style="display: none !important">
-          <table class="slider_small">
-            <tr>
-              <td>
-                <div>
-                  <div id="allInButton">ALL-IN</div>
-                  <!-- <div id="lineUnderAllIn"></div> -->
-                  <div id="bet70">4X</div>
-                  <!-- <div id="lineUnderAllIn"></div> -->
-                  <div id="bet50">3X</div>
-                  <!-- <div id="lineUnderAllIn"></div> -->
-                  <div id="bet33">2.5X</div>
-                </div>
-              </td>
-              <td class="td_id">
-                <div id="betPlus">+</div>
-                <div id="betSlider" style="margin: auto" class="slider">
-                  <div id="betSliderArea">
-                    <div id="betSliderThumb" class="thumb"></div>
-                  </div>
-                </div>
-
-                <div id="betMinus">-</div>
-              </td>
-            </tr>
-          </table>
-        </div>
       </div>
 
       <!-- </div> -->
@@ -184,8 +158,8 @@
               <span class="money">$50</span>
             </div>
             <div class="tableSettingsSpan">
-              <span class="smallBlind">10</span>/
-              <span class="bigBlind">20</span>
+              <span class="smallBlind" style="display: inline-block;">10</span>/
+              <span class="bigBlind" style="display: inline-block;">20</span>
               <div class="tournamentOnly">
                 Ante <span class="ante">5</span> Level
                 <span class="level">13</span><br />
@@ -207,45 +181,65 @@
       <!--Bottom Button-->
     </div>
     <div class="">
-      <div class="target">
+      <div class="targets1">
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side">Side port 1 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
-        </div>
-        <div class="div_doller mb-1 sidePot box">
-          <span class="Side">Side port 2 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
-        </div>
-        <div class="div_doller sidePot box">
-          <span class="Side">Side port 3 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
+          <span class="Side">pot 1</span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
         </div>
       </div>
-      <div class="target_ser">
+      <div class="target">
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side">Side port 4 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
+          <span class="Side">pot 2</span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
         </div>
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side">Side port 5 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
-        </div>
-
-        <div class="div_doller mb-1 sidePot box">
-          <span class="Side">Side port 6 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
+          <span class="Side"> pot 3</span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
         </div>
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side">Side port 7 :</span>
-          <img src="./images/desktop/1 copy 4-1@2x.png" />
-          <span class="doller_ money">$100</span>
+          <span class="Side">pot 4</span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
         </div>
+  
+  
+  
+      </div>
+      <div class="targets">
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">pot 5 </span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
+        </div>
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side"> pot 6 </span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
+        </div>
+  
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side"> pot 7</span>
+          <div class="amount_icon">
+            <img src="./images/desktop/1 copy 4-1@2x.png" />
+            <span class="doller_ money">$100</span>
+          </div>
+        </div>
+       
       </div>
     </div>
     <div id="turnActionsDiv" style="visibility: visible !important">
@@ -290,7 +284,7 @@
         <button
           class="flod_3"
           id="raise-Button"
-          style="visibility: visible !important"
+          style="visibility: visible"
         >
           BET
           <!-- <span class="valueDisplay betSlider moneyDisplay">50</span> -->
@@ -306,32 +300,6 @@
         <button class="first_bb2" value="4">4BB</button>
       </div>
     </div>
-    <!-- <div class="modal fade" id="TipToDealer">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content Mod_Con3">
-          <div class="modal-header d-flex justify-content-end Mod_head3">
-            <button type="button" class="But1">
-              <i class="bi bi-x" data-bs-dismiss="modal" aria-label="Close"></i>
-            </button>
-          </div>
-          <div class="modal-body Mod_body3">
-            <div class="d-flex justify-content-center img_div">
-              <img src="./images/Group 177714 (1).png" alt="" />
-            </div>
-            <div class="d-flex justify-content-center mt-1 cash_div">
-              <div>
-                <div style="font-size: 25px" class="lang" key="thankYou">
-                  Thank You
-                </div>
-              </div>
-            </div>
-            <div class="d-flex justify-content-center">
-              <button id="GO" class="lang" key="GoToTable">GO TO TABLE</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div
       class="modal fade"
       id="insuranceModal"
@@ -393,11 +361,11 @@
       </div>
     </div>
 
-    <div id="toggleButton" style="display: flex">
+    <!-- <div id="toggleButton" style="display: flex">
       <div style="margin-bottom: calc(1 * var(--aspect-ratio)); width: 47.5px">
-        <img src="./images/Group 177671.png" alt="Show Image" class="w-100" />
+        <img src="./images/Group 177671.png" alt="Show Image" class="w-100 h-100" />
       </div>
-    </div>
+    </div> -->
     <div class="body-content body_pran" style="display: none">
       <div id="body_toge">
         <!-- <div class="fund_prent mb-1">
@@ -534,7 +502,7 @@
             </div>
 
             <div class="confirm_button" style="display: none;">
-              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
+              <button class="round_button_2">Confirm Bet: <span>$4000</span></button>
             </div>
           </div>
         </div>
@@ -548,17 +516,17 @@
               <div class="child_hit">
               <div class="p-out">
                 <p class="pay_out">
-                  Payout: <br /><span class="p_color">$400</span>
+                  Payout: <br /><span class="p_color">$4000</span>
                 </p>
               </div>
               <div>
-                <button class="price round_button">$40</button>
+                <button class="price round_button">$4000</button>
               </div>
             </div>
             </div>
 
             <div class="confirm_button" style="display: none;">
-              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
+              <button class="round_button_2">Confirm Bet: <span>$4000</span></button>
             </div>
           </div>
         </div>
@@ -656,7 +624,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="transferWaitingClock">
+                      <div class="transferWaitingClock" style="visibility: hidden;">
                         <svg
                           class="hourglass"
                           xmlns="http://www.w3.org/2000/svg"
@@ -699,7 +667,7 @@
                         margin-bottom: 0rem;
                       "
                     />
-                    <div class="d-flex justify-content-center">
+                    <div class=" buyin d-flex justify-content-center">
                       <div
                         style="
                           text-align: center;
@@ -732,7 +700,7 @@
                         justify-content: space-around;
                         width: 90%;
                       "
-                      class="pp"
+                      class="pp buyin"
                     >
                       <div
                         style="display: flex; align-items: center"
@@ -778,7 +746,7 @@
                         </div>
                       </div>
                     </div>
-                    <div id="buyInSliderContainer">
+                    <div id="buyInSliderContainer" class="buyin">
                       <div
                         style="
                           display: flex;
@@ -804,12 +772,12 @@
                         </div>
                       </div>
                     </div>
-                    <div id="autoRebuyContainer">
+                    <div class="buyin" id="autoRebuyContainer">
                       <div class="Chips text-center">
                         Auto re-buy chips when:
                       </div>
-                      <div>
-                        <div class="two_input d-flex mx-2">
+                      <div class="buyIn_checkbox">
+                        <div class="two_input d-flex">
                           <div
                             id="chipsLowerThenBuyInCheckbox"
                             class="checkbox"
@@ -820,9 +788,9 @@
                               style="height: 15px; max-width: 15px; bottom: 0px"
                             />
                           </div>
-                          <p class="lower">chips are lower than by in</p>
+                          <p class="lower">chips are lower than buy in</p>
                         </div>
-                        <div class="two mx-1 d-flex">
+                        <div class="two d-flex">
                           <div
                             id="runOutOfChipsCheckbox"
                             class="checkbox"
@@ -841,7 +809,7 @@
                 </div>
               </div>
             </div>
-            <div class="menuBottomButtons mb-3">
+            <div class="menuBottomButtons">
               <button
                 type="button"
                 class="btn btn_btt close cancleButton"
@@ -849,7 +817,7 @@
               >
                 Cancel
               </button>
-              <button type="button" class="btn btn-blue okButton">OK</button>
+              <button type="button" class="btn btn-blue okButton buyin">OK</button>
             </div>
           </div>
         </div>
@@ -1030,7 +998,7 @@
       tabindex="-1"
       role="dialog"
     >
-      <div class="modal-dialog" style="max-width: 400px">
+      <div class="modal-dialog" style="max-width: 400px;transform: translate(10px,61px);">
         <div class="modal-content" id="mContent">
           <div class="modal-body p-0">
             <div class="menyos">
@@ -1072,8 +1040,8 @@
                   <h5>
                     <span style="color: #ce152e">Finished Tournament :</span>
                     <span style="color: #e78d2b"
-                      ><span id="tournamentRank">39</span>th place</span
-                    >
+                      ><span id="tournamentRank">39</span>
+                      <span id="tournament_place">th</span> place</span>
                   </h5>
                 </div>
               </div>
@@ -1170,10 +1138,10 @@
                     <img src="./images/desktop/exit@2x.png" />
                     <span>Leave Game</span>
                   </div>
-                  <div class="img_first1 mb-1 forhid">
+                  <!-- <div class="img_first1 mb-1 forhid">
                     <img src="./images/desktop/Group 11@2x.png" />
                     <span>Rebuy/Add-on</span>
-                  </div>
+                  </div> -->
                   <div class="img_first3 mb-1 addChipsButton">
                     <img
                       src="./images/img/icons8-coin-50 1.png"
@@ -1191,12 +1159,12 @@
                       alt=" chair"
                     /><span>Multi Table</span>
                   </div> -->
-                  <div class="img_first5 mb-1">
+                  <!-- <div class="img_first5 mb-1">
                     <img
                       src="./images/img/icons8-dollar-50 1.png"
                       alt=" chair"
                     /><span>Cashier</span>
-                  </div>
+                  </div> -->
                   <div class="">
                     <div class="img_first mb-1 waitingList">
                       <div class="waitingListSide">
@@ -1229,7 +1197,7 @@
                         alt=" chair"
                       /><span>Chat</span>
                     </div>
-                    <div class="dropdown-menu leftArrow py-0" id="third">
+                    <div class="dropdown-menu righht leftArrow py-0" id="third" style="will-change: transform; transform: translate3d(31px, 311px, 0px) !important;">
                       <div class="activities style-2" id="">
                         <div class="activInner main_div_mes" id="thirdss">
                           <div
@@ -1379,29 +1347,37 @@
                       </div>
                     </div>
                   </div>
-                  <div class="img_first8 mb-1 autoFoldButton">
+                  <div class="img_first10 mb-1 autoFoldButton">
+                    <div class="d-flex h-100" style="align-items: center;">
                     <div class="checkbox">
                       <img src="./images/desktop/v@2x.png" />
                     </div>
                     <span>FOLD TO ANY BET</span>
                   </div>
-                  <div class="img_first9 mb-1 sitOutNextHandButton">
+                  </div>
+                  <div class="img_first10 mb-1 sitOutNextHandButton">
+                    <div class="d-flex h-100" style="align-items: center;">
                     <div class="checkbox">
                       <img src="./images/desktop/v@2x.png" />
                     </div>
                     <span>SIT OUT NEXT HAND</span>
                   </div>
-                  <div class="img_first1 mb-1 waitForBBButton">
+                  </div>
+                  <div class="img_first10 mb-1 waitForBBButton">
+                    <div class="d-flex h-100" style="align-items: center;">
                     <div class="checkbox">
                       <img src="./images/desktop/v@2x.png" />
                     </div>
                     <span>WAIT FOR BB</span>
                   </div>
-                  <div class="img_first1 mb-1 AutoTip">
+                  </div>
+                  <div class="img_first10 mb-1 AutoTip">
+                    <div class="d-flex h-100" style="align-items: center;">
                     <div class="checkbox">
                       <img src="./images/desktop/v@2x.png" />
                     </div>
                     <span class="lang" key="AutoTip">Auto Tip</span>
+                  </div>
                   </div>
                   <div class="img_first10 mb-1 autoModeButton">
                     <div class="checkbox">
@@ -1410,10 +1386,13 @@
                     <span>AUTO MODE</span>
                   </div>
                   <div class="img_first10 mb-1 autoFoldModeButton1">
-                    <div class="checkbox">
-                      <img src="./images/desktop/v@2x.png" />
+                    <div class="d-flex h-100" style="align-items: center;">
+                      <div class="checkbox 1">
+                        <img src="./images/desktop/v@2x.png" />
+                      </div>
+                      <span>AUTO FOLD</span>
                     </div>
-                    <span>AUTO FOLD</span>
+                   
                   </div>
                 </div>
               </div>
@@ -1473,32 +1452,6 @@
         historynone1.style.display = "none";
       });
     });
-  </script>
-  <script>
-    setTimeout(() => {
-      const divsToAnimate = document.querySelectorAll(".player_wrapper");
-      divsToAnimate.forEach((div) => {
-        div.style.visibility = "visible";
-      });
-      const lastBetDiv = document.querySelectorAll(".lastBetDiv");
-      lastBetDiv.forEach((div) => {
-        div.style.visibility = "visible";
-      });
-      const betAnimation = document.querySelectorAll(".betAnimation");
-      betAnimation.forEach((div) => {
-        div.style.visibility = "visible";
-      });
-      const sidePot = document.querySelectorAll(".sidePot");
-      sidePot.forEach((div) => {
-        div.style.visibility = "visible";
-      });
-
-      $("#backButton").css("visibility", "visible");
-      $("#turnActionsDiv").css("visibility", "visible");
-      $("#raiseButton").css("visibility", "visible");
-      $("#betDivWrapper").css("visibility", "visible");
-      $(".action").css("visibility", "visible");
-    }, 5000);
   </script>
 </html>
 <script type="module" src="/main.js"></script>

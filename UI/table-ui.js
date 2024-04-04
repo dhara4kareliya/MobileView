@@ -13,6 +13,7 @@ const sidePots = $(".sidePot");
 const logDiv = $('.logTabButton .activInner .log_data')[0];
 const AutoTip = $(".AutoTip")[0];
 const AutoTipCheckboxes = $(".AutoTip .checkbox")[0];
+let lastBet = 0;
 let prevState = "";
 let lastAnimationAction = "betAction";
 let lastBetPlayer = null;
@@ -216,6 +217,7 @@ export class Table {
                 player.setPlayerName(seat.player.name);
                 player.setPlayerMoney(seat.money);
                 player.setPlayerAction(seat.lastAction);
+                player.setPlayerAvatar(seat.player.avatar);
                 player.setAmountAnimation(false);
                 // player.setPlayerBet(seat.lastAction == "allin" ? seat.bet : seat.lastBet);
                 player.setPlayerBet(seat.lastBet);
@@ -229,15 +231,15 @@ export class Table {
                                 break;
                             case "call":
                                 sound.playCall();
-                                player.setAmountAnimation(seat.lastBet);
+                                // player.setAmountAnimation(seat.lastBet);
                                 break;
                             case "raise":
                                 sound.playRaise();
-                                player.setAmountAnimation(seat.lastBet);
+                                // player.setAmountAnimation(seat.lastBet);
                                 break;
                             case "allin":
                                 sound.playAllin();
-                                player.setAmountAnimation(seat.lastBet);
+                                // player.setAmountAnimation(seat.lastBet);
                                 break;
                             case "fold":
                                 sound.playFold();
@@ -340,7 +342,9 @@ export class Table {
         } else if (result.type == "betAction") {
             const index = result.data.index;
             if (result.animation && lastBetPlayer != null && !result.actionCheck) {
-                const wrapper = players[index].wrapper;
+                const player = players[index];
+                console.warn(player);
+                const wrapper = player.wrapper;
                 const player_wrapper = $(wrapper)[0];
                 const lastBetDiv = player_wrapper.querySelector(".lastBetDiv");
                 lastBetDiv.style = "";
@@ -352,17 +356,22 @@ export class Table {
                 const rect = lastBetDivImg.getBoundingClientRect();
                 lastAnimationAction = result.type;
                 this.AnimateDivsToLocation(rect.left + 4, rect.top + 3, element, 0, `680ms`);
+                console.warn(lastBet);
+                player.setAmountAnimation(lastBet);
                 lastBetPlayer = null;
+                lastBet = 0;
             } else if (result.actionCheck) {
                 lastBetPlayer = null;
+                lastBet = 0;
             } else {
                 lastBetPlayer = index;
+                lastBet = result.data.bet;
             }
         } else if (result.type == "WinnerAnimate") {
             const rect = result.wrapper.querySelector('.avatar').getBoundingClientRect();
             this.AnimateDivsToLocation(rect.left, rect.top, result.winPot, 0, `900ms`);
-            //this.clearAnimateCss(result.element);
-            // this.AnimateDivsToLocation(rect.left + 25, rect.top + 25, result.element, 0, `900ms`);
+            this.clearAnimateCss(result.element);
+            this.AnimateDivsToLocation(rect.left + 25, rect.top + 25, result.element, 0, `900ms`);
         } else if (result.type == "AllIn") {
             lastAnimationAction = result.type;
         }

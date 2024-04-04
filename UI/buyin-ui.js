@@ -150,10 +150,18 @@ export class BuyInUI {
     setBalances(globalBalance, tableBalance) {
         const tableBalanceText = getMoneyText(tableBalance);
         tableBalanceSpan.innerHTML = tableBalanceText.outerHTML;
-        this.tableWalletBalance = tableBalance;
         const globalBalanceText = getMoneyText(globalBalance);
         globalBalanceSpan.innerHTML = globalBalanceText.outerHTML;
+
+        this.tableWalletBalance = tableBalance;
         this.globalBalance = globalBalance;
+
+        if (this.tableWalletBalance < this.minBuyIn) {
+            $('.buyin').addClass("disabledDiv");
+          }
+          else {
+            $('.buyin').removeClass("disabledDiv");
+          }
 
         this.checkConfirmValid();
     }

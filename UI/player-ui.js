@@ -64,6 +64,7 @@ const fieldAlternativeActions = {
     blind: srcToken,
     avatar: (element, value) => {
         element.src = value;
+        console.log(value);
     },
     lastAction: (element, value) => {
         element.innerText = value;
@@ -90,7 +91,7 @@ const playerWrapperHTML = `
     <div class = "betAmountAnimation">
         <span>+55</span>
     </div>
-    <img src="./images/avtar.png" class="avatar">
+    <img src="./images/desktop/22 copy 7@2x.png" class="avatar">
     <div class="player-cards"></div>
     <div class="betAnimation">
         <img src="./images/desktop/1 copy 4-1@2x.png">
@@ -193,16 +194,11 @@ export class Player {
     
     setTip(player) {
         const TipsOptions = document.querySelectorAll("#tip-button button");
-    
-        const tipButtonDiv = document.getElementById('tip-button');
         if (player === true) {
-            tipButtonDiv.style.visibility = "visible";
     
             TipsOptions.forEach(function(button) {
                 button.addEventListener('click', tipButtonClickHandler);
             });
-        } else {
-            tipButtonDiv.style.visibility = "hidden";
         }
     }
 
@@ -484,7 +480,7 @@ export class Player {
     }
 
     setPlayerAvatar(avatar) {
-        this.setWrapperField("avatar_img", avatar);
+        this.setWrapperField("avatar", avatar);
     }
 
     setTotalCardMask() {

@@ -2,6 +2,8 @@ import { turnAction } from "../services/table-server";
 import { toggleCheckbox } from "./checkbox";
 import { setSliderMax, setSliderMin, setSliderValue } from "./slider";
 import { getMoneyText, getMoneyValue, getMoneyOriginalValue } from "./money-display";
+import { autoFold } from "../socket-client";
+import { autofoldcards } from "./game-ui";
 
 const foldButton = $("#fold-button")[0];
 const callButton = $("#call-button")[0];
@@ -19,6 +21,8 @@ const minusButton = $("#betMinus")[0];
 const plusButton = $("#betPlus")[0];
 const raiseButtonSpan = $("#raise-Button span")[0];
 const autoModeCheckbox = $(".autoModeButton .checkbox")[0];
+const autoFoldModeButtonCheckboxes = $(".autoFoldModeButton1 .checkbox")[0];
+console.log(autoFoldModeButtonCheckboxes);
 
 export class ActionUI {
     constructor() {
@@ -157,6 +161,23 @@ export class ActionUI {
             setTimeout(() => {
                 this.doAutoAction();
             }, 1000);
+        }
+
+        if (autoFoldModeButtonCheckboxes.checked) {
+            autofoldcards();
+            console.log('checked');
+            // autoFold(autoFoldModeButtonCheckboxes.checked, (data) => {
+            //     data = JSON.parse(data);
+            //     console.log(data.status);
+            //     if (data.status == true) {
+            //         mainUI.setPlayerAutoFoldCards(data.AutoFoldCards);
+            //         const playerCards = table.getTurnPlayerCards(getPlayerSeat());
+            //         const activeSeats = table.getActiveSeats();
+            //         console.log(playerCards);
+            //         mainUI.doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats);
+            //         return true;
+            //     }
+            // });
         }
     }
     

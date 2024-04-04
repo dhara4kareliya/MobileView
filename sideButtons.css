@@ -341,7 +341,7 @@ p {
     margin-left: calc((2 * var(--aspect-ratio))); */
     width: 88px;
     height: 22px;
-    font-family: Inter;
+    /* font-family: Inter; */
     font-size: 18px;
     font-weight: 600;
     line-height: 22px;
@@ -426,7 +426,7 @@ button:focus {
 }
 
 .rig_let {
-    font-family: Inter;
+    /* font-family: Inter; */
     font-size: 15px;
     font-weight: 400;
     line-height: 18px;
@@ -469,7 +469,7 @@ button:focus {
 
 .send-ig {
     position: absolute;
-    top: 20px;
+    top: 23px;
     right: 24px;
     color: #99a1b6;
 }
@@ -578,7 +578,7 @@ button:focus {
     background-color: #334060!important;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, .15);
-    height: calc(121.8 * var(--aspect-ratio))!important;
+    height: calc(141.8 * var(--aspect-ratio))!important;
 }
 
 .send {
@@ -738,21 +738,24 @@ button:focus {
     /* position: relative; */
     display: flex;
 }
+.button-prents button:hover, 
+.button-prents button:focus {
+    background-color: #FFEF33 !important;
+}
 
 #tip-button {
-    position: absolute;
-    display: flex !important;
-    flex-direction: row;
-    right: calc( 70 * var(--aspect-ratio));
-    align-items: center;
-    visibility: hidden;
-    /* top: 76%; */
-    bottom: 14%;
+	position: absolute;
+	display: flex !important;
+	flex-direction: row;
+	right: calc(129 * var(--aspect-ratio));
+	align-items: center;
+	visibility: hidden;
+	bottom: 17%;
 }
 
 #tip-button p {
     color: rgb(251, 255, 0);
-    font-family: sans-serif;
+    /* font-family: sans-serif; */
     font-weight: 600;
     font-size: calc(4*var(--aspect-ratio));
     width: calc(14*var(--aspect-ratio));
@@ -795,7 +798,7 @@ button:focus {
     top: 4px;
     background-color: #FFEF33;
     border-radius: 50%;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: 10px;
     font-weight: 600;
     line-height: 13px;
@@ -814,7 +817,7 @@ button:focus {
     top: 4px;
     background-color: #FFEF33;
     border-radius: 50%;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: 10px;
     font-weight: 600;
     line-height: 13px;
@@ -833,7 +836,7 @@ button:focus {
     top: 4px;
     background-color: #FFEF33;
     border-radius: 50%;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: 10px;
     font-weight: 600;
     line-height: 13px;

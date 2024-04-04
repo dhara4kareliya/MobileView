@@ -72,7 +72,7 @@ p {
 }
 
 .sidebet-note {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc((1.2 * var(--aspect-ratio)))!important;
     font-weight: 400;
     line-height: calc((1.2 * var(--aspect-ratio)))!important;
@@ -208,7 +208,7 @@ p {
 }
 
 .bet-name {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(1.8 * var(--aspect-ratio)) !important;
     font-weight: 500;
     line-height: calc(1 * var(--aspect-ratio)) !important;
@@ -227,7 +227,7 @@ p {
 
 .bet-ratio {
     color: #ffffff;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(3 * var(--aspect-ratio)) !important;
     font-weight: 600;
     letter-spacing: 0em;
@@ -250,7 +250,7 @@ p {
     padding: calc(.2 * var(--aspect-ratio)) !important;
     border-radius: calc(1 * var(--aspect-ratio)) !important;
     color: #FFFFFF;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-weight: 500;
 }
 
@@ -298,7 +298,7 @@ p {
     border-radius: calc(.4* var(--aspect-ratio)) !important;
     margin-bottom: calc(.6* var(--aspect-ratio)) !important;
     border: calc(.1* var(--aspect-ratio)) solid #495483;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     color: white;
 }
 
@@ -309,7 +309,7 @@ p {
     color: #FFFFFF80;
     transform: rotate(44deg);
     bottom: calc(2 * var(--aspect-ratio))!important;
-    font-size: calc(2 * var(--aspect-ratio))!important;
+    font-size: calc(9 * var(--aspect-ratio))!important;
 }
 
 .p-green {
@@ -440,7 +440,7 @@ p {
 .sidebet-note {
     color: #ffffff;
     font-size: calc(1 * var(--aspect-ratio));
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-weight: 400;
 }
 
@@ -534,7 +534,7 @@ p {
     } */
 
 .btau_text {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(1.5 * var(--aspect-ratio)) !important;
     font-weight: 600;
     line-height: 20px;
@@ -672,7 +672,7 @@ p {
     /* font-size: calc(1.1 * var(--aspect-ratio)) !important;
     font-weight: 100;
     color: #ffffff; */
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(1.4 * var(--aspect-ratio));
     font-weight: 400;
     line-height: calc(2.3 * var(--aspect-ratio));
@@ -682,7 +682,7 @@ p {
 }
 
 .hudge {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(2.1 * var(--aspect-ratio));
     font-weight: 500;
     line-height: calc(2.3 * var(--aspect-ratio));
@@ -700,7 +700,7 @@ p {
 }
 
 .Balance2 {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(3 * var(--aspect-ratio));
     font-weight: 600;
     line-height: calc(4 * var(--aspect-ratio));
@@ -766,7 +766,7 @@ p {
     /* color: #EFA434;
     font-weight: 700;
     font-size: calc(1.7 * var(--aspect-ratio)) !important; */
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: 18px;
     font-weight: 600;
     line-height: 22px;
@@ -790,7 +790,7 @@ p {
 
 .text-white-pay {
     color: #FFFFFF!important;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: 12px;
     font-weight: 400;
     line-height: 15px;
@@ -805,7 +805,7 @@ p {
 }
 
 .last_sum {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     padding-top: calc(.5 * var(--aspect-ratio)) !important;
     padding-bottom: calc(.4 * var(--aspect-ratio)) !important;
     padding-right: calc(5 * var(--aspect-ratio)) !important;
@@ -826,20 +826,20 @@ p {
     color: #FFEB00;
     font-weight: 500;
     font-size: calc(1.8 * var(--aspect-ratio))!important;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
 }
 
 .text_last_sum22 {
     color: #FFEB00;
     font-weight: 500;
     font-size: calc(1.5 * var(--aspect-ratio))!important;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
 }
 
 .text_last_sum2 {
     color: white;
     font-weight: 500;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc(1.5 * var(--aspect-ratio))!important;
 }
 
@@ -875,11 +875,10 @@ p {
 }
 
 #toggleButton {
-    background-image: linear-gradient(-180deg, #181A39 100%, #55596A 100%);
     display: flex;
     height: calc( 5 * var(--aspect-ratio));
     justify-content: center;
-    width: calc( 6.4 * var(--aspect-ratio));
+    width: calc( 24.4 * var(--aspect-ratio));
     border-bottom-left-radius: calc( 3 * var(--aspect-ratio));
     border-top-left-radius: calc( 3 * var(--aspect-ratio));
     align-items: center;
@@ -909,7 +908,7 @@ p {
 }
 
 .balce {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc( 1.9 * var(--aspect-ratio));
     font-weight: 500;
     line-height: 20px;
@@ -919,7 +918,7 @@ p {
 }
 
 .number650 {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc( 4.7 * var(--aspect-ratio));
     font-weight: 700;
     line-height: 49px;
@@ -934,7 +933,7 @@ p {
 }
 
 .xp {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc( 1.7 * var(--aspect-ratio));
     font-weight: 700;
     line-height: 18px;
@@ -949,7 +948,7 @@ p {
 }
 
 .app {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: 12px;
     font-weight: 500;
     line-height: 15px;
@@ -975,7 +974,7 @@ p {
 }
 
 .top_lab {
-    font-family: Montserrat!important;
+    /* font-family: Montserrat!important; */
     font-size: calc( 1.9 * var(--aspect-ratio))!important;
     font-weight: 500!important;
     line-height: 20px!important;
@@ -1024,7 +1023,7 @@ p {
 }
 
 .link-delete {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc( 1.8 * var(--aspect-ratio))!important;
     font-weight: 600;
     line-height: 17px;
@@ -1037,7 +1036,7 @@ p {
     top: calc( 5 * var(--aspect-ratio))!important;
     right: calc( 1.9 * var(--aspect-ratio))!important;
     color: #99A5EB;
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc( 1.9 * var(--aspect-ratio))!important;
     ;
     font-weight: 500;
@@ -1053,7 +1052,7 @@ p {
 /* small  modal image start */
 
 .got {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc((18 * var(--aspect-ratio)))!important;
     font-weight: 700;
     line-height: calc((4 * var(--aspect-ratio)))!important;
@@ -1063,7 +1062,7 @@ p {
 }
 
 .top_200 {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     font-size: calc((16.6 * var(--aspect-ratio))) !important;
   font-weight: 700;
   line-height: calc((35 * var(--aspect-ratio))) !important;

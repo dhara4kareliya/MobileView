@@ -231,7 +231,7 @@ tr,
 .handResult {
     visibility: visible;
     top: calc(-24.5 * var(--aspect-ratio));
-    left: calc(13.8 * var(--aspect-ratio));
+    left: calc(43.8 * var(--aspect-ratio));
 }
 
 .lastBetDiv img {
