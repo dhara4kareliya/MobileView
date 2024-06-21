@@ -10,6 +10,7 @@ const callButton = $("#call-button")[0];
 const raiseButton = $("#raise-Button")[0];
 const actionUIDiv = $("#turnActionsDiv")[0];
 const sidebetUIDiv = $(".button-section")[0];
+const tipButtonDiv = $("#tip-button")[0];
 const betSlider = $("#betSlider")[0];
 const betInput = $("#betDivWrapper input")[0];
 const betDivWrapper = $("#betDivWrapper")[0];
@@ -19,7 +20,7 @@ const bet50 = $("#bet50")[0];
 const bet33 = $("#bet33")[0];
 const minusButton = $("#betMinus")[0];
 const plusButton = $("#betPlus")[0];
-const raiseButtonSpan = $("#raise-Button span")[0];
+const raiseButtonSpan = $("#raise-Button .valueDisplay")[0];
 const autoModeCheckbox = $(".autoModeButton .checkbox")[0];
 const autoFoldModeButtonCheckboxes = $(".autoFoldModeButton1 .checkbox")[0];
 console.log(autoFoldModeButtonCheckboxes);
@@ -40,15 +41,15 @@ export class ActionUI {
             let value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value)) * 100) / 100;
             value = this.m_showInBB ? value * this.m_bigBlind : value;
             value = this.m_showInUSD ? value * this.m_usdRate : value;
-            this.setRaise(value - this.m_CurrentBet);
+            this.setRaise(value);
         });
 
         betInput.addEventListener('input', (e) => {
             const value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value)) * 100) / 100;
-            const raiseBy = value - this.m_CurrentBet;
+            const raiseBy = value;
 
             if (raiseBy == this.getValidAmount(raiseBy))
-                raiseButtonSpan.innerText = value;
+                raiseButtonSpan.innerText = value + this.m_CurrentBet;
         });
 
         this.showActionUI(false);
@@ -103,8 +104,9 @@ export class ActionUI {
 
     allIn() {
         this.setActive(automaticActionsDiv, false);
-        this.showActionUI(false);        
-        this.showSidebetUI(true);
+        this.showActionUI(false);
+        this.showSidebetUI(false);
+        this.showTipUI(false);
         this.setRaise(this.m_MaxRaise);
     }
 
@@ -112,27 +114,31 @@ export class ActionUI {
         this.setActive(automaticActionsDiv, false);
         this.setActive(actionUIDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(true);
+        this.showSidebetUI(false);
+        this.showTipUI(true);
         turnAction("fold");
     }
 
     call() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(true);
+        this.showSidebetUI(false);
+        this.showTipUI(true);
         turnAction("bet", this.m_Call);
     }
 
     check() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(true);
+        this.showSidebetUI(false);
+        this.showTipUI(true);
         turnAction("bet", 0);
     }
 
     checkOrCall() {
         this.showActionUI(false);
-        this.showSidebetUI(true);
+        this.showSidebetUI(false);
+        this.showTipUI(true);
         if (this.m_Call == 0)
             this.check();
         else
@@ -141,7 +147,8 @@ export class ActionUI {
 
     raise() {
         this.showActionUI(false);
-        this.showSidebetUI(true);
+        this.showSidebetUI(false);
+        this.showTipUI(true);
         // turnAction("bet", this.m_Raise);
         // console.error(`betInput.value : ${betInput.value},getMoneyOriginalValue : ${getMoneyOriginalValue(parseFloat(betInput.value))},m_CurrentBet : ${this.m_CurrentBet} = ${getMoneyOriginalValue(parseFloat(betInput.value)) - this.m_CurrentBet}`);
         turnAction("bet", getMoneyOriginalValue(parseFloat(betInput.value)) - this.m_CurrentBet)
@@ -152,9 +159,10 @@ export class ActionUI {
         this.setActive(betDivWrapper, value);
         this.setActive(raiseButton, value);
 
-        if (value){
+        if (value) {
             this.setActive(automaticActionsDiv, false);
             this.showSidebetUI(false);
+            this.showTipUI(false);
         }
 
         if (value && autoModeCheckbox.checked) {
@@ -180,9 +188,12 @@ export class ActionUI {
             // });
         }
     }
-    
+
     showSidebetUI(value) {
         this.setActive(sidebetUIDiv, value);
+    }
+    showTipUI(value) {
+        this.setActive(tipButtonDiv, value);
     }
 
     showCall(call, currentChips) {
@@ -197,7 +208,7 @@ export class ActionUI {
             if (call >= currentChips) {
                 this.hideRaise();
                 const callText = getMoneyText(call);
-            callButton.innerHTML = `CALL ${callText.outerHTML}`;
+                callButton.innerHTML = `CALL ${callText.outerHTML}`;
             }
         }
     }

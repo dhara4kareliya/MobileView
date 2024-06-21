@@ -21,7 +21,7 @@ export const SeatState = Object.freeze({
 
 export const RoundState = Object.freeze({
     None: 0,
-    HoleCards: 1,
+    PreFlop: 1,
     Flop: 2,
     Turn: 3,
     River: 4,

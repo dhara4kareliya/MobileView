@@ -211,6 +211,7 @@ export class Table {
                 player.setPlayState(false);
                 player.showSitDownButton(this.mode === modes.Observing && this.siticonVisible && getPlayerSeat() < 0 && this.closeTable !== true)
             } else {
+                player.setIsPlayer(getPlayerSeat() != -1 && getPlayerSeat() == i);
                 player.showPlayer(true);
                 player.setPlayState(true);
                 player.setTip(getPlayerSeat() > -1)

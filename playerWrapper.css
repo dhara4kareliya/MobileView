@@ -131,14 +131,30 @@
 }
 
 .player_wrapper .player-cards {
-  top: 30%;
+  top: 35%;
   width: calc(11 * var(--aspect-ratio));
   margin-left: calc(5 * var(--aspect-ratio));
 }
 
 .player_wrapper:is(.toPlay) .player-cards {
-  top: 20%;
+  top: 29%;
 }
+
+.player_wrapper:nth-child(6):is(.isPlayer) .player-card>.front,
+.player_wrapper:nth-child(6):is(.isPlayer) .player-card>.back {
+  height: calc( 20.1 * var(--aspect-ratio));
+  width: calc( 17.1 * var(--aspect-ratio));
+}
+
+.player-card {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+    margin-right: calc(-1.5* var(--aspect-ratio));
+}
+
 
 .player-card > .back {
   backface-visibility: hidden;
@@ -149,7 +165,7 @@
 }
 
 .player-card > .front {
-  transform: rotateY(33deg);
+  transform: rotateY(180deg);
   position: absolute;
 }
 
@@ -245,7 +261,7 @@
 } */
 .avatar {
   width: 16vw;
-  height: 14vw;
+  height: 16vw;
 }
 /* 
 .player_wrapper:nth-child(6) .avatar {
@@ -253,7 +269,7 @@
   height: 18vw;
 } */
 
-.player_wrapper:nth-child(6) .avatar {
+.player_wrapper:nth-child(6):is(.isPlayer) .avatar {
   width: 20vw;
   height: 20vw;
 }
@@ -477,6 +493,18 @@
   top: 0;
   background: black;
   opacity: 0.5;
+}
+
+@keyframes flip-animation {
+  0% {
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%);
+      visibility: visible;
+  }
+  100% {
+      -webkit-transform: translateY(0%);
+      transform: translateY(0%) rotateY(-180deg);
+  }
 }
 
 @media screen and (min-width: 390px) and (max-width: 844px) {

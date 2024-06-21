@@ -1,4 +1,5 @@
 import { getMoneyText, getMoneyValue } from "./money-display";
+import { actionUI } from "./game-ui";
 
 const sliderClass = ".slider";
 const thumbClass = ".thumb";
@@ -70,15 +71,15 @@ function slide(slider, event) {
 
 function updateDisplay(slider) {
     for (const display of displays) {
-        if ($(display).hasClass(slider.id)){
-        const amountText = getMoneyText(slider.value);
+        if ($(display).hasClass(slider.id)) {
+            const amountText = getMoneyText(slider.value);
             display.innerHTML = $(display).hasClass("moneyDisplay") ?
-            amountText.outerHTML :
-            getMoneyValue(slider.value);
+                amountText.outerHTML :
+                getMoneyValue(slider.value);
         }
     }
 
-    betInput.value = getMoneyValue(slider.value);
+    betInput.value = getMoneyValue(slider.value - actionUI.m_CurrentBet);
 }
 
 export function setSliderValue(slider, value) {

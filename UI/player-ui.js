@@ -520,6 +520,13 @@ export class Player {
         this.wrapper.style.visibility = visible ? "visible" : "hidden";
     }
 
+    setIsPlayer(visible) {
+        if (visible == true)
+            this.wrapper.classList.add("isPlayer");
+        else
+            this.wrapper.classList.remove("isPlayer");
+    }
+
     clearPlayerAnimationCss() {
         const player_wrapper = this.wrapper;
         const lastBetDiv = player_wrapper.querySelector(".lastBetDiv");

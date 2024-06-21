@@ -19,7 +19,7 @@ const mainPlayerIndex = 5;
 const table = new Table();
 const buyInUI = new BuyInUI();
 const mainUI = new MainUI(buyInUI);
-const actionUI = new ActionUI();
+export const actionUI = new ActionUI();
 const sound = new Sound();
 
 const showBBCheckbox = $("#showAsBBCheckbox")[0];
@@ -40,21 +40,31 @@ showSUDCheckbox.addEventListener('change', () => {
 });
 
 const autoFoldModeButtonCheckboxes = $(".autoFoldModeButton1 .checkbox")[0];
-autoFoldModeButtonCheckboxes.addEventListener('click', () => {
-    if (autoFoldModeButtonCheckboxes.checked && tableSettings.gameType == "nlh") {
-        autoFold(autoFoldModeButtonCheckboxes.checked, (data) => {
-            data = JSON.parse(data);
-            if (data.status == true) {
-                mainUI.setPlayerAutoFoldCards(data.AutoFoldCards);
-                const playerCards = table.getTurnPlayerCards(getPlayerSeat());
-                const activeSeats = table.getActiveSeats();
-                mainUI.doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats);
-                return true;
-            }
-        });
-    }
-    mainUI.setPlayerAutoFoldCards([]);
-});
+// autoFoldModeButtonCheckboxes.addEventListener('click', () => {
+export function autofoldcards() {
+
+    console.log('called');
+    console.log(autoFoldModeButtonCheckboxes.checked);
+    // if (autoFoldModeButtonCheckboxes.checked && tableSettings.gameType == "nlh") {
+
+    autoFold(autoFoldModeButtonCheckboxes.checked, (data) => {
+        data = JSON.parse(data);
+        console.log(data);
+        if (data.status == true) {
+            console.log('status true');
+            mainUI.setPlayerAutoFoldCards(data.AutoFoldCards);
+            const playerCards = table.getTurnPlayerCards(getPlayerSeat());
+            const activeSeats = table.getActiveSeats();
+            console.log(playerCards);
+            mainUI.doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats);
+            return true;
+        }
+    });
+    // } else {
+    // mainUI.setPlayerAutoFoldCards([]);
+    // }
+}
+//  });
 
 
 
@@ -101,13 +111,13 @@ function onPlayerLeave(res) {
 
     if (res.type === 'tournament_leave') {
         mainUI.showTournamentResult(res.hasWin, res.prize, res.rank);
-    } 
-    else if (res.type === 'double_browser_leave') {
+    } else if (res.type === 'double_browser_leave') {
         mainUI.showDoubleLoginMsg(res.msg);
     }
 }
 
 function onPlayerInfo(playerInfo) {
+    $(".loader").hide();
     mainUI.setPlayerName(playerInfo);
 }
 
@@ -139,8 +149,6 @@ function onTableSettings(settings) {
         mainUI.setLevelInfo(settings.level, settings.duration, settings.nextSB, settings.nextBB, settings.displayAnte, settings.displaySB, settings.displayBB);
         mainUI.showTrophyInfo(true);
         table.setSitVisible(false);
-        mainUI.showTipDealer(false);
-        actionUI.showSidebetUI(false);
         mainUI.showSitIn(false);
         // setShowDollarSign(false);
     } else {
@@ -179,6 +187,7 @@ function onPlayerState(state) {
         mainUI.showSitOutNextHand(state == "Playing");
         mainUI.setSitOutNextHand(false);
         mainUI.showTipDealer(state == "Playing");
+        mainUI.showSidebetUI(false);
 
         if (getPlayerSeat() >= 0 && (state == "Playing" || state == "Waiting") && buyInUI.visible) {} else if (getPlayerSeat() >= 0 && state == "Joining") {
             showBuyIn();
@@ -194,6 +203,7 @@ function onPlayerState(state) {
         // mainUI.setWaitForBB(false);
         mainUI.showSitOutNextHand(false);
         mainUI.setSitOutNextHand(false);
+        mainUI.showSidebetUI(false);
         //     actionUi.setShowDollarSign(false);
         //     tableUi.setShowDollarSign(false);
     }
@@ -227,7 +237,7 @@ function onTableStatus(status) {
 
     if (mainPlayerSeat != -1) {
         mainUI.setHandResult(status.seats[firstSeat].handRank);
-        mainUI.setPlayStatus(true); 
+        mainUI.setPlayStatus(true);
         mainUI.showLeaveGameButton(status.seats[mainPlayerSeat].lastAction === 'fold' || status.seats[mainPlayerSeat].state !== 'Playing');
     } else {
         mainUI.setHandResult();
@@ -253,7 +263,7 @@ function onTableStatus(status) {
     if (status.state != "Showdown")
         mainUI.showShowCardsButton(false);
 
-    if (status.state == "None" || status.state == "HoleCards") {
+    if (status.state == "None" || status.state == "PreFlop") {
         table.setShowSbBbButtons(true);
     } else {
         table.setShowSbBbButtons(false);
@@ -278,7 +288,7 @@ function onTableStatus(status) {
 
     if (status.state != prevRoundState) {
         updatCurrency();
-        if (status.state == "HoleCards") {
+        if (status.state == "PreFlop") {
             sound.playCardDealt();
             table.clearTableCards();
         } else if (status.state == "Flop") {
