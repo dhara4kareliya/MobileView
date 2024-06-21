@@ -40,31 +40,21 @@ showSUDCheckbox.addEventListener('change', () => {
 });
 
 const autoFoldModeButtonCheckboxes = $(".autoFoldModeButton1 .checkbox")[0];
-// autoFoldModeButtonCheckboxes.addEventListener('click', () => {
-    export function autofoldcards() {
-        
-        console.log('called');
-        console.log(autoFoldModeButtonCheckboxes.checked);
-    // if (autoFoldModeButtonCheckboxes.checked && tableSettings.gameType == "nlh") {
-    
+autoFoldModeButtonCheckboxes.addEventListener('click', () => {
+    if (autoFoldModeButtonCheckboxes.checked && tableSettings.gameType == "nlh") {
         autoFold(autoFoldModeButtonCheckboxes.checked, (data) => {
             data = JSON.parse(data);
-            console.log(data);
             if (data.status == true) {
-                console.log('status true');
                 mainUI.setPlayerAutoFoldCards(data.AutoFoldCards);
                 const playerCards = table.getTurnPlayerCards(getPlayerSeat());
                 const activeSeats = table.getActiveSeats();
-                console.log(playerCards);
                 mainUI.doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats);
                 return true;
             }
         });
-    // } else {
-    // mainUI.setPlayerAutoFoldCards([]);
-    // }
-}
-//  });
+    }
+    mainUI.setPlayerAutoFoldCards([]);
+});
 
 
 
@@ -118,7 +108,6 @@ function onPlayerLeave(res) {
 }
 
 function onPlayerInfo(playerInfo) {
-    $(".loader").hide();
     mainUI.setPlayerName(playerInfo);
 }
 
@@ -150,6 +139,8 @@ function onTableSettings(settings) {
         mainUI.setLevelInfo(settings.level, settings.duration, settings.nextSB, settings.nextBB, settings.displayAnte, settings.displaySB, settings.displayBB);
         mainUI.showTrophyInfo(true);
         table.setSitVisible(false);
+        mainUI.showTipDealer(false);
+        actionUI.showSidebetUI(false);
         mainUI.showSitIn(false);
         // setShowDollarSign(false);
     } else {
@@ -188,7 +179,6 @@ function onPlayerState(state) {
         mainUI.showSitOutNextHand(state == "Playing");
         mainUI.setSitOutNextHand(false);
         mainUI.showTipDealer(state == "Playing");
-        mainUI.showSidebetUI(true);
 
         if (getPlayerSeat() >= 0 && (state == "Playing" || state == "Waiting") && buyInUI.visible) {} else if (getPlayerSeat() >= 0 && state == "Joining") {
             showBuyIn();
@@ -204,7 +194,6 @@ function onPlayerState(state) {
         // mainUI.setWaitForBB(false);
         mainUI.showSitOutNextHand(false);
         mainUI.setSitOutNextHand(false);
-        mainUI.showSidebetUI(false);
         //     actionUi.setShowDollarSign(false);
         //     tableUi.setShowDollarSign(false);
     }

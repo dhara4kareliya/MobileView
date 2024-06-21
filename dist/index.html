@@ -67,8 +67,8 @@
       crossorigin="anonymous"
     ></script>
     <title>Poker Thing</title>
-    <script type="module" crossorigin src="./assets/index.848f20d0.js"></script>
-    <link rel="stylesheet" href="./assets/index.83bff0bd.css">
+    <script type="module" crossorigin src="./assets/index.915a00a7.js"></script>
+    <link rel="stylesheet" href="./assets/index.921d67e0.css">
   </head>
 
   <div class="modal fade" id="modal-wining-payout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-wining-payoutLabel" aria-hidden="true">
@@ -88,7 +88,6 @@
 </div>
 
   <body>
-   <div class="loader"></div>
     <div class="container mobile_wrapper p-0">
       <table>
         <tr>
@@ -101,7 +100,7 @@
             </div>
           </td>
           <td>
-            <div class="tableName" >BLUE TABLE</div>
+            <div class="tableName">BLUE TABLE</div>
           </td>
           <td></td>
         </tr>
@@ -139,6 +138,33 @@
         <div class="player_wrapper"></div>
         <div class="player_wrapper"></div>
         <div class="player_wrapper"></div>
+        <div id="betDiv" style="display: none !important">
+          <table class="slider_small">
+            <tr>
+              <td>
+                <div>
+                  <div id="allInButton">ALL-IN</div>
+                  <!-- <div id="lineUnderAllIn"></div> -->
+                  <div id="bet70">4X</div>
+                  <!-- <div id="lineUnderAllIn"></div> -->
+                  <div id="bet50">3X</div>
+                  <!-- <div id="lineUnderAllIn"></div> -->
+                  <div id="bet33">2.5X</div>
+                </div>
+              </td>
+              <td class="td_id">
+                <div id="betPlus">+</div>
+                <div id="betSlider" style="margin: auto" class="slider">
+                  <div id="betSliderArea">
+                    <div id="betSliderThumb" class="thumb"></div>
+                  </div>
+                </div>
+
+                <div id="betMinus">-</div>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
 
       <!-- </div> -->
@@ -160,8 +186,8 @@
               <span class="money">$50</span>
             </div>
             <div class="tableSettingsSpan">
-              <span class="smallBlind" style="display: inline-block;">10</span>/
-              <span class="bigBlind" style="display: inline-block;">20</span>
+              <span class="smallBlind">10</span>/
+              <span class="bigBlind">20</span>
               <div class="tournamentOnly">
                 Ante <span class="ante">5</span> Level
                 <span class="level">13</span><br />
@@ -183,65 +209,45 @@
       <!--Bottom Button-->
     </div>
     <div class="">
-      <div class="targets1">
-        <div class="div_doller mb-1 sidePot box">
-          <span class="Side">pot 1</span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
-        </div>
-      </div>
       <div class="target">
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side">pot 2</span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
+          <span class="Side">Side port 1 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
         </div>
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side"> pot 3</span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
+          <span class="Side">Side port 2 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
         </div>
-        <div class="div_doller mb-1 sidePot box">
-          <span class="Side">pot 4</span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
+        <div class="div_doller sidePot box">
+          <span class="Side">Side port 3 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
         </div>
-  
-  
-  
       </div>
-      <div class="targets">
+      <div class="target_ser">
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side">pot 5 </span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
+          <span class="Side">Side port 4 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
         </div>
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side"> pot 6 </span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
+          <span class="Side">Side port 5 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
         </div>
-  
+
         <div class="div_doller mb-1 sidePot box">
-          <span class="Side"> pot 7</span>
-          <div class="amount_icon">
-            <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
-            <span class="doller_ money">$100</span>
-          </div>
+          <span class="Side">Side port 6 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
         </div>
-       
+        <div class="div_doller mb-1 sidePot box">
+          <span class="Side">Side port 7 :</span>
+          <img src="./assets/1 copy 4-1@2x.87a6e0e6.png" />
+          <span class="doller_ money">$100</span>
+        </div>
       </div>
     </div>
     <div id="turnActionsDiv" style="visibility: visible !important">
@@ -286,7 +292,7 @@
         <button
           class="flod_3"
           id="raise-Button"
-          style="visibility: visible"
+          style="visibility: visible !important"
         >
           BET
           <!-- <span class="valueDisplay betSlider moneyDisplay">50</span> -->
@@ -302,6 +308,32 @@
         <button class="first_bb2" value="4">4BB</button>
       </div>
     </div>
+    <!-- <div class="modal fade" id="TipToDealer">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content Mod_Con3">
+          <div class="modal-header d-flex justify-content-end Mod_head3">
+            <button type="button" class="But1">
+              <i class="bi bi-x" data-bs-dismiss="modal" aria-label="Close"></i>
+            </button>
+          </div>
+          <div class="modal-body Mod_body3">
+            <div class="d-flex justify-content-center img_div">
+              <img src="./images/Group 177714 (1).png" alt="" />
+            </div>
+            <div class="d-flex justify-content-center mt-1 cash_div">
+              <div>
+                <div style="font-size: 25px" class="lang" key="thankYou">
+                  Thank You
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button id="GO" class="lang" key="GoToTable">GO TO TABLE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
     <div
       class="modal fade"
       id="insuranceModal"
@@ -363,11 +395,11 @@
       </div>
     </div>
 
-    <!-- <div id="toggleButton" style="display: flex">
+    <div id="toggleButton" style="display: flex">
       <div style="margin-bottom: calc(1 * var(--aspect-ratio)); width: 47.5px">
-        <img src="./images/Group 177671.png" alt="Show Image" class="w-100 h-100" />
+        <img src="data:image/png;base64,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" alt="Show Image" class="w-100" />
       </div>
-    </div> -->
+    </div>
     <div class="body-content body_pran" style="display: none">
       <div id="body_toge">
         <!-- <div class="fund_prent mb-1">
@@ -504,7 +536,7 @@
             </div>
 
             <div class="confirm_button" style="display: none;">
-              <button class="round_button_2">Confirm Bet: <span>$4000</span></button>
+              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
             </div>
           </div>
         </div>
@@ -518,17 +550,17 @@
               <div class="child_hit">
               <div class="p-out">
                 <p class="pay_out">
-                  Payout: <br /><span class="p_color">$4000</span>
+                  Payout: <br /><span class="p_color">$400</span>
                 </p>
               </div>
               <div>
-                <button class="price round_button">$4000</button>
+                <button class="price round_button">$40</button>
               </div>
             </div>
             </div>
 
             <div class="confirm_button" style="display: none;">
-              <button class="round_button_2">Confirm Bet: <span>$4000</span></button>
+              <button class="round_button_2">Confirm Bet: <span>$40</span></button>
             </div>
           </div>
         </div>
@@ -626,7 +658,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="transferWaitingClock" style="visibility: hidden;">
+                      <div class="transferWaitingClock">
                         <svg
                           class="hourglass"
                           xmlns="http://www.w3.org/2000/svg"
@@ -778,8 +810,8 @@
                       <div class="Chips text-center">
                         Auto re-buy chips when:
                       </div>
-                      <div class="buyIn_checkbox">
-                        <div class="two_input d-flex">
+                      <div>
+                        <div class="two_input d-flex mx-2">
                           <div
                             id="chipsLowerThenBuyInCheckbox"
                             class="checkbox"
@@ -792,7 +824,7 @@
                           </div>
                           <p class="lower">chips are lower than buy in</p>
                         </div>
-                        <div class="two d-flex">
+                        <div class="two mx-1 d-flex">
                           <div
                             id="runOutOfChipsCheckbox"
                             class="checkbox"
@@ -811,7 +843,7 @@
                 </div>
               </div>
             </div>
-            <div class="menuBottomButtons">
+            <div class="menuBottomButtons mb-3">
               <button
                 type="button"
                 class="btn btn_btt close cancleButton"
@@ -1140,10 +1172,10 @@
                     <img src="data:image/png;base64,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" />
                     <span>Leave Game</span>
                   </div>
-                  <!-- <div class="img_first1 mb-1 forhid">
-                    <img src="./images/desktop/Group 11@2x.png" />
+                  <div class="img_first1 mb-1 forhid">
+                    <img src="data:image/png;base64,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" />
                     <span>Rebuy/Add-on</span>
-                  </div> -->
+                  </div>
                   <div class="img_first3 mb-1 addChipsButton">
                     <img
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAVCAYAAAB2Wd+JAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMESURBVHgBVZNLSFRhFMfn3rnzzBl1xtHQJiuSJkLDahG4sIgEadfKVoGLNiEt2rQQkgha2LKNErgIykUbpQQ3WWHYTIRFTJlQCpPjYyab5tG983BuvzNcIy/8Oeeec/7n9X2fYrO+VCp1GnFTUZQBZE7TtGelUimOrqiqegbZY5pmA1ipVCp92i5xZ2enB9IpCQQ6zmkIdwlUq9VqArmNPQTqsZ+tEUdGRlQCQxjqCRCTB1yw2+1T2M7jOwG5wfI5KXBEsQoqq6urwwReQz8ATHSDLpYhPKbtLki9QHzb2O6oFtEk8ycc3wi2USGNU+Y9COkyNge2FDYT6C6X6+2/GXEsECQzdhHoIeCK0+m8hb0O9GI/TPI0tnlkfLfV2re2ttYNaRDSJTbaTAeToI3ATpIWkc/L5fKTjo6OBe1/Ymtr6+dkMjmJ+gtChFbdoAzeQFpGzi4uLsZs1uptBO2pPD4+rvX394eYpR0CxUtbmH+SWN+NqRFisVjY6/WWCVIMw6gkEgmDdvaz6c2WlpZmj8dTyOfzJrPa3W63JHIJ0R6NRidYf47KHtrJkeA9+j30G8hh8Aqbg9nDxEvLRzWr1XqWIkfjlbaBl0QhAiVRE9IP0YXeiM8PAtrQ0JDGLC8gFYCLgDytJLFNFIvF76z/KcQPQG5MI9hgw0vK3NzcA2aIUvEkRINKeVZ+XA6ZebshbuIz8ElVjWqJQCAwJa0O6Lq+RKYusqZke5DPFQqF1+gX8c3ic0CQC14FpUgksqJhXKdCweFwZMiYIbu0vC7V+d+A8Bs40e3IKvGZ2nHE4/HBdDr9g+MIk0Cnf3mLbZlMZsXn8x3iGCSBQesOSCqJt7LZ7Ec5DnVmZuYRMivPiXZzBMjtGAXX0W8jX0pV9DD4in5MZpT1+6zb48Uh/3XoTch9ICiLkeuHlK36kQ3a2NiYym2YltloyUmbf/i22PR9tvqFFh/ii8uC5PXLk8P3TgsGg6O5XG4BYydOgwoFAvvY7Dybvcrc6wS3SyVrQTa/3z/1Fw6K2xr/d1otAAAAAElFTkSuQmCC"
@@ -1161,12 +1193,12 @@
                       alt=" chair"
                     /><span>Multi Table</span>
                   </div> -->
-                  <!-- <div class="img_first5 mb-1">
+                  <div class="img_first5 mb-1">
                     <img
-                      src="./images/img/icons8-dollar-50 1.png"
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAN3SURBVHgBnVNdSJNRGD7ft29/bs6/0qZ5MaSUREGULiLEyowgyAu9CNGYmgaWsMQLSfwjJKJCRe9CaFCQoUHCMiSKRXahI2SBoWbpdFO3OffHNt1czxl+MNfFqAPb+c457/u8z3me9zBer7chHA43E0L8mE8wDBNgWdZB4gzEikOh0EnE/sRSFAwGPy4vLz9kdnZ2lvR6/XUMk8PhGBaJRC87Ojo+RSe3traSoaGhI4CNjY1J2dnZ7zmOKwcQq1KpdCjSSzY3N1fBUrm9va222Wyv6+vrE6MTe3p62PX19QtjY2PyGJKUzBDyHrhcrmNbW1t6fFeTjY0NG0DfWq3WF1qtVhULtra2dsVisRjNZvPg7u7ukXPEyygoznXAQd31KhY6BBISEh719/c31tXV/dZoNFJanSbgOtmY7gmFwieI0UMvFw9G4yYnJ/3Nzc0ak8nUfnBwYAMWw+3t7QW7urq+DwwM+BYWFs4JBIK2mpqa+yUlJT+QF0RQ0Ol0pkKfJSQ6KdjIyIi8oqLiGQq+gXavqqurl9LS0lwAJSwAmUAgEGEkFosFMEWclZUloOvOzk6zXC7vBjsOy76UlJQCui+RSBjEilFEyDMGBkFxwsFuQVtb25mMjAwDNPkCzW6Mjo56aFBTU5MURslQ2YjkSzKZTEL3Gxoa3DCvbmVlxVdWVsYpFIpT+/v7iWg5wgFVBJbtlZWV9rm5uT4YscpXzczMTIB+l30+XxVYDqK9vvFnKOqmpuTn5/fg7DQwjoNlmMWfLykpqRWbs4WFhf3QQx7lsi0nJ6dbKpVqJiYmtGq12h/dNrm5uVSOILRs8fv9v3AThpmZmVk2Go3XiouLLbj+MNg8R/JnEmcUFRUp8vLypiDDVbRcCEWnANzLGAyGW7h2LTTyQoMsxPpQyc4nolX+AqNuIpbqqcK8gFwJzPyKDnnMoTEJLK/FhhAdT50mqamp8QgStFLE2fT0dOJ2u4N2u/08bpjGAfUmOlyCAANtTPKPY3FxkSQnJytxdQ3ItHB4x2q4eVupVJ4F9QggrhHmvzHC5PDlxA4+Dtp5wPIu3vMsgQHv4CZ9CQx9u3Tmf/HW/E+n04nHx8e1wLrITE9PP/V4PAXoIxM95E2IPKPD7wgN2rUx+1FM0dsKFkzvMPPz8zKAlSMwmfznQL0AMD6UlpZa/wAspQg+SqIh4AAAAABJRU5ErkJggg=="
                       alt=" chair"
                     /><span>Cashier</span>
-                  </div> -->
+                  </div>
                   <div class="">
                     <div class="img_first mb-1 waitingList">
                       <div class="waitingListSide">
@@ -1199,7 +1231,7 @@
                         alt=" chair"
                       /><span>Chat</span>
                     </div>
-                    <div class="dropdown-menu righht leftArrow py-0" id="third" style="will-change: transform; transform: translate3d(31px, 311px, 0px) !important;">
+                    <div class="dropdown-menu leftArrow py-0" id="third">
                       <div class="activities style-2" id="">
                         <div class="activInner main_div_mes" id="thirdss">
                           <div
@@ -1349,37 +1381,29 @@
                       </div>
                     </div>
                   </div>
-                  <div class="img_first10 mb-1 autoFoldButton">
-                    <div class="d-flex h-100" style="align-items: center;">
+                  <div class="img_first8 mb-1 autoFoldButton">
                     <div class="checkbox">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
                     </div>
                     <span>FOLD TO ANY BET</span>
                   </div>
-                  </div>
-                  <div class="img_first10 mb-1 sitOutNextHandButton">
-                    <div class="d-flex h-100" style="align-items: center;">
+                  <div class="img_first9 mb-1 sitOutNextHandButton">
                     <div class="checkbox">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
                     </div>
                     <span>SIT OUT NEXT HAND</span>
                   </div>
-                  </div>
-                  <div class="img_first10 mb-1 waitForBBButton">
-                    <div class="d-flex h-100" style="align-items: center;">
+                  <div class="img_first1 mb-1 waitForBBButton">
                     <div class="checkbox">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
                     </div>
                     <span>WAIT FOR BB</span>
                   </div>
-                  </div>
-                  <div class="img_first10 mb-1 AutoTip">
-                    <div class="d-flex h-100" style="align-items: center;">
+                  <div class="img_first1 mb-1 AutoTip">
                     <div class="checkbox">
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
                     </div>
                     <span class="lang" key="AutoTip">Auto Tip</span>
-                  </div>
                   </div>
                   <div class="img_first10 mb-1 autoModeButton">
                     <div class="checkbox">
@@ -1388,13 +1412,10 @@
                     <span>AUTO MODE</span>
                   </div>
                   <div class="img_first10 mb-1 autoFoldModeButton1">
-                    <div class="d-flex h-100" style="align-items: center;">
-                      <div class="checkbox">
-                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
-                      </div>
-                      <span>AUTO FOLD</span>
+                    <div class="checkbox">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAyCAYAAADMb4LpAAAABHNCSVQICAgIfAhkiAAAA9lJREFUaEPVWU162jAQlemmXZWeoOQENTdwTlB6gpBNm7aLJieoOUHSRf9W0BOknIDkBIYTQG9QVukqzhshOUK1LY0xYPx9fIF4JL95Gr0ZjQNxYNf3JOwA8vn77vQ8OCTsAP4ZeGN8bgE+OgjwwyRs3wkxAdhwRXYA8EnzwX9NwvAJgKdCtI0oGYD5uNHMI0z6ADzUoIMgEGkKN4RoNngbuLU3T8H8qJHMlzCufTgG+JvGgXcw3lzwP5Owdy/EdU6MrzRGxTxsuh+702ljmC9Qldw0hJCRuBsBXun4HGCkHBqqssa49qRR4H8kYQIBVAnInfP/CfHiojv9u3fmsUGvAPeTD+PGiuxfbb5hg4K9bIO6Oc8s9gv+EvXKMyHmlPZdMW7f33uGRbhMACJisG2ajrFpadV2fyFcqBa/5DJu2C8A/mjn4OkwgVBJtCxWpY4S1T7AT8BgpKrDXB33XJHBTsFvoC7mAt3iR7zTwkyqSyASlOMdV+1ScH/ZAuh33SnlhdWKVY057jjEeowxdAatcs0wqAe2F+ZgNnhikAqQU6RnXxTqxD+vyPj4qRD9vOexwFPMYumG2OmDD8byuZxA7XINhem57HLu/wLb/aJxXuBVNhyi3OsplZA66wMGrEewo4TkrBYtlSkF7hXzxDYMhzm6LM+RLgcqZlIn8FLwmm1a7gLddbKvWffUbc2DF/BC8GD7BLF9ZfVK8kguZb8C697A/wOvVIH6JBSnHjEqFmdhfuwT62B8wsikM6hKxFGxbMNCEehAEHuwvbYCsH8D5fltLwuT9RlORxGdjlx7aE3nbbb9GM86V2R+g417bE5qKozHfEu086K36AZwgMt5VXka4/tz7mDDXp5s9G8m62tjORiysCEnWiJA2KSZEwyVyNg3s6lrPEThwqxVOMCLNiwVPq+5E8FeMgjwI3w/8RjPUpa8+XIzrGq5kRNyFVwMqvuyBkEffd4KgnapyohgdidS9ga1HSgsD6iDhWUlFl95sKhNvuCLbGOUXEvcC+0KkfGMzLS0tqFOFiSMHJBh5LkCj5M/9tPl/2j8fZrmSmvt4PWEjDh2Ydg4zs0HeFWVNMBsPVdcAXYGdTHhDd52wDWxfV+3pbnjyuxZ4DdYAfkOqU7gcg9VmdDz7YWeegbg3h1gDp5K4DkrsI1w0Q5WBq8cyNrTBYxtJVxqAa8cGOGvLAcsFfqDcOlwwoBruxHzRh6gctbOxJWrRV8nagGv3inRW66XSgXGZ2hB+4KoalcLeHq4qoUSBeSojtrF5VRt4A0F6mxD0/McqRU8PYBaJtyzqIvhovsPrOsrKxgbc7YAAAAASUVORK5CYII=" />
                     </div>
-                   
+                    <span>AUTO FOLD</span>
                   </div>
                 </div>
               </div>
@@ -1454,6 +1475,32 @@
         historynone1.style.display = "none";
       });
     });
+  </script>
+  <script>
+    setTimeout(() => {
+      const divsToAnimate = document.querySelectorAll(".player_wrapper");
+      divsToAnimate.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+      const lastBetDiv = document.querySelectorAll(".lastBetDiv");
+      lastBetDiv.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+      const betAnimation = document.querySelectorAll(".betAnimation");
+      betAnimation.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+      const sidePot = document.querySelectorAll(".sidePot");
+      sidePot.forEach((div) => {
+        div.style.visibility = "visible";
+      });
+
+      $("#backButton").css("visibility", "visible");
+      $("#turnActionsDiv").css("visibility", "visible");
+      $("#raiseButton").css("visibility", "visible");
+      $("#betDivWrapper").css("visibility", "visible");
+      $(".action").css("visibility", "visible");
+    }, 5000);
   </script>
 </html>
 

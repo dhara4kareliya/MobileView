@@ -12,7 +12,6 @@ const tableNameDiv = $(".tableName")[0];
 
 const actionUIDiv = $("#turnActionsDiv")[0];
 const sidebetUIDiv = $(".button-section")[0];
-const sidebetUIWrapper = $(".wrapper")[0];
 const automaticActionsDiv = $("#automaticActionsDiv")[0];
 const autoCheckCheckbox = $("#autoCheckButton .checkbox")[0];
 const autoCheckOrFoldCheckbox = $("#autoCheckOrFoldButton .checkbox")[0];
@@ -128,9 +127,8 @@ export class MainUI {
         breakCountdownDiv.style.visibility = "hidden";
         this.setActive(automaticActionsDiv, false);
         this.setActive(sidebetUIDiv, false);
-        this.setActive(sidebetUIWrapper, false);
-        this.setActiveElements1(leaveButtons, false);
-        this.setActiveElements1(backLobbyButtons, true);
+        this.setActiveElements(leaveButtons, false);
+        this.setActiveElements(backLobbyButtons, true);
         this.setActive(sitInBtn, false);
         this.setActiveElements(tournamentDivs, false);
         this.setActive(tableNameDiv, false);
@@ -140,10 +138,10 @@ export class MainUI {
         this.setActive(handResultDiv, false);
         this.setActive(uiTables, false);
         this.setActive(settingsMenu, false);
-        this.setActive1(waitListDropdown, false);
-        this.setActive1(AutoTip, false);
+        this.setActive(waitListDropdown, false);
+        this.setActive(AutoTip, false);
         // this.setActive(addTipsButtons, false);
-        this.setActive1(autoFoldModeButtonDiv, false);
+        this.setActive(autoFoldModeButtonDiv, false);
 
         sitInBtn.addEventListener('click', () => {
             this.onSitInClick();
@@ -219,10 +217,10 @@ export class MainUI {
             });
 
         waitListCount.addEventListener('click', ()=>{
-            if(waitListDropdown.style.display == "block"){
-            this.setActive1(waitListDropdown, false)
+            if(waitListDropdown.style.visibility == "visible"){
+            this.setActive(waitListDropdown, false)
         } else {
-        this.setActive1(waitListDropdown, true)}
+        this.setActive(waitListDropdown, true)}
 
 
     })
@@ -303,8 +301,10 @@ export class MainUI {
             button.addEventListener('click', ()=>{
                 console.log(priceButton);
                 if (priceButton.style.display ==='block') {
+                    console.log('price');
                     this.handlePriceClick(btn, priceButton, confirmButton);
                 } else if (confirmButton.style.display ==='block') {
+                    console.log('c');
                     this.handleConfirmClick(btn, button, priceButton, confirmButton);
                 }
             })
@@ -364,7 +364,11 @@ export class MainUI {
                     let sidebets = [];
                     button.classList.add('selected');
                     const sidebetId = $('#submit-sidebet-2.selected > div').prop('class');
+                    console.log(button);
                     sidebets.push(sidebetId);
+                    
+                    console.log(sidebets);
+                    console.log(this.sidebetStreet);
                     submitSideBet(sidebets, this.sidebetStreet);
                     this.initSideBetPanel();
                     
@@ -410,7 +414,7 @@ export class MainUI {
 
     showFoldToAnyBetCheckbox(value) {
         for (const autoFoldButton of autoFoldButtons) {
-            this.setActive1(autoFoldButton, value);
+            this.setActive(autoFoldButton, value);
         }
     }
 
@@ -556,15 +560,6 @@ export class MainUI {
         return true;
     }
 
-    showSidebetUI(value) {
-        this.setActive(sidebetUIDiv, value);
-        if(value){
-            sidebetUIWrapper.style.display = "block";
-        } else{
-            sidebetUIWrapper.style.display = "none"; 
-        }
-    }
-
     doAutoCheckOrFold() {
         if (!this.optionActionAutoCheckOrFold || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat)
             return false;
@@ -639,7 +634,7 @@ export class MainUI {
 
         if (level != undefined) {
             const smallBlindText = getMoneyText(sb);
-            smallBlindSpan.innerHTML = smallBlindText.outerHTML;
+            smallBlindSpan.innerHTML = 'hello';
             const bigBlindText = getMoneyText(bb);
             bigBlindSpan.innerHTML = bigBlindText.outerHTML;
             anteSpan.innerText = ante;
@@ -715,7 +710,7 @@ export class MainUI {
 
     showAddChips(value) {
         for (const button of addChipsButtons) {
-            this.setActive1(button, value);
+            this.setActive(button, value);
         }
     }
 
@@ -745,15 +740,15 @@ export class MainUI {
     }
 
     showSitOut(value) {
-        this.setActiveElements1(sitOutButtons, value);
+        this.setActiveElements(sitOutButtons, value);
     }
 
     showWaitForBB(value) {
-        this.setActiveElements1(waitForBBButtons, value);
+        this.setActiveElements(waitForBBButtons, value);
     }
 
     showAutoFold(value) {
-        this.setActive1(autoFoldModeButtonDiv, value);
+        this.setActive(autoFoldModeButtonDiv, value);
     }
 
     setWaitForBB(value) {
@@ -769,20 +764,20 @@ export class MainUI {
     }
 
     showLeaveGameButton(value) {
-        this.setActiveElements1(leaveButtons, value);
+        this.setActiveElements(leaveButtons, value);
     }
 
     showBackLobbyButton(value) {
-        this.setActiveElements1(backLobbyButtons, value);
+        this.setActiveElements(backLobbyButtons, value);
     }
 
     showTipDealer(value) {
         this.setActive(tipButtonDiv, value);
-        this.setActive1(AutoTip, value);
+        this.setActive(AutoTip, value);
     }
 
     showSitOutNextHand(value) {
-        this.setActive1(sitOutNextHandButtons, value);
+        this.setActive(sitOutNextHandButtons, value);
     }
 
     setSitOutNextHand(value) {
@@ -822,20 +817,13 @@ export class MainUI {
         for (const element of elements)
             element.style.visibility = (value == false || userMode === 1) ? "hidden" : "visible";
     }
-    setActiveElements1(elements, value) {
-        for (const element of elements)
-            element.style.display = (value == false || userMode === 1) ? "none" : "block";
-    }
 
     setActive(element, value) {
         element.style.visibility = (value == false || userMode === 1) ? "hidden" : "visible";
     }
-    setActive1(element, value) {
-        element.style.display = (value == false || userMode === 1) ? "none" : "block";
-    }
 
     setWaitList(players) {
-        this.setActive1(joinWaitingButton, true);
+        this.setActive(joinWaitingButton, true);
 
         waitListCount.innerText = players.length;
         waitList.innerHTML = '';
@@ -878,11 +866,11 @@ export class MainUI {
     }
 
     showLogButton(value) {
-        logButton.style.display = value ? "block" : "none";
+        logButton.style.visibility = value ? "visible" : "hidden";
     }
 
     showChatButton(value) {
-        chatButton.style.display = value ? "block" : "none";
+        chatButton.style.visibility = value ? "visible" : "hidden";
     }
 
     addLog(text) {
@@ -895,7 +883,7 @@ export class MainUI {
     }
 
     addChat(data) {
-        var html = '<div class="third_p mt-2"><p class="tan mx-2">' + data.playerName + '</p><p class="he mx-2">' + data.msg + '</p></div>';
+        var html = '<div class="third_p mt-2"><p class="tan mx-2">' + data.playerName + '</p><p class="he  ">' + data.msg + '</p></div>';
         chatDiv.innerHTML = chatDiv.innerHTML + html;
 
         let x = $('.chatButton2 .activities')[0];
