@@ -121,7 +121,7 @@ function onPlayerInfo(playerInfo) {
     mainUI.setPlayerName(playerInfo);
 }
 
-function onSideBet(res) {
+/* function onSideBet(res) {
     mainUI.updateSideBetOptions(res.street, res.streetText, res.options);
 }
 
@@ -131,7 +131,7 @@ function onSideBetHistory(res) {
 
 function onTableFreeBalance(balance) {
     mainUI.updateFreeBalance(balance);
-}
+} */
 
 function onTableSettings(settings) {
     var usdRate = parseFloat(settings.usdRate).toFixed(2);
@@ -187,7 +187,7 @@ function onPlayerState(state) {
         mainUI.showSitOutNextHand(state == "Playing");
         mainUI.setSitOutNextHand(false);
         mainUI.showTipDealer(state == "Playing");
-        mainUI.showSidebetUI(false);
+        // mainUI.showSidebetUI(false);
 
         if (getPlayerSeat() >= 0 && (state == "Playing" || state == "Waiting") && buyInUI.visible) {} else if (getPlayerSeat() >= 0 && state == "Joining") {
             showBuyIn();
@@ -203,7 +203,7 @@ function onPlayerState(state) {
         // mainUI.setWaitForBB(false);
         mainUI.showSitOutNextHand(false);
         mainUI.setSitOutNextHand(false);
-        mainUI.showSidebetUI(false);
+        //  mainUI.showSidebetUI(false);
         //     actionUi.setShowDollarSign(false);
         //     tableUi.setShowDollarSign(false);
     }
@@ -465,9 +465,9 @@ tableSubscribe("onCashWaitList", onCashWaitList);
 tableSubscribe("onLog", onLog);
 tableSubscribe("onChat", onChat);
 tableSubscribe("onInsurance", onInsurance);
-tableSubscribe("onSideBet", onSideBet);
+/* tableSubscribe("onSideBet", onSideBet);
 tableSubscribe("onSideBetHistory", onSideBetHistory);
-tableSubscribe("onTableFreeBalance", onTableFreeBalance);
+tableSubscribe("onTableFreeBalance", onTableFreeBalance); */
 tableSubscribe("onTip", onTip);
 
 export default {

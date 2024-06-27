@@ -1,149 +1,151 @@
 .player_wrapper:nth-child(1) {
-  top: calc(0 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(43 * var(--aspect-ratio));
+    top: calc(0 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(43 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(2) {
-  top: calc(0 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(102 * var(--aspect-ratio)) !important;
+    top: calc(0 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(102 * var(--aspect-ratio)) !important;
 }
 
 .player_wrapper:nth-child(3) {
-  top: calc(50 * var(--aspect-ratio));
-  position: absolute;
-  right: calc(13 * var(--aspect-ratio));
+    top: calc(50 * var(--aspect-ratio));
+    position: absolute;
+    right: calc(13 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(4) {
-  top: calc(102 * var(--aspect-ratio));
-  position: absolute;
-  right: calc(5 * var(--aspect-ratio));
+    top: calc(102 * var(--aspect-ratio));
+    position: absolute;
+    right: calc(5 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(5) {
-  top: calc(235 * var(--aspect-ratio));
-  position: absolute;
-  right: calc(6 * var(--aspect-ratio));
+    top: calc(235 * var(--aspect-ratio));
+    position: absolute;
+    right: calc(6 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(6) {
-  top: calc(164 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(37 * var(--aspect-ratio));
-  bottom: calc(10 * var(--aspect-ratio));
+    top: calc(164 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(37 * var(--aspect-ratio));
+    bottom: calc(10 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(7) {
-  top: calc(235 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(8 * var(--aspect-ratio));
+    top: calc(235 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(8 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(8) {
-  top: calc(103 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(9 * var(--aspect-ratio));
+    top: calc(103 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(9 * var(--aspect-ratio));
 }
+
 .player_wrapper:nth-child(9) {
-  top: calc(50 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(16 * var(--aspect-ratio));
+    top: calc(50 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(16 * var(--aspect-ratio));
 }
+
+.player_wrapper:has(.sitDownButton) {
+    z-index: 100;
+}
+
 .lastBetDiv,
 #currentSreetPotDiv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: calc((5.5 * var(--aspect-ratio)));
-  border-radius: calc((10 * var(--aspect-ratio)));
-  padding: calc((-1 * var(--aspect-ratio))) calc((3 * var(--aspect-ratio)))
-    calc((0 * var(--aspect-ratio))) calc((2 * var(--aspect-ratio)));
-  background-color: #333333;
-  box-shadow: inset calc(0.3 * var(--aspect-ratio))
-    calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc((5.5 * var(--aspect-ratio)));
+    border-radius: calc((10 * var(--aspect-ratio)));
+    padding: calc((-1 * var(--aspect-ratio))) calc((3 * var(--aspect-ratio))) calc((0 * var(--aspect-ratio))) calc((2 * var(--aspect-ratio)));
+    background-color: #333333;
+    box-shadow: inset calc(0.3 * var(--aspect-ratio)) calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
 }
 
 .lastBetDiv,
 .betAnimation {
-  position: absolute;
+    position: absolute;
 }
 
 .sitDownButton {
-  background: #201e37 0% 0% no-repeat padding-box;
-  border: 3px solid #ffffff52;
-  border-radius: 100%;
-  width: calc(25 * var(--aspect-ratio));
-  aspect-ratio: 1;
-  background-image: url("/images/mobile/sitDownButton.png");
-  background-position: center;
-  background-size: calc(22 * var(--aspect-ratio));
+    background: #201e37 0% 0% no-repeat padding-box;
+    border: 3px solid #ffffff52;
+    border-radius: 100%;
+    width: calc(25 * var(--aspect-ratio));
+    aspect-ratio: 1;
+    background-image: url("/images/mobile/sitDownButton.png");
+    background-position: center;
+    background-size: calc(22 * var(--aspect-ratio));
+    content: ' ';
 }
 
 .sitDownButton:hover {
-  background-color: #3f3c61;
+    background-color: #3f3c61;
+    content: ' ';
 }
 
 .player-cards {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 500px;
-  position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 500px;
+    position: absolute;
 }
 
 .dealer,
 .blind,
 .missSb,
 .missBb {
-  position: absolute;
-  height: calc((10 * var(--aspect-ratio)));
-  width: calc((10 * var(--aspect-ratio)));
-  top: calc(21 * var(--aspect-ratio));
-  z-index: 1;
+    position: absolute;
+    height: calc((10 * var(--aspect-ratio)));
+    width: calc((10 * var(--aspect-ratio)));
+    top: calc(21 * var(--aspect-ratio));
+    z-index: 1;
 }
 
 .player_wrapper:nth-child(1) .sitDownButton {
-  top: calc(13 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(15 * var(--aspect-ratio));
+    top: calc(13 * var(--aspect-ratio));
+    position: absolute;
+    left: calc(15 * var(--aspect-ratio));
 }
 
 .player_wrapper:is(.toPlay) .tangoHeadBlack {
-  background: linear-gradient(
-    90deg,
-    rgba(63, 95, 167, 0.7) 0%,
-    rgba(63, 95, 168, 0.9) 24%,
-    rgba(63, 95, 165, 0.6) 100%
-  );
-  width: calc((40 * var(--aspect-ratio)));
-  /* max-width: 30vw; */
-  border: calc((1 * var(--aspect-ratio))) solid white;
-  box-shadow: 0.5px 0.5px calc((1.8 * var(--aspect-ratio))) white;
-  border-radius: calc((1.9 * var(--aspect-ratio)));
+    background: linear-gradient( 90deg, rgba(63, 95, 167, 0.7) 0%, rgba(63, 95, 168, 0.9) 24%, rgba(63, 95, 165, 0.6) 100%);
+    width: calc((40 * var(--aspect-ratio)));
+    /* max-width: 30vw; */
+    border: calc((1 * var(--aspect-ratio))) solid white;
+    box-shadow: 0.5px 0.5px calc((1.8 * var(--aspect-ratio))) white;
+    border-radius: calc((1.9 * var(--aspect-ratio)));
 }
 
 .player_wrapper:nth-child(2) .sitDownButton {
-  top: calc(13 * var(--aspect-ratio));
-  position: absolute;
-  left: calc(-4 * var(--aspect-ratio));
+    top: calc(13 * var(--aspect-ratio));
+    position: absolute;
+    content: ' ';
+    left: calc(-4 * var(--aspect-ratio));
 }
 
 .player_wrapper .player-cards {
-  top: 35%;
-  width: calc(11 * var(--aspect-ratio));
-  margin-left: calc(5 * var(--aspect-ratio));
+    top: 35%;
+    width: calc(11 * var(--aspect-ratio));
+    margin-left: calc(5 * var(--aspect-ratio));
 }
 
 .player_wrapper:is(.toPlay) .player-cards {
-  top: 29%;
+    top: 29%;
 }
 
 .player_wrapper:nth-child(6):is(.isPlayer) .player-card>.front,
 .player_wrapper:nth-child(6):is(.isPlayer) .player-card>.back {
-  height: calc( 20.1 * var(--aspect-ratio));
-  width: calc( 17.1 * var(--aspect-ratio));
+    height: calc( 20.1 * var(--aspect-ratio));
+    width: calc( 17.1 * var(--aspect-ratio));
 }
 
 .player-card {
@@ -155,95 +157,81 @@
     margin-right: calc(-1.5* var(--aspect-ratio));
 }
 
-
-.player-card > .back {
-  backface-visibility: hidden;
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: calc(12 * var(--aspect-ratio));
-  width: calc(8 * var(--aspect-ratio));
+.player-card>.back {
+    backface-visibility: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: calc(12 * var(--aspect-ratio));
+    width: calc(8 * var(--aspect-ratio));
 }
 
-.player-card > .front {
-  transform: rotateY(180deg);
-  position: absolute;
+.player-card>.front {
+    transform: rotateY(180deg);
+    position: absolute;
 }
 
 .betAmountAnimation {
-  font-size: 28px;
-  color: #f4fc06;
-  font-size: inherit;
-  position: absolute;
-  top: calc((5 * var(--aspect-height-ratio)));
-  right: calc((-5 * var(--aspect-ratio)));
+    font-size: 28px;
+    color: #f4fc06;
+    font-size: inherit;
+    position: absolute;
+    top: calc((5 * var(--aspect-height-ratio)));
+    right: calc((-5 * var(--aspect-ratio)));
 }
 
 .turnTime {
-  background: black;
-  width: calc((35 * var(--aspect-ratio)));
-  height: calc((2 * var(--aspect-ratio)));
-  top: calc((8 * var(--aspect-height-ratio)));
-  margin-left: calc((2.5 * var(--aspect-ratio)));
-  position: relative;
+    background: black;
+    width: calc((35 * var(--aspect-ratio)));
+    height: calc((2 * var(--aspect-ratio)));
+    top: calc((8 * var(--aspect-height-ratio)));
+    margin-left: calc((2.5 * var(--aspect-ratio)));
+    position: relative;
 }
 
 .player_wrapper:not(.toPlay) .timeCircle {
-  /* position: absolute; */
-  top: calc(21 * var(--aspect-ratio));
-  left: calc(19 * var(--aspect-ratio));
-  padding: 3px !important;
-  visibility: hidden;
+    /* position: absolute; */
+    top: calc(21 * var(--aspect-ratio));
+    left: calc(19 * var(--aspect-ratio));
+    padding: 3px !important;
+    visibility: hidden;
 }
 
 .toPlay .timeCircle {
-  width: calc((15 * var(--aspect-ratio)));
-  border-radius: 50%;
-  border: 2px solid cyan;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.5) 24%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
-  position: absolute;
-  top: calc((-6 * var(--aspect-ratio)));
-  right: calc((-5 * var(--aspect-ratio)));
-  /* font-size: x-small; */
-  height: calc((15 * var(--aspect-ratio)));
-  font-size: calc((8 * var(--aspect-ratio)));
-  z-index: 1;
+    width: calc((15 * var(--aspect-ratio)));
+    border-radius: 50%;
+    border: 2px solid cyan;
+    background: linear-gradient( 90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 24%, rgba(0, 0, 0, 0.5) 100%);
+    position: absolute;
+    top: calc((-6 * var(--aspect-ratio)));
+    right: calc((-5 * var(--aspect-ratio)));
+    /* font-size: x-small; */
+    height: calc((15 * var(--aspect-ratio)));
+    font-size: calc((8 * var(--aspect-ratio)));
+    z-index: 1;
 }
 
 .timeCircle div {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 
 .timeCircle {
-  width: calc(3 * var(--aspect-ratio));
-  height: calc(3 * var(--aspect-ratio));
-  font-size: calc(1.5 * var(--aspect-ratio));
-  border-radius: 100%;
-  /* --barFillColor: #00CCFF; */
-  --barFillColor: #2f2f2f;
-  --insideBackground: #1e3970;
-  --barWidth: 30;
-  --turnPgPrecentage: 20;
-  background: radial-gradient(
-      closest-side,
-      var(--insideBackground) calc((100 - var(--barWidth)) * 1%),
-      transparent calc((101 - var(--barWidth)) * 1%) 99.9%
-    ),
-    conic-gradient(
-      var(--barFillColor) calc(var(--turnPgPrecentage) * 1%),
-      var(--barBackground) 0
-    );
-  animation-name: turnCircleReact;
-  animation-duration: 30s;
-  animation-iteration-count: 1;
+    width: calc(3 * var(--aspect-ratio));
+    height: calc(3 * var(--aspect-ratio));
+    font-size: calc(1.5 * var(--aspect-ratio));
+    border-radius: 100%;
+    /* --barFillColor: #00CCFF; */
+    --barFillColor: #2f2f2f;
+    --insideBackground: #1e3970;
+    --barWidth: 30;
+    --turnPgPrecentage: 20;
+    background: radial-gradient( closest-side, var(--insideBackground) calc((100 - var(--barWidth)) * 1%), transparent calc((101 - var(--barWidth)) * 1%) 99.9%), conic-gradient( var(--barFillColor) calc(var(--turnPgPrecentage) * 1%), var(--barBackground) 0);
+    animation-name: turnCircleReact;
+    animation-duration: 30s;
+    animation-iteration-count: 1;
 }
 
 .action,
@@ -252,17 +240,22 @@
 .extraToken,
 .missSb,
 .missBb {
-  visibility: hidden;
+    visibility: hidden;
 }
+
+
 /* 
 .avatar {
   width: 11vw;
   height: 11vw;
 } */
+
 .avatar {
-  width: 16vw;
-  height: 16vw;
+    width: 16vw;
+    height: 16vw;
 }
+
+
 /* 
 .player_wrapper:nth-child(6) .avatar {
   width: 18vw;
@@ -270,453 +263,448 @@
 } */
 
 .player_wrapper:nth-child(6):is(.isPlayer) .avatar {
-  width: 20vw;
-  height: 20vw;
+    width: 20vw;
+    height: 20vw;
 }
+
 .player_wrapper:nth-child(6) .title {
-  font-size: calc((5 * var(--aspect-ratio))) !important;
-  color: #fff;
-  padding-top: calc((5 * var(--aspect-ratio))) !important;
+    font-size: calc((5 * var(--aspect-ratio))) !important;
+    color: #fff;
+    padding-top: calc((5 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:not(.toPlay) .turnTime {
-  top: calc(21 * var(--aspect-ratio));
-  left: calc(0 * var(--aspect-ratio));
-  position: absolute;
-  margin: 0px 8px !important;
-  width: 75%;
-  visibility: hidden;
+    top: calc(21 * var(--aspect-ratio));
+    left: calc(0 * var(--aspect-ratio));
+    position: absolute;
+    margin: 0px 8px !important;
+    width: 75%;
+    visibility: hidden;
 }
 
 .turnTime div {
-  background: #00ccff 0% 0% no-repeat padding-box;
-  width: 10%;
-  height: 100%;
-  border-radius: calc(1 * var(--aspect-ratio));
-  animation-iteration-count: 1;
-  animation-fill-mode: both;
-  animation-duration: 30s;
-  animation-name: timeReactRunOut;
+    background: #00ccff 0% 0% no-repeat padding-box;
+    width: 10%;
+    height: 100%;
+    border-radius: calc(1 * var(--aspect-ratio));
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-duration: 30s;
+    animation-name: timeReactRunOut;
 }
 
 .player_wrapper .two-cards {
-  margin-right: 0.1rem;
+    margin-right: 0.1rem;
 }
 
 .player_wrapper .four-cards {
-  margin-left: calc(3 * var(--aspect-ratio));
+    margin-left: calc(3 * var(--aspect-ratio));
 }
 
 .content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .player_wrapper:nth-child(1) .lastBetDiv {
-  bottom: calc((-8 * var(--aspect-ratio))) !important;
-  right: calc((3 * var(--aspect-ratio))) !important;
+    bottom: calc((-8 * var(--aspect-ratio))) !important;
+    right: calc((3 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(2) .lastBetDiv {
-  bottom: calc((-8 * var(--aspect-ratio))) !important;
-  left: calc((3 * var(--aspect-ratio))) !important;
+    bottom: calc((-8 * var(--aspect-ratio))) !important;
+    left: calc((3 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(6) .lastBetDiv {
-  bottom: calc((64 * var(--aspect-ratio))) !important;
-  left: calc((5 * var(--aspect-ratio))) !important;
+    bottom: calc((64 * var(--aspect-ratio))) !important;
+    left: calc((5 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(3) .lastBetDiv,
 .player_wrapper:nth-child(4) .lastBetDiv,
 .player_wrapper:nth-child(5) .lastBetDiv {
-  bottom: calc((0 * var(--aspect-ratio))) !important;
-  left: calc((-30 * var(--aspect-ratio))) !important;
+    bottom: calc((0 * var(--aspect-ratio))) !important;
+    left: calc((-30 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(2) .dealer,
 .player_wrapper:nth-child(3) .dealer,
 .player_wrapper:nth-child(4) .dealer,
 .player_wrapper:nth-child(5) .dealer {
-  left: calc(-7 * var(--aspect-ratio));
+    left: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(2) .blind,
 .player_wrapper:nth-child(3) .blind,
 .player_wrapper:nth-child(4) .blind,
 .player_wrapper:nth-child(5) .blind {
-  left: calc(-7 * var(--aspect-ratio));
+    left: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(2) .missSb,
 .player_wrapper:nth-child(3) .missSb,
 .player_wrapper:nth-child(4) .missSb,
 .player_wrapper:nth-child(5) .missSb {
-  left: calc(-7 * var(--aspect-ratio));
+    left: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(2) .missBb,
 .player_wrapper:nth-child(3) .missBb,
 .player_wrapper:nth-child(4) .missBb,
 .player_wrapper:nth-child(5) .missBb {
-  left: calc(-7 * var(--aspect-ratio));
+    left: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(7) .lastBetDiv,
 .player_wrapper:nth-child(8) .lastBetDiv,
 .player_wrapper:nth-child(9) .lastBetDiv {
-  bottom: calc((0 * var(--aspect-ratio))) !important;
-  right: calc((-30 * var(--aspect-ratio))) !important;
+    bottom: calc((0 * var(--aspect-ratio))) !important;
+    right: calc((-30 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(1) .dealer,
 .player_wrapper:nth-child(7) .dealer,
 .player_wrapper:nth-child(8) .dealer,
 .player_wrapper:nth-child(9) .dealer {
-  right: calc(-7 * var(--aspect-ratio));
+    right: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(1) .blind,
 .player_wrapper:nth-child(7) .blind,
 .player_wrapper:nth-child(8) .blind,
 .player_wrapper:nth-child(9) .blind {
-  right: calc(-7 * var(--aspect-ratio));
+    right: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(1) .missBb,
 .player_wrapper:nth-child(7) .missBb,
 .player_wrapper:nth-child(8) .missBb,
 .player_wrapper:nth-child(9) .missBb {
-  right: calc(-7 * var(--aspect-ratio));
+    right: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(1) .missSb,
 .player_wrapper:nth-child(7) .missSb,
 .player_wrapper:nth-child(8) .missSb,
 .player_wrapper:nth-child(9) .missSb {
-  right: calc(-7 * var(--aspect-ratio));
+    right: calc(-7 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(6) .dealer,
 .player_wrapper:nth-child(6) .blind,
 .player_wrapper:nth-child(6) .missSb,
 .player_wrapper:nth-child(6) .missBb {
-  top: calc((1 * var(--aspect-ratio))) !important;
-  left: calc((-6 * var(--aspect-ratio))) !important;
+    top: calc((1 * var(--aspect-ratio))) !important;
+    left: calc((-6 * var(--aspect-ratio))) !important;
 }
 
-.lastBetDiv > img,
-.betAnimation > img,
-#currentSreetPotDiv > img {
-  width: calc((7 * var(--aspect-ratio)));
-  height: calc((6 * var(--aspect-ratio)));
+.lastBetDiv>img,
+.betAnimation>img,
+#currentSreetPotDiv>img {
+    width: calc((7 * var(--aspect-ratio)));
+    height: calc((6 * var(--aspect-ratio)));
 }
-.lastBetDiv span{
 
+.lastBetDiv span {
     font-size: calc((5 * var(--aspect-ratio)));
-
 }
 
 .betAnimation {
-  visibility: hidden;
-  z-index: 1;
-  bottom: calc(-8 * var(--aspect-ratio));
+    visibility: hidden;
+    z-index: 1;
+    bottom: calc(-8 * var(--aspect-ratio));
 }
 
 .winnerImg {
-  max-width: 119px;
-  position: relative;
-  top: -24px;
+    max-width: 119px;
+    position: relative;
+    top: -24px;
 }
 
 .player_wrapper:not(.winner) .winnerImg {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .winnerImg {
-  width: calc((40 * var(--aspect-ratio)));
-  top: calc((-8 * var(--aspect-ratio)));
+    width: calc((40 * var(--aspect-ratio)));
+    top: calc((-8 * var(--aspect-ratio)));
 }
 
 .prize {
-  box-shadow: none !important;
-  position: absolute;
-  top: calc(31 * var(--aspect-ratio));
-  left: calc(12 * var(--aspect-ratio));
-  text-align: center;
+    box-shadow: none !important;
+    position: absolute;
+    top: calc(31 * var(--aspect-ratio));
+    left: calc(12 * var(--aspect-ratio));
+    text-align: center;
 }
 
 .prize span {
-  color: #dfb425;
-  font-weight: 700;
-  font-size: calc(4 * var(--aspect-ratio));
+    color: #dfb425;
+    font-weight: 700;
+    font-size: calc(4 * var(--aspect-ratio));
 }
 
 .handResult,
 .prize {
-  box-shadow: inset 3px 4px 10px #000000b8;
-  width: fit-content;
-  margin: auto;
-  border-radius: calc(3 * var(--aspect-ratio));
-  padding: calc(0.5 * var(--aspect-ratio));
-  padding-bottom: 0;
-  padding-top: calc(0.2 * var(--aspect-ratio));
-  visibility: hidden;
+    box-shadow: inset 3px 4px 10px #000000b8;
+    width: fit-content;
+    margin: auto;
+    border-radius: calc(3 * var(--aspect-ratio));
+    padding: calc(0.5 * var(--aspect-ratio));
+    padding-bottom: 0;
+    padding-top: calc(0.2 * var(--aspect-ratio));
+    visibility: hidden;
 }
 
 .handResult {
-  background-color: #333333;
-  box-shadow: inset calc(0.3 * var(--aspect-ratio))
-    calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
-  width: fit-content;
-  margin: 0 auto;
-  /*   position: relative;
-            top: calc((15 * var(--aspect-ratio))); */
-  padding: 0px calc((15 * var(--aspect-ratio)));
-  border-radius: calc((2 * var(--aspect-ratio)));
-  font-weight: 500;
-  color: white;
-}
-
-.player-card.with_mask {
-  position: relative;
-}
-
-.player-card.with_mask:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 104%;
-  left: 0;
-  top: 0;
-  background: black;
-  opacity: 0.5;
-}
-
-@keyframes flip-animation {
-  0% {
-      -webkit-transform: translateY(0%);
-      transform: translateY(0%);
-      visibility: visible;
-  }
-  100% {
-      -webkit-transform: translateY(0%);
-      transform: translateY(0%) rotateY(-180deg);
-  }
-}
-
-@media screen and (min-width: 390px) and (max-width: 844px) {
-  /* .player7 {
-                margin-left: 16%!important;
-                margin-top: 21%!important;
-            } */
-  .handResult {
     background-color: #333333;
-    box-shadow: inset calc(0.3 * var(--aspect-ratio))
-      calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
+    box-shadow: inset calc(0.3 * var(--aspect-ratio)) calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
     width: fit-content;
     margin: 0 auto;
-    position: absolute;
-    top: calc((130 * var(--aspect-ratio)));
-    left: calc(23.8 * var(--aspect-ratio));
+    /*   position: relative;
+            top: calc((15 * var(--aspect-ratio))); */
     padding: 0px calc((15 * var(--aspect-ratio)));
     border-radius: calc((2 * var(--aspect-ratio)));
     font-weight: 500;
     color: white;
-    margin-top: calc(5*var(--aspect-ratio));
-  }
-  /* .player9 {
+}
+
+.player-card.with_mask {
+    position: relative;
+}
+
+.player-card.with_mask:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 104%;
+    left: 0;
+    top: 0;
+    background: black;
+    opacity: 0.5;
+}
+
+@keyframes flip-animation {
+    0% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%) rotateY(-180deg);
+    }
+}
+
+@media screen and (min-width: 390px) and (max-width: 844px) {
+    /* .player7 {
+                margin-left: 16%!important;
+                margin-top: 21%!important;
+            } */
+    .handResult {
+        background-color: #333333;
+        box-shadow: inset calc(0.3 * var(--aspect-ratio)) calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
+        width: fit-content;
+        margin: 0 auto;
+        position: absolute;
+        top: calc((130 * var(--aspect-ratio)));
+        left: calc(23.8 * var(--aspect-ratio));
+        padding: 0px calc((15 * var(--aspect-ratio)));
+        border-radius: calc((2 * var(--aspect-ratio)));
+        font-weight: 500;
+        color: white;
+        margin-top: calc(5*var(--aspect-ratio));
+    }
+    /* .player9 {
                 left: 157px;
                 top: -23px;
             } */
-  /* .player8 {
+    /* .player8 {
                 margin-right: 16%!important;
                 margin-top: 21%!important;
             } */
-  .cardsImage {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    font-size: inherit;
-    padding-top: calc((5 * var(--aspect-height-ratio)));
-  }
-  .btn-power {
-    position: absolute;
-    top: 63px !important;
-    right: 120px !important;
-  }
-  .player3 .lastBetDiv {
-    position: absolute;
-    top: 64px !important;
-    right: -27px !important;
-  }
+    .cardsImage {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        font-size: inherit;
+        padding-top: calc((5 * var(--aspect-height-ratio)));
+    }
+    .btn-power {
+        position: absolute;
+        top: 63px !important;
+        right: 120px !important;
+    }
+    .player3 .lastBetDiv {
+        position: absolute;
+        top: 64px !important;
+        right: -27px !important;
+    }
 }
 
 @keyframes slide-animation {
-  0% {
-    -webkit-transform: translateY(-100%);
-    transform: translateY(-100%);
-    visibility: visible;
-  }
-  100% {
-    -webkit-transform: translateY(0%);
-    transform: translateY(0%);
-  }
+    0% {
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        visibility: visible;
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+        transform: translateY(0%);
+    }
 }
 
 @keyframes turnCircleReact {
-  0% {
-    --turnPgPrecentage: 0;
-    --barBackground: #00ccff;
-  }
-  100% {
-    --turnPgPrecentage: 100;
-    --barBackground: #00ccff;
-  }
+    0% {
+        --turnPgPrecentage: 0;
+        --barBackground: #00ccff;
+    }
+    100% {
+        --turnPgPrecentage: 100;
+        --barBackground: #00ccff;
+    }
 }
 
 @keyframes timeReactRunOut {
-  0% {
-    width: 100%;
-    background-color: #00ccff;
-  }
-  100% {
-    width: 0%;
-    background-color: #00ccff;
-  }
+    0% {
+        width: 100%;
+        background-color: #00ccff;
+    }
+    100% {
+        width: 0%;
+        background-color: #00ccff;
+    }
 }
 
 @keyframes timeBankRunOut {
-  0% {
-    width: 100%;
-    background-color: #f70930;
-  }
-  100% {
-    width: 0%;
-    background-color: #f70930;
-  }
+    0% {
+        width: 100%;
+        background-color: #f70930;
+    }
+    100% {
+        width: 0%;
+        background-color: #f70930;
+    }
 }
 
 @keyframes betAmountAnimation {
-  to {
-    transform: translate(0px, -50px);
-  }
-  100% {
-    visibility: hidden;
-    opacity: 0;
-  }
+    to {
+        transform: translate(0px, -50px);
+    }
+    100% {
+        visibility: hidden;
+        opacity: 0;
+    }
 }
 
 #backButton {
-  background: transparent
-linear-gradient(
-180deg,
-#0e093eba 0%,
-#101011ba 28%,
-#211672ba 100%,
-#261a81ba 100%
-)
-0% 0% no-repeat padding-box !important;
-  box-shadow: inset 12px 12px 20px #191c39ad !important;
-  border: 1px solid #707070 !important;
-  border-radius: 10px !important;
-  color: white !important;
-  width: calc(45 * var(--aspect-ratio)) !important;
-  height: calc(14 * var(--aspect-ratio)) !important;
-  opacity: 1;
-  left: calc(27 * var(--aspect-ratio)) !important;
-  position: absolute;
-  top: calc(289 * var(--aspect-ratio));
+    background: transparent linear-gradient( 180deg, #0e093eba 0%, #101011ba 28%, #211672ba 100%, #261a81ba 100%) 0% 0% no-repeat padding-box !important;
+    box-shadow: inset 12px 12px 20px #191c39ad !important;
+    border: 1px solid #707070 !important;
+    border-radius: 10px !important;
+    color: white !important;
+    width: calc(45 * var(--aspect-ratio)) !important;
+    height: calc(14 * var(--aspect-ratio)) !important;
+    opacity: 1;
+    left: calc(27 * var(--aspect-ratio)) !important;
+    position: absolute;
+    top: calc(289 * var(--aspect-ratio));
 }
+
 #backButton img {
-  margin-right: calc(1.5 * var(--aspect-ratio));
-  margin-bottom: calc(0.2 * var(--aspect-ratio));
-  object-fit: contain;
-  max-height: calc(6 * var(--aspect-ratio));
-  width: calc(6 * var(--aspect-ratio));
+    margin-right: calc(1.5 * var(--aspect-ratio));
+    margin-bottom: calc(0.2 * var(--aspect-ratio));
+    object-fit: contain;
+    max-height: calc(6 * var(--aspect-ratio));
+    width: calc(6 * var(--aspect-ratio));
 }
+
 
 /* tip toast message */
 
-.toast{
-  opacity: 1 !important;
-  overflow: visible !important;
-  --bs-toast-bg: transparent !important;
-  background-color: transparent !important;
-  backdrop-filter: none;
-  border: 0 !important;
-  box-shadow: none !important;
-  display: none;
-  --bs-toast-max-width: 476px !important;
-}
-.toast-container{
-position: fixed !important;
-z-index: 1 !important;
-}
-.toast-header{
-   background: transparent;
-  color: white !important;
-  border-bottom: 0 !important;
-  padding: 0 !important;
-}
-.me-auto{
-  font-size: calc(4.7 * var(--aspect-ratio));
-  margin: 0 !important;
-color: white;
-font-weight: normal !important;
-animation: fade 1s forwards;
+.toast {
+    opacity: 1 !important;
+    overflow: visible !important;
+    --bs-toast-bg: transparent !important;
+    background-color: transparent !important;
+    backdrop-filter: none;
+    border: 0 !important;
+    box-shadow: none !important;
+    display: none;
+    --bs-toast-max-width: 476px !important;
 }
 
-.player_wrapper:nth-child(1) .toast-container{
-  transform: translate(-27%, -50%);
+.toast-container {
+    position: fixed !important;
+    z-index: 1 !important;
 }
 
-.player_wrapper:nth-child(2) .toast-container{
-  transform: translate(-37%, -30%);
+.toast-header {
+    background: transparent;
+    color: white !important;
+    border-bottom: 0 !important;
+    padding: 0 !important;
 }
 
-.player_wrapper:nth-child(3) .toast-container{
-  transform: translate(-27%, -30%);
+.me-auto {
+    font-size: calc(4.7 * var(--aspect-ratio));
+    margin: 0 !important;
+    color: white;
+    font-weight: normal !important;
+    animation: fade 1s forwards;
 }
 
-.player_wrapper:nth-child(4) .toast-container{
-  transform: translate(-7%, -20%);
+.player_wrapper:nth-child(1) .toast-container {
+    transform: translate(-27%, -50%);
 }
 
-.player_wrapper:nth-child(5) .toast-container{
-  transform: translate(-7%, -15%);
+.player_wrapper:nth-child(2) .toast-container {
+    transform: translate(-37%, -30%);
 }
 
-.player_wrapper:nth-child(6) .toast-container{
-  transform: translate(-23%, -40%);
+.player_wrapper:nth-child(3) .toast-container {
+    transform: translate(-27%, -30%);
 }
 
-.player_wrapper:nth-child(7) .toast-container{
-  transform: translate(-10%, -10%);
+.player_wrapper:nth-child(4) .toast-container {
+    transform: translate(-7%, -20%);
 }
 
-.player_wrapper:nth-child(8) .toast-container{
-  transform: translate(-17%, -40%);
+.player_wrapper:nth-child(5) .toast-container {
+    transform: translate(-7%, -15%);
 }
 
-.player_wrapper:nth-child(9) .toast-container{
-  transform: translate(-23%, -46%)
+.player_wrapper:nth-child(6) .toast-container {
+    transform: translate(-23%, -40%);
 }
 
-@keyframes fade{
-  0%{
-      opacity: 0;
-  }
-  30%{
-      opacity: 1;
-  }
-  90%{
-      opacity: 1;
-  }
-  100%{
-      opacity: 0;
-  }
+.player_wrapper:nth-child(7) .toast-container {
+    transform: translate(-10%, -10%);
+}
+
+.player_wrapper:nth-child(8) .toast-container {
+    transform: translate(-17%, -40%);
+}
+
+.player_wrapper:nth-child(9) .toast-container {
+    transform: translate(-23%, -46%)
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

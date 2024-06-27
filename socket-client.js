@@ -40,13 +40,14 @@ function setSocketEventListeners() {
     socket.on("connect", eventTrigger("onConnect"));
     socket.on("disconnect", eventTrigger("onDisconnect"));
     socket.on("REQ_INSURANC", eventTrigger("onInsurance"));
-    socket.on("REQ_SIDEBET_OPTIONS", eventTrigger("onSideBetOptions"));
-    socket.on("REQ_SIDEBET_HISTORY", eventTrigger("onSideBetHistory"));
-    socket.on("REQ_TABLE_FREE_BALANCE", eventTrigger("onTableFreeBalance"));
     socket.on("REQ_TABLE_TIP", eventTrigger("onTip"));
-    socket.on("REQ_SIDEBET_OPTIONS", eventTrigger("onSideBetOptions"));
+    /* socket.on("REQ_SIDEBET_OPTIONS", eventTrigger("onSideBetOptions"));
     socket.on("REQ_SIDEBET_HISTORY", eventTrigger("onSideBetHistory"));
-    socket.on("REQ_TABLE_FREE_BALANCE", eventTrigger("onTableFreeBalance"));
+    socket.on("REQ_TABLE_FREE_BALANCE", eventTrigger("onTableFreeBalance")); */
+
+    /*     socket.on("REQ_SIDEBET_OPTIONS", eventTrigger("onSideBetOptions"));
+        socket.on("REQ_SIDEBET_HISTORY", eventTrigger("onSideBetHistory"));
+        socket.on("REQ_TABLE_FREE_BALANCE", eventTrigger("onTableFreeBalance")); */
 }
 
 // TS -> client
@@ -75,12 +76,12 @@ const eventListeners = {
     onConnect: [],
     onDisconnect: [],
     onInsurance: [],
-    onSideBetOptions: [],
-    onSideBetHistory: [],
-    onTableFreeBalance: [],
-    onSideBetOptions: [],
-    onSideBetHistory: [],
-    onTableFreeBalance: [],
+    /*  onSideBetOptions: [],
+     onSideBetHistory: [],
+     onTableFreeBalance: [],
+     onSideBetOptions: [],
+     onSideBetHistory: [],
+     onTableFreeBalance: [], */
 };
 
 function triggerEventListeners(name, data) {

@@ -1,4 +1,4 @@
-import { getPlayerSeat, sitDown } from "../services/table-server";
+import { getPlayerSeat, sitDown, tableSettings } from "../services/table-server";
 import { getMoneyValue, getMoneyText } from "./money-display";
 import { Card, getCardImageFilePath } from "./card-ui";
 import { userMode } from '../services/game-server';
@@ -91,10 +91,10 @@ const playerWrapperHTML = `
     <div class = "betAmountAnimation">
         <span>+55</span>
     </div>
-    <img src="./images/desktop/22 copy 7@2x.png" class="avatar">
+    <img src="./images/mobile/22 copy 7@2x.png" class="avatar">
     <div class="player-cards"></div>
     <div class="betAnimation">
-        <img src="./images/desktop/1 copy 4-1@2x.png">
+        <img src="./images/mobile/1 copy 4-1@2x.png">
     </div>
 </div>
 <div class="tangoHeadBlack">
@@ -107,14 +107,14 @@ const playerWrapperHTML = `
 </div>
 <!--<div class="bigSmallBlind">BIG BLIND</div>-->
 <div class="lastBetDiv">
-    <img src="./images/desktop/1 copy 4-1@2x.png">
+    <img src="./images/mobile/1 copy 4-1@2x.png">
     <span>{X} 55</span>
 </div>
-<img src="./images/desktop/WINNER.png" class="winnerImg">
-<img class="dealer" src="./images/desktop/newdealer.png">
-<img class="blind" src="./images/desktop/SB.png">
-<img class="missSb" src="./images/desktop/newms.png">
-<img class="missBb" src="./images/desktop/newmb.png">
+<img src="./images/mobile/WINNER.png" class="winnerImg">
+<img class="dealer" src="./images/mobile/newdealer.png">
+<img class="blind" src="./images/mobile/SB.png">
+<img class="missSb" src="./images/mobile/newms.png">
+<img class="missBb" src="./images/mobile/newmb.png">
 <div class="prize">
     <span class="textset">Prize Amount</span>
 </div>
@@ -126,16 +126,16 @@ const playerWrapperHTML = `
             </div>
           </div>
 `;
-//<img class = "extraToken" src="./images/desktop/MSB.png">
+//<img class = "extraToken" src="./images/mobile/MSB.png">
 const sitDownHTML = "<button class=\"sitDownButton\"></button>";
 
-const smallBlindSrc = "./images/desktop/newsb.png";
-const bigBlindSrc = "./images/desktop/newbb.png";
+const smallBlindSrc = "./images/mobile/newsb.png";
+const bigBlindSrc = "./images/mobile/newbb.png";
 
 const dealerSrc = "./images/D.png";
 
-const missingSmallBlindSrc = "./images/desktop/MSB.png";
-const missingBigBlindSrc = "./images/desktop/MBB.png";
+const missingSmallBlindSrc = "./images/mobile/MSB.png";
+const missingBigBlindSrc = "./images/mobile/MBB.png";
 
 const mainPlayerIndex = 5;
 let previousMainPlayerIndex = -1;
@@ -155,7 +155,8 @@ function getSortedPlayerWrappers() {
         return +a.classList[1] - +b.classList[1];
     });
 }
-function  tipButtonClickHandler(event) {
+
+function tipButtonClickHandler(event) {
     const TipAmount = event.target.getAttribute('value');
     ShowTipToDealer(TipAmount, () => {
         // $('#TipToDealer').modal('show');
@@ -190,12 +191,12 @@ export class Player {
         this.isPlaying = isPlaying;
     }
 
-   
-    
+
+
     setTip(player) {
         const TipsOptions = document.querySelectorAll("#tip-button button");
         if (player === true) {
-    
+
             TipsOptions.forEach(function(button) {
                 button.addEventListener('click', tipButtonClickHandler);
             });
@@ -333,6 +334,17 @@ export class Player {
         const amountText = getMoneyText(amount);
         let value = amount ? amountText.outerHTML : false;
         this.setWrapperField("money", value);
+
+        if (this.wrapper.classList.contains('isPlayer')) {
+            console.log('contain');
+            const elements = $("#tip-button button");
+            const bigBlind = tableSettings.bigBlind;
+            for (const element of elements) {
+                const tipValue = element.attributes['value'].value;
+                element.disabled = (amount < (tipValue * bigBlind));
+            }
+
+        }
     }
 
     setPlayerBet(amount) {
@@ -645,8 +657,8 @@ export class Player {
         tostText.innerText = data.msg;
         tostMessage.style.display = 'block';
 
-                    setTimeout(() => {
-                        tostMessage.style.display = 'none';
-                    }, 1500);
+        setTimeout(() => {
+            tostMessage.style.display = 'none';
+        }, 1500);
     }
 }

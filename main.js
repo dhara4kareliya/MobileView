@@ -12,7 +12,7 @@ import "./UI/slider"
 import "./UI/table-ui"
 import "./UI/money-display"
 import { getSocket, subscribe } from './socket-client';
-import "./services/zoom-communicator";
+//import "./services/zoom-communicator";
 
 subscribe("onConnect", () => {
     window.socket = getSocket();

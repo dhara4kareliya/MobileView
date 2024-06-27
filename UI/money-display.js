@@ -23,8 +23,8 @@ export function getMoneyText(amount) {
         console.log(usdRate);
         console.log(Math.floor(amount * usdRate * 100) / 100);
         var img = document.createElement("img");
-        img.src = "images/desktop/coins 3 (2) (1).png";
-        container.classList.add("imageFeatures1"); 
+        img.src = "images/mobile/coins 3 (2) (1).png";
+        container.classList.add("imageFeatures1");
 
         container.appendChild(img);
 
@@ -34,8 +34,8 @@ export function getMoneyText(amount) {
         // container.innerText = `$ ${Math.floor(amount * usdRate * 100) /100}`;
     } else {
         var img = document.createElement("img");
-        img.src = "images/desktop/coins 3 (1).png";
-        container.classList.add("imageFeatures"); 
+        img.src = "images/mobile/coins 3 (1).png";
+        container.classList.add("imageFeatures");
 
         container.appendChild(img);
 
@@ -47,7 +47,7 @@ export function getMoneyText(amount) {
     return container;
 }
 
-export function getMoneyValue (amount) {
+export function getMoneyValue(amount) {
     if (amount == undefined)
         amount = 0;
 
@@ -59,7 +59,7 @@ export function getMoneyValue (amount) {
     return Math.floor(amount * 100) / 100;
 }
 
-export function getRoundValue (amount) {
+export function getRoundValue(amount) {
     if (amount == undefined)
         amount = 0;
 

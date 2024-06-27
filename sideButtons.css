@@ -744,12 +744,25 @@ button:focus {
 }
 
 #tip-button {
-	position: absolute;
-	display: flex !important;
-	flex-direction: row;
-	right: calc(129 * var(--aspect-ratio));
-	align-items: center;
 	visibility: hidden;
+    display: flex !important;
+	align-items: center;
+	flex-direction: row;
+}
+#tip-button>button:disabled,
+button[disabled] {
+    background-color: gray !important;
+    color: #ffffff;
+}
+#tip-button>button:disabled:hover,
+button[disabled]:hover {
+    background-color: gray !important;
+    color: #ffffff;
+}
+#tip-button-section {
+	position: absolute;
+	right: calc(129 * var(--aspect-ratio));
+    display: none;
 	bottom: 1%;
 }
 

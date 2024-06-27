@@ -4,7 +4,7 @@
     border-radius: 100%;
     width: calc(10 * var(--aspect-ratio));
     aspect-ratio: 1;
-    background-image: url('./images/desktop/sitDownButton.png');
+    background-image: url('./images/mobile/sitDownButton.png');
     background-position: center;
     background-size: calc(5 * var(--aspect-ratio));
 }
@@ -999,7 +999,6 @@ tr,
     position: absolute;
     top: calc( 81 * var(--aspect-ratio));
 }
-
 
 .forhid {
     display: none;

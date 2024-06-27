@@ -278,7 +278,7 @@ function onTableStatus(status) {
 
 }
 
-function onSideBetOptions(res) {
+/* function onSideBetOptions(res) {
     triggerEventListeners("onSideBet", res);
 }
 
@@ -288,11 +288,12 @@ function onSideBetHistory(res) {
 
 function onTableFreeBalance(res) {
     triggerEventListeners("onTableFreeBalance", res);
-}
+} */
 
 function onTableSidePots(res) {
     triggerEventListeners("onSidePots", res);
 }
+
 function onInsurance(res) {
     triggerEventListeners("onInsurance", res);
 }
@@ -416,7 +417,7 @@ export function sitDown(seatIndex) {
         playerSitDown(seatIndex);
 }
 
-export function TipToDealer(amount){
+export function TipToDealer(amount) {
     ShowTipToDealer(amount);
 }
 
@@ -455,9 +456,9 @@ subscribe("onCashWaitList", onCashWaitList);
 subscribe("onLog", onLog);
 subscribe("onChat", onChat);
 subscribe("onTip", onTip);
-subscribe("onSideBetOptions", onSideBetOptions);
+/* subscribe("onSideBetOptions", onSideBetOptions);
 subscribe("onSideBetHistory", onSideBetHistory);
-subscribe("onTableFreeBalance", onTableFreeBalance);
+subscribe("onTableFreeBalance", onTableFreeBalance); */
 
 
 export async function getOptions() {

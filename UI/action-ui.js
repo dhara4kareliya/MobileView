@@ -9,7 +9,7 @@ const foldButton = $("#fold-button")[0];
 const callButton = $("#call-button")[0];
 const raiseButton = $("#raise-Button")[0];
 const actionUIDiv = $("#turnActionsDiv")[0];
-const sidebetUIDiv = $(".button-section")[0];
+//const sidebetUIDiv = $(".button-section")[0];
 const tipButtonDiv = $("#tip-button")[0];
 const betSlider = $("#betSlider")[0];
 const betInput = $("#betDivWrapper input")[0];
@@ -105,7 +105,7 @@ export class ActionUI {
     allIn() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(false);
+        // this.showSidebetUI(false);
         this.showTipUI(false);
         this.setRaise(this.m_MaxRaise);
     }
@@ -114,7 +114,7 @@ export class ActionUI {
         this.setActive(automaticActionsDiv, false);
         this.setActive(actionUIDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(false);
+        // this.showSidebetUI(false);
         this.showTipUI(true);
         turnAction("fold");
     }
@@ -122,7 +122,7 @@ export class ActionUI {
     call() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(false);
+        // this.showSidebetUI(false);
         this.showTipUI(true);
         turnAction("bet", this.m_Call);
     }
@@ -130,14 +130,14 @@ export class ActionUI {
     check() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
-        this.showSidebetUI(false);
+        // this.showSidebetUI(false);
         this.showTipUI(true);
         turnAction("bet", 0);
     }
 
     checkOrCall() {
         this.showActionUI(false);
-        this.showSidebetUI(false);
+        // this.showSidebetUI(false);
         this.showTipUI(true);
         if (this.m_Call == 0)
             this.check();
@@ -147,7 +147,7 @@ export class ActionUI {
 
     raise() {
         this.showActionUI(false);
-        this.showSidebetUI(false);
+        // this.showSidebetUI(false);
         this.showTipUI(true);
         // turnAction("bet", this.m_Raise);
         // console.error(`betInput.value : ${betInput.value},getMoneyOriginalValue : ${getMoneyOriginalValue(parseFloat(betInput.value))},m_CurrentBet : ${this.m_CurrentBet} = ${getMoneyOriginalValue(parseFloat(betInput.value)) - this.m_CurrentBet}`);
@@ -161,7 +161,7 @@ export class ActionUI {
 
         if (value) {
             this.setActive(automaticActionsDiv, false);
-            this.showSidebetUI(false);
+            // this.showSidebetUI(false);
             this.showTipUI(false);
         }
 
@@ -189,9 +189,10 @@ export class ActionUI {
         }
     }
 
-    showSidebetUI(value) {
+    /* showSidebetUI(value) {
         this.setActive(sidebetUIDiv, value);
-    }
+    } */
+
     showTipUI(value) {
         this.setActive(tipButtonDiv, value);
     }

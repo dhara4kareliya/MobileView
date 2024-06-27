@@ -11,8 +11,7 @@ const tableSettingSpanDiv = $(".tableSettingsSpan")[0];
 const tableNameDiv = $(".tableName")[0];
 
 const actionUIDiv = $("#turnActionsDiv")[0];
-const sidebetUIDiv = $(".button-section")[0];
-const sidebetUIWrapper = $(".wrapper")[0];
+
 const automaticActionsDiv = $("#automaticActionsDiv")[0];
 const autoCheckCheckbox = $("#autoCheckButton .checkbox")[0];
 const autoCheckOrFoldCheckbox = $("#autoCheckOrFoldButton .checkbox")[0];
@@ -59,6 +58,7 @@ const logDiv = $('.log_data1')[0];
 // const addTipsButtons = $(".addTipsButton")[0];
 // const TipsOptions = $("#tip-button button");
 const tipButtonDiv = $("#tip-button")[0]
+const tipSectionDiv = $("#tip-button-section")[0]
 const chatDiv = $('#divmessage1 .userMessage')[0];
 const chatInput = $('.chatButton2 .input_div1 input')[0];
 const chatSendIcon = $('.chatButton2 .input_div1 > i')[0];
@@ -74,15 +74,20 @@ const insuranceNextTime = $(".insuranceNextTime")[0];
 const insurancePrice = $(".insurancePrice")[0];
 const allInPrice = $(".allInPrice1");
 const autoFoldModeButtonDiv = $(".autoFoldModeButton1")[0];
+
+const submitButton3 = $('.round_button_2');
+/*
 const submitButton = $('#submit-sidebet1')[0];
 const submitButton2 = $('#submit-sidebet-2.s-sec');
 const submitButton4 = $('.sidebet');
-const submitButton3 = $('.round_button_2');
+
+const sidebetUIDiv = $(".button-section")[0];
+const sidebetUIWrapper = $(".wrapper")[0];
 const streetsOnSideBet = new Map();
 streetsOnSideBet.set('PreCards', 'Next Cards');
 streetsOnSideBet.set('PreFlop', 'Flop');
 streetsOnSideBet.set('Flop', 'Turn');
-streetsOnSideBet.set('Turn', 'River');
+streetsOnSideBet.set('Turn', 'River');*/
 const AutoTip = $(".AutoTip")[0];
 
 export class MainUI {
@@ -127,9 +132,10 @@ export class MainUI {
     init() {
         breakCountdownDiv.style.visibility = "hidden";
         this.setActive(automaticActionsDiv, false);
-        this.setActive(sidebetUIDiv, false);
+        /*   this.setActive(sidebetUIDiv, false); */
         this.setActive(tipButtonDiv, false);
-        this.setActive(sidebetUIWrapper, false);
+        this.setActive1(tipSectionDiv, false);
+        /*  this.setActive(sidebetUIWrapper, false); */
         this.setActiveElements1(leaveButtons, false);
         this.setActiveElements1(backLobbyButtons, true);
         this.setActive(sitInBtn, false);
@@ -164,18 +170,22 @@ export class MainUI {
         for (const button of backLobbyButtons)
             button.addEventListener('click', playerLeave);
 
-            openMenuButton.addEventListener('click',()=>{ this.setActive(uiTables, true);
-                $("#uiTable .modal").css("display", "block");})
+        openMenuButton.addEventListener('click', () => {
+            this.setActive(uiTables, true);
+            $("#uiTable .modal").css("display", "block");
+        })
 
-            closeUiTable.addEventListener('click',()=>{ this.setActive(uiTables, false);
-                $("#uiTable .modal").css("display", "none");})
+        closeUiTable.addEventListener('click', () => {
+            this.setActive(uiTables, false);
+            $("#uiTable .modal").css("display", "none");
+        })
 
-                for (const button of CloseModal)
-                button.addEventListener('click', () => {
-                    $('#shareHandMessage').modal('hide');
-                    // $('#TipToDealer').modal('hide');
-                    $('#SubmitReport').modal('hide');
-                });
+        for (const button of CloseModal)
+            button.addEventListener('click', () => {
+                $('#shareHandMessage').modal('hide');
+                // $('#TipToDealer').modal('hide');
+                $('#SubmitReport').modal('hide');
+            });
 
         for (const button of dropdownMenus)
             button.addEventListener('click', (e) => { if (button.classList.contains("show")) { e.stopPropagation(); } });
@@ -215,33 +225,34 @@ export class MainUI {
             });
         }
 
-            settingsButtons.addEventListener('click', () => {
-                this.setActive(settingsMenu, true);
-            });
+        settingsButtons.addEventListener('click', () => {
+            this.setActive(settingsMenu, true);
+        });
 
-        waitListCount.addEventListener('click', ()=>{
-            if(waitListDropdown.style.display == "block"){
-            this.setActive1(waitListDropdown, false)
-        } else {
-        this.setActive1(waitListDropdown, true)}
+        waitListCount.addEventListener('click', () => {
+            if (waitListDropdown.style.display == "block") {
+                this.setActive1(waitListDropdown, false)
+            } else {
+                this.setActive1(waitListDropdown, true)
+            }
 
 
-    })
+        })
 
         for (const waitForBBCheckbox of waitForBBCheckboxes) {
             waitForBBCheckbox.addEventListener('change', () => { waitForBB(waitForBBCheckbox.checked) });
         }
-            sitOutNextHandCheckboxes.addEventListener('click', () => { 
-                sitOutNextHand(sitOutNextHandCheckboxes.checked); 
-                console.log(sitOutNextHandCheckboxes.checked);
-            });
+        sitOutNextHandCheckboxes.addEventListener('click', () => {
+            sitOutNextHand(sitOutNextHandCheckboxes.checked);
+            console.log(sitOutNextHandCheckboxes.checked);
+        });
 
         for (const autoFoldCheckbox of autoFoldCheckboxes) {
             autoFoldCheckbox.addEventListener('click', () => {
                 this.onOptionFoldToAnyBet(autoFoldCheckbox.checked);
             });
         }
-        
+
         chatSendIcon.addEventListener('click', () => {
             if (chatInput.value) {
                 doChat({ msg: chatInput.value });
@@ -282,7 +293,7 @@ export class MainUI {
             $('#insuranceModal').modal('hide');
         });
 
-        submitButton.addEventListener('click', () => {
+        /*submitButton.addEventListener('click', () => {
             let sidebets = [];
             const elements = $('.btun');
             for (const button of elements) {
@@ -296,20 +307,20 @@ export class MainUI {
             this.initSideBetPanel();
         });
 
-        for(const btn of submitButton4){
+        for (const btn of submitButton4) {
             const button = btn.querySelector('.s-sec')
             const priceButton = button.querySelector('.price_button');
             const confirmButton = button.querySelector('.confirm_button');
 
-            button.addEventListener('click', ()=>{
+            button.addEventListener('click', () => {
                 console.log(priceButton);
-                if (priceButton.style.display ==='block') {
+                if (priceButton.style.display === 'block') {
                     this.handlePriceClick(btn, priceButton, confirmButton);
-                } else if (confirmButton.style.display ==='block') {
+                } else if (confirmButton.style.display === 'block') {
                     this.handleConfirmClick(btn, button, priceButton, confirmButton);
                 }
             })
-        }
+        }*/
 
         /* openMenuButton.addEventListener('click', () => {
              $(mobileSideBar).addClass("active");
@@ -352,27 +363,27 @@ export class MainUI {
           }*/
     }
 
-    handlePriceClick(btn, priceButton, confirmButton){
+    handlePriceClick(btn, priceButton, confirmButton) {
         btn.classList.add('hitting_pair_11');
         priceButton.style.display = 'none';
         confirmButton.style.display = 'block';
     }
 
-    handleConfirmClick(btn, button, priceButton, confirmButton){
+    /*handleConfirmClick(btn, button, priceButton, confirmButton) {
         for (const btn of submitButton2) {
-                                btn.classList.remove('selected');
-                            }
-                    let sidebets = [];
-                    button.classList.add('selected');
-                    const sidebetId = $('#submit-sidebet-2.selected > div').prop('class');
-                    sidebets.push(sidebetId);
-                    submitSideBet(sidebets, this.sidebetStreet);
-                    this.initSideBetPanel();
-                    
-                    priceButton.style.display = 'block';
-                    confirmButton.style.display = 'none';
-                    btn.classList.remove('hitting_pair_11');
-    }
+            btn.classList.remove('selected');
+        }
+        let sidebets = [];
+        button.classList.add('selected');
+        const sidebetId = $('#submit-sidebet-2.selected > div').prop('class');
+        sidebets.push(sidebetId);
+        submitSideBet(sidebets, this.sidebetStreet);
+        this.initSideBetPanel();
+
+        priceButton.style.display = 'block';
+        confirmButton.style.display = 'none';
+        btn.classList.remove('hitting_pair_11');
+    }*/
 
     showInsurance(data) {
         console.log(data);
@@ -383,9 +394,9 @@ export class MainUI {
             console.log(this.insuranceWinAmount);
 
             const insurancePriceText = getMoneyText(data.data.insurancePrice);
-            insurancePrice.innerHTML =insurancePriceText.outerHTML;
-            for (const price of allInPrice){
-            let allInPriceText = getMoneyText(data.data.allInPrice);
+            insurancePrice.innerHTML = insurancePriceText.outerHTML;
+            for (const price of allInPrice) {
+                let allInPriceText = getMoneyText(data.data.allInPrice);
                 price.innerHTML = allInPriceText.outerHTML;
             }
 
@@ -429,7 +440,7 @@ export class MainUI {
 
         if (this.optionFoldToAnyBet) {
             this.setActive(automaticActionsDiv, false);
-            this.setActive(sidebetUIDiv, true);
+            // this.setActive(sidebetUIDiv, true);
             this.setActive(tipButtonDiv, true);
             return;
         }
@@ -439,7 +450,7 @@ export class MainUI {
         }
 
         this.setActive(automaticActionsDiv, value);
-        this.setActive(sidebetUIDiv, value);
+        // this.setActive(sidebetUIDiv, value);
         this.setActive(tipButtonDiv, value);
         this.resetAutoCheckOptions();
     }
@@ -472,10 +483,12 @@ export class MainUI {
     }
 
     doFoldToAnyBet() {
-        if (!this.optionFoldToAnyBet || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat){
-        return false;} else{
-        this.onFoldClick();
-        return true;}
+        if (!this.optionFoldToAnyBet || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat) {
+            return false;
+        } else {
+            this.onFoldClick();
+            return true;
+        }
     }
 
     doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats) {
@@ -534,11 +547,12 @@ export class MainUI {
         console.warn(`playerCardHandGroup : ${playerCardHandGroup}, autoFoldType : ${autoFoldType}`);
         console.warn(`playerAutoFoldCards : ${this.playerAutoFoldCards[autoFoldType]}`);
         if (this.playerAutoFoldCards[autoFoldType] !== undefined) {
-        console.warn(`playerAutoFoldCards : ${this.playerAutoFoldCards[autoFoldType][playerCardHandGroup]}`);
-        if (this.playerAutoFoldCards[autoFoldType] !== undefined && this.playerAutoFoldCards[autoFoldType][playerCardHandGroup] == true) {
-            this.onFoldClick();
-            return true;
-        }}
+            console.warn(`playerAutoFoldCards : ${this.playerAutoFoldCards[autoFoldType][playerCardHandGroup]}`);
+            if (this.playerAutoFoldCards[autoFoldType] !== undefined && this.playerAutoFoldCards[autoFoldType][playerCardHandGroup] == true) {
+                this.onFoldClick();
+                return true;
+            }
+        }
 
         return false;
     }
@@ -559,14 +573,14 @@ export class MainUI {
         return true;
     }
 
-    showSidebetUI(value) {
+    /*showSidebetUI(value) {
         this.setActive(sidebetUIDiv, value);
-        if(value){
+        if (value) {
             sidebetUIWrapper.style.display = "block";
-        } else{
-            sidebetUIWrapper.style.display = "none"; 
+        } else {
+            sidebetUIWrapper.style.display = "none";
         }
-    }
+    }*/
 
     doAutoCheckOrFold() {
         if (!this.optionActionAutoCheckOrFold || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat)
@@ -586,7 +600,7 @@ export class MainUI {
         turnAction("fold");
         this.setActive(actionUIDiv, false);
         this.setActive(automaticActionsDiv, false);
-        this.setActive(sidebetUIDiv, true);
+        //this.setActive(sidebetUIDiv, true);
         this.setActive(tipButtonDiv, true);
     }
 
@@ -594,7 +608,7 @@ export class MainUI {
         turnAction("bet", bet);
         this.setActive(actionUIDiv, false);
         this.setActive(automaticActionsDiv, false);
-        this.setActive(sidebetUIDiv, true);
+        // this.setActive(sidebetUIDiv, true);
         this.setActive(tipButtonDiv, true);
     }
 
@@ -783,6 +797,7 @@ export class MainUI {
 
     showTipDealer(value) {
         this.setActive(tipButtonDiv, value);
+        this.setActive1(tipSectionDiv, value);
         this.setActive1(AutoTip, value);
     }
 
@@ -791,7 +806,7 @@ export class MainUI {
     }
 
     setSitOutNextHand(value) {
-            toggleCheckbox(sitOutNextHandCheckboxes, value);
+        toggleCheckbox(sitOutNextHandCheckboxes, value);
     }
 
     showBreakTime(isBreak, breakDuration) {
@@ -836,6 +851,7 @@ export class MainUI {
         element.style.visibility = (value == false || userMode === 1) ? "hidden" : "visible";
     }
     setActive1(element, value) {
+
         element.style.display = (value == false || userMode === 1) ? "none" : "block";
     }
 
@@ -891,8 +907,8 @@ export class MainUI {
     }
 
     addLog(text) {
-            logDiv.innerHTML += '<p class="firsr_but mt-2 px-2">' + text + '</p>';
-        
+        logDiv.innerHTML += '<p class="firsr_but mt-2 px-2">' + text + '</p>';
+
 
         let x = $('.logTabButton .activities')[0];
         x.scrollTop = x.scrollHeight; // Scroll to the bottom
@@ -959,15 +975,15 @@ export class MainUI {
         }
 
         $('#tournamentRank')[0].innerText = rank;
-        
+
         if (/^[1]$/.test(rank)) {
             $('#tournament_place')[0].innerText = 'st';
-        } else if(/^[2]$/.test(rank)) {
+        } else if (/^[2]$/.test(rank)) {
             $('#tournament_place')[0].innerText = 'nd';
-        } else if(/^[3]$/.test(rank)) {
+        } else if (/^[3]$/.test(rank)) {
             $('#tournament_place')[0].innerText = 'rd';
         }
-        
+
         $('#tournamentPrize')[0].innerText = prize;
 
         $('#tournamentResultModal').modal('show');
@@ -978,187 +994,189 @@ export class MainUI {
         });
     }
 
-    initSideBetPanel() {
-        $('#submit-sidebet1').find('#total-amount')[0].innerText = '0$';
-        $('#total-payout')[0].innerText = '$0';
+    // side bet code
 
-        const payoutBtns = $(".scroll_prents").find(".button_payout");
-        for (const payoutbtn of payoutBtns) {
-            payoutbtn.style.visibility = 'hidden';
-        }
+    /* initSideBetPanel() {
+         $('#submit-sidebet1').find('#total-amount')[0].innerText = '0$';
+         $('#total-payout')[0].innerText = '$0';
 
-        const elements = $('.btun');
-        for (const button of elements) {
-            if (button.classList.contains('selected')) {
-                button.classList.remove("selected");
-            }
-        }
-    }
+         const payoutBtns = $(".scroll_prents").find(".button_payout");
+         for (const payoutbtn of payoutBtns) {
+             payoutbtn.style.visibility = 'hidden';
+         }
+
+         const elements = $('.btun');
+         for (const button of elements) {
+             if (button.classList.contains('selected')) {
+                 button.classList.remove("selected");
+             }
+         }
+     }
 
 
-    updateSideBetOptions(street, streetText, options) {
-        this.sidebetStreet = street;
-        $(".scroll_prents").find('.fund_prent').remove();
-        $('#submit-sidebet1').find('#total-amount')[0].innerText = '0';
-        $('#total-payout')[0].innerText = '0';
-        $(".text-street")[0].innerText = streetsOnSideBet.get(streetText);
+     updateSideBetOptions(street, streetText, options) {
+         this.sidebetStreet = street;
+         $(".scroll_prents").find('.fund_prent').remove();
+         $('#submit-sidebet1').find('#total-amount')[0].innerText = '0';
+         $('#total-payout')[0].innerText = '0';
+         $(".text-street")[0].innerText = streetsOnSideBet.get(streetText);
 
-        let div = '';
-        for (const option of options) {
-            const title = $('.button-section .f-sec h5');
-            for(let titleName of title){
-                titleName.innerText = option.betName;
-            }
-            $('.button-section .f-btn .s-sec > div').eq(0).removeClass().addClass(`${option.betName}-${this.tableInfo.bigBlind * 10}`)
-            $('.button-section .s-btn .s-sec > div').eq(0).removeClass().addClass(`${option.betName}-${this.tableInfo.bigBlind * 20}`)
-            $('.button-section .t-btn .s-sec > div').eq(0).removeClass().addClass(`${option.betName}-${this.tableInfo.bigBlind * 50}`)
-            const amount1 = getMoneyText(this.tableInfo.bigBlind * 10 * (Number(option.ratio) - 1));
-            const amount2 = getMoneyText(this.tableInfo.bigBlind * 20 * (Number(option.ratio) - 1));
-            const amount3 = getMoneyText(this.tableInfo.bigBlind * 50 * (Number(option.ratio) - 1));
-            const price1 = getMoneyText(this.tableInfo.bigBlind * 10);
-            const price2 = getMoneyText(this.tableInfo.bigBlind * 20);
-            const price3 = getMoneyText(this.tableInfo.bigBlind * 50);
-            console.log( $('.f-btn .s-sec span'));
-            $('.f-btn .s-sec span')[0].innerHTML = amount1.outerHTML;
-            $('.s-btn .s-sec span')[0].innerHTML = amount2.outerHTML;
-            $('.t-btn .s-sec span')[0].innerHTML = amount3.outerHTML;
-            $('.button-section .f-btn .s-sec .price')[0].innerHTML = price1.outerHTML;
-            $('.button-section .f-btn .s-sec .round_button_2 span')[0].innerHTML = price1.outerHTML;
-            $('.button-section .s-btn .s-sec .price')[0].innerHTML = price2.outerHTML;
-            $('.button-section .s-btn .s-sec .round_button_2 span')[0].innerHTML = price2.outerHTML;
-            $('.button-section .t-btn .s-sec .price')[0].innerHTML = price3.outerHTML;
-            $('.button-section .t-btn .s-sec .round_button_2 span')[0].innerHTML = price3.outerHTML;
-            div = div + `<div class="fund_prent mb-1 mt-1">
-                            <div class="fund3 ">
-                                <div class="top_prent">
-                                    <div class="Hitting_prents">
-                                        <div class="side-bet">
-                                            <p class="bet-name">${option.betName}</p>
-                                            <p class="bet-ratio">1:${Number(option.ratio) - 1}</p>
-                                        </div>
-                                        <button class="button_payout" style="visibility: hidden"> <span class="text-white-pay">Payout:</span><span class="text-yellow">$<span id="payout">0</span></span></button>
-                                    </div>
-                                    <i class="bi bi-question-circle icon-question"
-                                        data-bs-toggle="modal" data-bs-target="#modal-note"><span id="sidebet-note" style="display: none;">${option.note}</span></i>
-                                </div>
-                                <div class="main_right">
-                                    <div class="">
-                                        <button id="${option.betName}-${this.tableInfo.bigBlind * 10}" class="p-bule btun"><span class="btau_text">$${this.tableInfo.bigBlind * 10}</span></button>
-                                    </div>
-                                    <div class="">
-                                        <button id="${option.betName}-${this.tableInfo.bigBlind * 20}" class="p-bule btun"><span class="btau_text">$${this.tableInfo.bigBlind * 20}</span></button>
-                                    </div>
-                                    <div class="">
-                                        <button id="${option.betName}-${this.tableInfo.bigBlind * 50}" class="p-bule btun"><span class="btau_text">$${this.tableInfo.bigBlind * 50}</span></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-        }
-        $(".scroll_prents").append(div);
+         let div = '';
+         for (const option of options) {
+             const title = $('.button-section .f-sec h5');
+             for (let titleName of title) {
+                 titleName.innerText = option.betName;
+             }
+             $('.button-section .f-btn .s-sec > div').eq(0).removeClass().addClass(`${option.betName}-${this.tableInfo.bigBlind * 10}`)
+             $('.button-section .s-btn .s-sec > div').eq(0).removeClass().addClass(`${option.betName}-${this.tableInfo.bigBlind * 20}`)
+             $('.button-section .t-btn .s-sec > div').eq(0).removeClass().addClass(`${option.betName}-${this.tableInfo.bigBlind * 50}`)
+             const amount1 = getMoneyText(this.tableInfo.bigBlind * 10 * (Number(option.ratio) - 1));
+             const amount2 = getMoneyText(this.tableInfo.bigBlind * 20 * (Number(option.ratio) - 1));
+             const amount3 = getMoneyText(this.tableInfo.bigBlind * 50 * (Number(option.ratio) - 1));
+             const price1 = getMoneyText(this.tableInfo.bigBlind * 10);
+             const price2 = getMoneyText(this.tableInfo.bigBlind * 20);
+             const price3 = getMoneyText(this.tableInfo.bigBlind * 50);
+             console.log($('.f-btn .s-sec span'));
+             $('.f-btn .s-sec span')[0].innerHTML = amount1.outerHTML;
+             $('.s-btn .s-sec span')[0].innerHTML = amount2.outerHTML;
+             $('.t-btn .s-sec span')[0].innerHTML = amount3.outerHTML;
+             $('.button-section .f-btn .s-sec .price')[0].innerHTML = price1.outerHTML;
+             $('.button-section .f-btn .s-sec .round_button_2 span')[0].innerHTML = price1.outerHTML;
+             $('.button-section .s-btn .s-sec .price')[0].innerHTML = price2.outerHTML;
+             $('.button-section .s-btn .s-sec .round_button_2 span')[0].innerHTML = price2.outerHTML;
+             $('.button-section .t-btn .s-sec .price')[0].innerHTML = price3.outerHTML;
+             $('.button-section .t-btn .s-sec .round_button_2 span')[0].innerHTML = price3.outerHTML;
+             div = div + `<div class="fund_prent mb-1 mt-1">
+                             <div class="fund3 ">
+                                 <div class="top_prent">
+                                     <div class="Hitting_prents">
+                                         <div class="side-bet">
+                                             <p class="bet-name">${option.betName}</p>
+                                             <p class="bet-ratio">1:${Number(option.ratio) - 1}</p>
+                                         </div>
+                                         <button class="button_payout" style="visibility: hidden"> <span class="text-white-pay">Payout:</span><span class="text-yellow">$<span id="payout">0</span></span></button>
+                                     </div>
+                                     <i class="bi bi-question-circle icon-question"
+                                         data-bs-toggle="modal" data-bs-target="#modal-note"><span id="sidebet-note" style="display: none;">${option.note}</span></i>
+                                 </div>
+                                 <div class="main_right">
+                                     <div class="">
+                                         <button id="${option.betName}-${this.tableInfo.bigBlind * 10}" class="p-bule btun"><span class="btau_text">$${this.tableInfo.bigBlind * 10}</span></button>
+                                     </div>
+                                     <div class="">
+                                         <button id="${option.betName}-${this.tableInfo.bigBlind * 20}" class="p-bule btun"><span class="btau_text">$${this.tableInfo.bigBlind * 20}</span></button>
+                                     </div>
+                                     <div class="">
+                                         <button id="${option.betName}-${this.tableInfo.bigBlind * 50}" class="p-bule btun"><span class="btau_text">$${this.tableInfo.bigBlind * 50}</span></button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>`;
+         }
+         $(".scroll_prents").append(div);
 
-        const questionIcons = $('.icon-question');
-        for (const icon of questionIcons) {
-            icon.addEventListener('click', (e) => {
-                $('.sidebet-note')[0].innerText = $(e.currentTarget).find("#sidebet-note")[0].innerText;
-            });
-        }
+         const questionIcons = $('.icon-question');
+         for (const icon of questionIcons) {
+             icon.addEventListener('click', (e) => {
+                 $('.sidebet-note')[0].innerText = $(e.currentTarget).find("#sidebet-note")[0].innerText;
+             });
+         }
 
-        const elements = $('.btun');
-        for (const button of elements) {
-            button.addEventListener('click', (e) => {
-                const parentNode = e.currentTarget.parentNode.parentNode.parentNode;
-                const ratio = Number($(parentNode).find(".bet-ratio")[0].innerText.split(':')[1]);
-                const totalAmountNode = $('#submit-sidebet1').find('#total-amount')[0];
+         const elements = $('.btun');
+         for (const button of elements) {
+             button.addEventListener('click', (e) => {
+                 const parentNode = e.currentTarget.parentNode.parentNode.parentNode;
+                 const ratio = Number($(parentNode).find(".bet-ratio")[0].innerText.split(':')[1]);
+                 const totalAmountNode = $('#submit-sidebet1').find('#total-amount')[0];
 
-                if (e.currentTarget.classList.contains('selected')) {
-                    e.currentTarget.classList.remove("selected");
-                    $(parentNode).find("#payout")[0].innerText = 0;
-                    $(parentNode).find(".button_payout")[0].style.visibility = 'hidden';
-                } else {
-                    const currentBetAmount = Number(e.currentTarget.id.split('-')[1]);
-                    const totalBetedAmount = Number(totalAmountNode.innerText.split('$')[0]);
+                 if (e.currentTarget.classList.contains('selected')) {
+                     e.currentTarget.classList.remove("selected");
+                     $(parentNode).find("#payout")[0].innerText = 0;
+                     $(parentNode).find(".button_payout")[0].style.visibility = 'hidden';
+                 } else {
+                     const currentBetAmount = Number(e.currentTarget.id.split('-')[1]);
+                     const totalBetedAmount = Number(totalAmountNode.innerText.split('$')[0]);
 
-                    if (currentBetAmount + totalBetedAmount > this.freeBalance) {
-                        return;
-                    }
+                     if (currentBetAmount + totalBetedAmount > this.freeBalance) {
+                         return;
+                     }
 
-                    e.currentTarget.classList.add("selected");
-                    $(parentNode).find("#payout")[0].innerText = currentBetAmount * ratio;
-                    $(parentNode).find(".button_payout")[0].style.visibility = 'visible';
-                }
+                     e.currentTarget.classList.add("selected");
+                     $(parentNode).find("#payout")[0].innerText = currentBetAmount * ratio;
+                     $(parentNode).find(".button_payout")[0].style.visibility = 'visible';
+                 }
 
-                let totalBet = 0;
-                for (const otherButton of elements) {
-                    if (otherButton.id !== e.currentTarget.id && (otherButton.id.split('-')[0] === e.currentTarget.id.split('-')[0])) {
-                        otherButton.classList.remove("selected");
-                    }
+                 let totalBet = 0;
+                 for (const otherButton of elements) {
+                     if (otherButton.id !== e.currentTarget.id && (otherButton.id.split('-')[0] === e.currentTarget.id.split('-')[0])) {
+                         otherButton.classList.remove("selected");
+                     }
 
-                    if (otherButton.classList.contains('selected')) {
-                        totalBet = totalBet + Number(otherButton.id.split('-')[1]);
-                    }
-                }
+                     if (otherButton.classList.contains('selected')) {
+                         totalBet = totalBet + Number(otherButton.id.split('-')[1]);
+                     }
+                 }
 
-                let totalPayout = 0;
-                for (const payout of $(".text-yellow")) {
-                    totalPayout = totalPayout + Number($(payout).find("#payout")[0].innerText);
-                }
+                 let totalPayout = 0;
+                 for (const payout of $(".text-yellow")) {
+                     totalPayout = totalPayout + Number($(payout).find("#payout")[0].innerText);
+                 }
 
-                totalAmountNode.innerText = totalBet + '$';
-                $('#total-payout')[0].innerText = '$' + totalPayout;
-            });
-        }
-    }
+                 totalAmountNode.innerText = totalBet + '$';
+                 $('#total-payout')[0].innerText = '$' + totalPayout;
+             });
+         }
+     }
 
-    updateFreeBalance(balance) {
-        $('#free-balance')[0].innerHTML = (getMoneyText(balance)).outerHTML;
-        this.freeBalance = Number(balance);
-    }
+     updateFreeBalance(balance) {
+         $('#free-balance')[0].innerHTML = (getMoneyText(balance)).outerHTML;
+         this.freeBalance = Number(balance);
+     }
 
-    updateSideBetHistory(res) {
-        if (Number(res.totalReward) > 0) {
-            const totalRewardText = getMoneyText(res.totalReward);
-            $('.top_200')[0].innerHTML = totalRewardText.outerHTML;
-            // $('#modal-wining-payout').modal('show');
-            setTimeout(() => {
-                $('#modal-wining-payout').modal('show');
-            }, 3000);
+     updateSideBetHistory(res) {
+         if (Number(res.totalReward) > 0) {
+             const totalRewardText = getMoneyText(res.totalReward);
+             $('.top_200')[0].innerHTML = totalRewardText.outerHTML;
+             // $('#modal-wining-payout').modal('show');
+             setTimeout(() => {
+                 $('#modal-wining-payout').modal('show');
+             }, 3000);
 
-            setTimeout(() => {
-                $('#modal-wining-payout').modal('hide');
-            }, 5000);
-        }
+             setTimeout(() => {
+                 $('#modal-wining-payout').modal('hide');
+             }, 5000);
+         }
 
-        console.log('Winning History', res.historyLists);
-        let total = 0;
-        let div = '';
-        for (const list of res.historyLists) {
-            total = total + list.award;
-            let day = new Date(list.timestamp).getDay();
-            const hour = new Date(list.timestamp).getHours();
-            const min = new Date(list.timestamp).getMinutes();
-            div = div + `<div class="fund_prents mb-1 mt-1">
-                            <div class="funds3 ">
-                                <div class="top_prents">
-                                    <div class="main_hittings">
-                                        <div class="top px-1"><img src="images/dollar coinn.png">
-                                            <div class="allmix">
-                                                <p class="pair">${list.betName}
-                                                <p class="today">Today | ${hour}:${min}</p>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="div_in_text">
-                                            <p class="amount">$${list.award}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-        }
+         console.log('Winning History', res.historyLists);
+         let total = 0;
+         let div = '';
+         for (const list of res.historyLists) {
+             total = total + list.award;
+             let day = new Date(list.timestamp).getDay();
+             const hour = new Date(list.timestamp).getHours();
+             const min = new Date(list.timestamp).getMinutes();
+             div = div + `<div class="fund_prents mb-1 mt-1">
+                             <div class="funds3 ">
+                                 <div class="top_prents">
+                                     <div class="main_hittings">
+                                         <div class="top px-1"><img src="images/dollar coinn.png">
+                                             <div class="allmix">
+                                                 <p class="pair">${list.betName}
+                                                 <p class="today">Today | ${hour}:${min}</p>
+                                                 </p>
+                                             </div>
+                                         </div>
+                                         <div class="div_in_text">
+                                             <p class="amount">$${list.award}</p>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>`;
+         }
 
-        $(".scroll_prentss").find('.fund_prents').remove();
-        $(".scroll_prentss").append(div);
-        $(".sidebet-total-win")[0].innerText = `$${total}`;
-    }
+         $(".scroll_prentss").find('.fund_prents').remove();
+         $(".scroll_prentss").append(div);
+         $(".sidebet-total-win")[0].innerText = `$${total}`;
+     }*/
 }
