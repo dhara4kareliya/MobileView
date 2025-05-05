@@ -1,11 +1,13 @@
-import { showCards, sitIn, sitOut, playerLeaveTable, sitOutNextHand, tableSettings, tableSubscribe, waitForBB, doChat, acceptInsurance, round } from "../services/table-server";
+import { showCards, sitIn, sitOut, playerLeaveTable, sitOutNextHand, tableSettings, tableSubscribe, waitForBB, doChat, acceptInsurance, round, registerTournament } from "../services/table-server";
 import { ShowTipToDealer, disConnectSocket, playerLeave, submitSideBet, updatePlayerInfo } from "../socket-client";
 import { toggleCheckbox } from "./checkbox";
 import { getPlayerSeat, getCurrentTurn, turnAction, joinWaitingList } from '../services/table-server';
-import { showBuyIn } from './game-ui';
-import { userMode, userToken } from '../services/game-server';
+import { removeMuckedFlag, showBuyIn } from './game-ui';
+import { userMode, userToken, setDetectedDoubleBrowser, defaultCurrency } from '../services/game-server';
 import { getMoneyText } from "./money-display";
-import { getPlayerCardHandGroup } from "./card-ui";
+import { getCardImageFilePath, getPlayerCardHandGroup } from "./card-ui";
+import { customTimer } from "../services/utils-server";
+import { getMessage } from "./language-ui";
 
 const tableSettingSpanDiv = $(".tableSettingsSpan")[0];
 const tableNameDiv = $(".tableName")[0];
@@ -13,10 +15,10 @@ const tableNameDiv = $(".tableName")[0];
 const actionUIDiv = $("#turnActionsDiv")[0];
 
 const automaticActionsDiv = $("#automaticActionsDiv")[0];
+const autoCheckOrFoldButton = $("#autoCheckOrFoldButton")[0];
+const autoCheckButton = $("#autoCheckButton")[0];
 const autoCheckCheckbox = $("#autoCheckButton .checkbox")[0];
 const autoCheckOrFoldCheckbox = $("#autoCheckOrFoldButton .checkbox")[0];
-const autoFoldCheckboxes = $(".autoFoldButton .checkbox");
-const autoFoldButtons = $(".autoFoldButton");
 const waitForBBButtons = $(".waitForBBButton");
 const waitForBBCheckboxes = $(".waitForBBButton .checkbox");
 const sitOutNextHandButtons = $(".sitOutNextHandButton")[0];
@@ -26,6 +28,7 @@ const bigBlindSpan = $(".bigBlind")[0];
 const anteSpan = $(".ante")[0];
 const levelSpan = $(".level")[0];
 const nextSbBb = $(".nextSBBB")[0];
+const tournamentTimers = $(".timers")[0];
 const levelTimer = $(".tournamentOnly .timer")[0];
 const breakCountdownDiv = $("#breakTime")[0];
 const sitInBtn = $("#backButton")[0];
@@ -44,21 +47,23 @@ const CloseModal = $(".close, #GO");
 const tournamentDivs = $(".tournamentOnly");
 const meDiv = $("#meDiv")[0];
 const tropyDivs = $(".trophyDiv");
+const callText = $(".callText")[0];
+console.log(callText)
 const tropySpans = $(".trophyDiv span");
 const openMenuButton = $("#openMenuButton")[0];
+const tournamentCancelTimeDiv = $("#tournamentCancelTime")[0];
 //const mobileSideBar = $("#mobileSideBar")[0];
 const handResultDiv = $(".handResult")[0];
 const waitListDiv = $(".waitingList")[0];
-const joinWaitingButton = $(".waitingList button")[0];
-const waitListCount = $(".waitingListSide ")[0];
-const waitList = $(".users")[0];
-const waitListDropdown = $("#usersDropdown")[0];
+//const joinWaitingButton = $(".waitingList button")[0];
+//const waitListCount = $(".waitingListSide ")[0];
+//const waitList = $(".users")[0];
+//const waitListDropdown = $("#usersDropdown")[0];
 const waitListArrow = $("#arrow")[0]
-const logDiv = $('.log_data1')[0];
+const logDiv = $('.log_data')[0];
 // const addTipsButtons = $(".addTipsButton")[0];
 // const TipsOptions = $("#tip-button button");
 const tipButtonDiv = $("#tip-button")[0]
-const tipSectionDiv = $("#tip-button-section")[0]
 const chatDiv = $('#divmessage1 .userMessage')[0];
 const chatInput = $('.chatButton2 .input_div1 input')[0];
 const chatSendIcon = $('.chatButton2 .input_div1 > i')[0];
@@ -70,12 +75,35 @@ const chatButtons = $(".chatButtons1");
 const btnCloses = $(".btn-closes");
 const preChatMsgOrEmoji = $('.preChatEmoji,.preChatMsg');
 const insuranceYesButton = $(".insuranceYesButton")[0];
+const rebuy_tournament = $(".rebuy_tournament")[0];
 const insuranceNextTime = $(".insuranceNextTime")[0];
 const insurancePrice = $(".insurancePrice")[0];
 const allInPrice = $(".allInPrice1");
-const autoFoldModeButtonDiv = $(".autoFoldModeButton1")[0];
+const LogHead = $(".activity-header span")[0];
+
+const alwaysFoldCheckbox = $(".alwaysFoldButton .checkbox")[0];
+const alwaysFoldButtons = $(".alwaysFoldButton");
+
+const foldToAnyBetButtonDiv = $(".foldToAnyBetButton")[0];
+const foldToAnyBetButtonCheckboxe = $(".foldToAnyBetButton .checkbox")[0];
+const callButton = $(".callButtonDiv")[0];
+const callButtonCheckbox = $(".callButtonDiv .checkbox")[0];
+const preFlopAutoFoldDiv = $(".preFlopAutoFold")[0];
 
 const submitButton3 = $('.round_button_2');
+const shuffleVerificationButtonDiv = $(".shuffleVerificationButtonDiv")[0];
+const prev_button = $(".prev-button")[0];
+const next_button = $(".next-button")[0];
+const progressBar = $('.progress')[0];
+const progressHandle = $('.progress-handle')[0];
+const uniquePlayers = new Set();
+
+let isDragging = false;
+let startX, scrollLeft;
+let touchStartX = 0;
+
+let msgData = [];
+let currentIndex = msgData.length + 1;
 /*
 const submitButton = $('#submit-sidebet1')[0];
 const submitButton2 = $('#submit-sidebet-2.s-sec');
@@ -117,28 +145,51 @@ export class MainUI {
         this.breakDuration = 60;
         this.interval = undefined;
         this.lvlInterval = undefined;
-        this.optionFoldToAnyBet = false;
+        this.optionAlwaysFold = false;
         this.optionActionAutoCheck = false;
         this.optionActionAutoCheckOrFold = false;
+        this.tournamentCancelTimeInterval = undefined;
+        this.tournamentTimeInterval = undefined;
         this.isTurn = false;
         this.isPlaying = false;
         this.insuranceAmount = 0;
         this.insuranceWinAmount = 0;
         this.playerAutoFoldCards = [];
+        this.currentStreet = '';
+        this.currentHandActions = [];
         // this.showAutoCheckOrFold = false;
         this.init();
+
+        this.handHistory = {
+            preflop: [],
+            flop: [],
+            turn: [],
+            river: []
+        };
+        this.potSizes = {
+            preflop: 0,
+            flop: 0,
+            turn: 0,
+            river: 0
+        };
     }
 
     init() {
+
         breakCountdownDiv.style.visibility = "hidden";
         this.setActive(automaticActionsDiv, false);
         /*   this.setActive(sidebetUIDiv, false); */
+
         this.setActive(tipButtonDiv, false);
-        this.setActive1(tipSectionDiv, false);
+        this.setActive(preFlopAutoFoldDiv, false);
         /*  this.setActive(sidebetUIWrapper, false); */
-        this.setActiveElements1(leaveButtons, false);
-        this.setActiveElements1(backLobbyButtons, true);
+        this.setElementsDisplay(leaveButtons, false);
+        this.setElementsDisplay(backLobbyButtons, true);
         this.setActive(sitInBtn, false);
+        this.setActive(autoCheckOrFoldButton, false);
+        this.setActive(autoCheckButton, false);
+        this.setActive(foldToAnyBetButtonDiv, false);
+        this.setActive(callButton, false);
         this.setActiveElements(tournamentDivs, false);
         this.setActive(tableNameDiv, false);
         this.setActive(tableSettingSpanDiv, false);
@@ -147,14 +198,60 @@ export class MainUI {
         this.setActive(handResultDiv, false);
         this.setActive(uiTables, false);
         this.setActive(settingsMenu, false);
-        this.setActive1(waitListDropdown, false);
-        this.setActive1(AutoTip, false);
+        // this.setDisplay(waitListDropdown, false);
+        this.setDisplay(AutoTip, false);
+        this.setDisplay(shuffleVerificationButtonDiv, false);
         // this.setActive(addTipsButtons, false);
-        this.setActive1(autoFoldModeButtonDiv, false);
 
         sitInBtn.addEventListener('click', () => {
             this.onSitInClick();
         });
+        logButton.addEventListener('click', () => {
+            $("#activityContainer").css("display", "block");
+        });
+
+        prev_button.addEventListener('click', () => {
+            if (currentIndex > 1) {
+                currentIndex--;
+                this.showHandHistory(currentIndex);
+                progressHandle.style.left = `${((currentIndex -1) / (msgData.length )) * 100}%`;
+            }
+        });
+        next_button.addEventListener('click', () => {
+            if (currentIndex < msgData.length + 1) {
+                currentIndex++;
+                this.showHandHistory(currentIndex);
+                progressHandle.style.left = `${((currentIndex -1) / (msgData.length )) * 100}%`;
+            }
+        });
+        // progressHandle.addEventListener('touchstart', (e) => {
+        //     isDragging = true;
+        //     touchStartX = e.touches[0].clientX - progressHandle.offsetLeft;
+        // });
+        // document.addEventListener('touchend', () => {
+        //     isDragging = false;
+        // });
+
+        // document.addEventListener('touchmove', (e) => {
+        //     if (!isDragging) return;
+        //     e.preventDefault();
+        //     let positionX = e.touches[0].clientX
+        //     let x = positionX - startX;
+        //     let progressWidth = progressBar.offsetWidth;
+
+        //     let percentScrolled = Math.max(0, Math.min(1, x / progressWidth));
+        //     let newIndex = Math.round(percentScrolled * (msgData.length)) + 1;
+
+        //     if (newIndex < 1) newIndex = 1;
+        //     if (newIndex >= msgData.length + 1) newIndex = msgData.length + 1;
+
+        //     if (newIndex !== currentIndex) {
+        //         currentIndex = newIndex;
+        //         this.showHandHistory(currentIndex);
+        //     }
+        //     progressHandle.style.left = `${((currentIndex - 1) / msgData.length) * 100}%`;
+        // });
+
         for (const button of sitOutButtons)
             button.addEventListener('click', () => { if (this.isTurn) this.onSitOutClick(); });
         showCardBtn.addEventListener('click', () => {
@@ -229,30 +326,25 @@ export class MainUI {
             this.setActive(settingsMenu, true);
         });
 
-        waitListCount.addEventListener('click', () => {
-            if (waitListDropdown.style.display == "block") {
-                this.setActive1(waitListDropdown, false)
-            } else {
-                this.setActive1(waitListDropdown, true)
-            }
-
-
-        })
+        /*  waitListCount.addEventListener('click', () => {
+             if (waitListDropdown.style.display == "block") {
+                 this.setDisplay(waitListDropdown, false)
+             } else {
+                 this.setDisplay(waitListDropdown, true)
+             }
+         }) */
 
         for (const waitForBBCheckbox of waitForBBCheckboxes) {
             waitForBBCheckbox.addEventListener('change', () => { waitForBB(waitForBBCheckbox.checked) });
         }
         sitOutNextHandCheckboxes.addEventListener('click', () => {
             sitOutNextHand(sitOutNextHandCheckboxes.checked);
-            console.log(sitOutNextHandCheckboxes.checked);
         });
 
-        for (const autoFoldCheckbox of autoFoldCheckboxes) {
-            autoFoldCheckbox.addEventListener('click', () => {
-                this.onOptionFoldToAnyBet(autoFoldCheckbox.checked);
-            });
-        }
-
+        alwaysFoldCheckbox.addEventListener('change', () => {
+            this.showSitIn(alwaysFoldCheckbox.checked)
+            this.onOptionAlwaysFold(alwaysFoldCheckbox.checked);
+        });
         chatSendIcon.addEventListener('click', () => {
             if (chatInput.value) {
                 doChat({ msg: chatInput.value });
@@ -273,6 +365,12 @@ export class MainUI {
 
         autoCheckOrFoldCheckbox.addEventListener('change', () => {
             this.onOptionActionAutoCheckOrFold(autoCheckOrFoldCheckbox.checked);
+        });
+        foldToAnyBetButtonCheckboxe.addEventListener('change', () => {
+            this.onOptionFoldToAnyBet(foldToAnyBetButtonCheckboxe.checked);
+        });
+         callButtonCheckbox.addEventListener('change', () => {
+            this.onOptionCall(callButtonCheckbox.checked);
         });
         // for (const button of TipsOptions) {
         //     button.addEventListener('click', () => {
@@ -363,6 +461,75 @@ export class MainUI {
           }*/
     }
 
+    showTournamentCancelTime(res) {
+        if (!res.status) {
+            tournamentCancelTimeDiv.style.visibility = "hidden";
+            tournamentCancelTimeDiv.style.display = "none";
+            this.cleartournamentCancelTime();
+            return true;
+        }
+        if (res.cancelWaitingTime > 0) {
+            this.tournamentCancelTimeInterval = new customTimer();
+            var duration = res.cancelWaitingTime;
+            tournamentCancelTimeDiv.style.visibility = "visible";
+            tournamentCancelTimeDiv.style.display = "flex";
+            $(tournamentCancelTimeDiv).find("div")[0].style.animationDuration = `${duration}s`;
+            $(tournamentCancelTimeDiv).find("div")[0].style.animationName = "progressAnimation";
+            this.tournamentCancelTimeInterval.descendingTimer(duration, (time) => {
+                $(tournamentCancelTimeDiv).find(".timer")[0].textContent = `${time.minutes} : ${time.seconds}`;
+
+                if (time.minutes == "0" && time.seconds == "0") {
+                    this.cleartournamentCancelTime();
+                    this.showDoubleLoginMsg(getMessage('cancelTournament'));
+                }
+            });
+        }
+    }
+
+    cleartournamentCancelTime() {
+        tournamentCancelTimeDiv.style.visibility = "hidden";
+        tournamentCancelTimeDiv.style.display = "none";
+        if (this.tournamentCancelTimeInterval !== undefined) {
+            this.tournamentCancelTimeInterval.stopTimer();
+            this.tournamentCancelTimeInterval = undefined;
+        }
+
+    }
+
+    setHandResult(value, timeout = 0) {
+        if (!value) {
+            this.setActive(handResultDiv, false)
+        } else {
+            setTimeout(() => {
+                this.setActive(handResultDiv, true)
+                handResultDiv.innerText = value;
+            }, timeout);
+
+        }
+    }
+    setLogHead(mode, bb, sb, handId, name) {
+        mode = mode.replace(/^./, c => c.toUpperCase());
+        LogHead.innerHTML = `<div class="lodHeadText"><div>Nrpoker. ${mode}. </div><div>${name} </div><div>${bb}/${sb}. Hand ${handId}</div></div>`;
+    }
+    showTournamentTime(timeDuration) {
+        if (timeDuration > 0 && this.tournamentTimeInterval === undefined) {
+            this.tournamentTimeInterval = new customTimer();
+            this.tournamentTimeInterval.descendingTimer(timeDuration, (time) => {
+                this.setActive(tournamentTimers, true);
+                /* this.setActive(tableSettingSpanDiv, false); */
+                this.showLevel(false);
+                tournamentTimers.querySelector('.minutes').innerText = ('0' + time.minutes).slice(-2);
+                tournamentTimers.querySelector('.seconds').innerText = ('0' + time.seconds).slice(-2);
+                if (time.minutes == "0" && time.seconds == "0") {
+                    this.setActive(tournamentTimers, false);
+                }
+                console.log(`days: ${time.days}, hours: ${time.hours}, minutes: ${time.minutes}, seconds: ${time.seconds}`);
+            });
+        }
+    }
+
+
+
     handlePriceClick(btn, priceButton, confirmButton) {
         btn.classList.add('hitting_pair_11');
         priceButton.style.display = 'none';
@@ -386,13 +553,9 @@ export class MainUI {
     }*/
 
     showInsurance(data) {
-        console.log(data);
         if (data.status == true) {
             this.insuranceAmount = data.data.insurancePrice;
             this.insuranceWinAmount = data.data.allInPrice;
-            console.log(this.insuranceAmount);
-            console.log(this.insuranceWinAmount);
-
             const insurancePriceText = getMoneyText(data.data.insurancePrice);
             insurancePrice.innerHTML = insurancePriceText.outerHTML;
             for (const price of allInPrice) {
@@ -421,38 +584,61 @@ export class MainUI {
     }
 
     showFoldToAnyBetCheckbox(value) {
-        for (const autoFoldButton of autoFoldButtons) {
-            this.setActive1(autoFoldButton, value);
+        for (const alwaysFoldButton of alwaysFoldButtons) {
+            this.setDisplay(alwaysFoldButton, value);
         }
     }
 
-    onOptionFoldToAnyBet(value) {
-        this.optionFoldToAnyBet = value;
+    onOptionAlwaysFold(value) {
+        this.optionAlwaysFold = value;
         // this.showAutoCheckOptions(!value);
         // this.showAutoCheckOrFold = !value;
-        this.doFoldToAnyBet();
+        this.doFoldToBet();
     }
 
     showAutoCheckOptions(value) {
-        if (value) {
-            console.trace();
-        }
+        // if (value) {}
 
-        if (this.optionFoldToAnyBet) {
-            this.setActive(automaticActionsDiv, false);
-            // this.setActive(sidebetUIDiv, true);
-            this.setActive(tipButtonDiv, true);
-            return;
-        }
+        // if (this.optionAlwaysFold) {
+        //     this.setActive(automaticActionsDiv, false);
+        //     // this.setActive(sidebetUIDiv, true);
+        //     //this.setActive(tipButtonDiv, true);
+        //     return;
+        // }
 
-        if (automaticActionsDiv.style.visibility == "visible" && value) {
-            return;
-        }
+        // if (automaticActionsDiv.style.visibility == "visible" && value) {
+        //     return;
+        // }
 
-        this.setActive(automaticActionsDiv, value);
-        // this.setActive(sidebetUIDiv, value);
-        this.setActive(tipButtonDiv, value);
-        this.resetAutoCheckOptions();
+        // this.setActive(automaticActionsDiv, value);
+        // // this.setActive(sidebetUIDiv, value);
+        // //this.setActive(tipButtonDiv, value);
+        // this.resetAutoCheckOptions();
+    }
+    showautoCheckButton(value){
+        this.setActive(autoCheckButton, value);
+    }
+    showFoldToAnyBetOption(value) {
+        this.setActive(foldToAnyBetButtonDiv, value);
+        if(!value){
+            this.setActive(autoCheckButton, false);
+            this.setActive(callButton, false);
+        }
+        if(round.state === "PreFlop" ){
+            this.setActive(autoCheckOrFoldButton, false);
+        } else {
+            this.setActive(autoCheckOrFoldButton, value);
+        }
+    }
+    setCallButton(value, mainPlayerBet)
+    {
+        value ? this.setActive(callButton, true) : this.setActive(callButton, false);
+        if(value)
+            callText.innerText = value - mainPlayerBet;
+    }
+    setFoldToAnyBetText(value, mainPlayerBet) {
+        $(foldToAnyBetButtonDiv).find('span')[0].innerHTML = value ? 'Fold' : 'Fold to any bet';
+        this.setActive(autoCheckButton, !value);
     }
 
     resetAutoCheckOptions() {
@@ -460,6 +646,8 @@ export class MainUI {
         this.onOptionActionAutoCheck(false);
         toggleCheckbox(autoCheckOrFoldCheckbox, false);
         this.onOptionActionAutoCheckOrFold(false);
+        toggleCheckbox(callButtonCheckbox, false);
+        this.onOptionCall(false);
     }
 
     onOptionActionAutoCheck(value) {
@@ -469,6 +657,10 @@ export class MainUI {
         if (this.optionActionAutoCheck) {
             toggleCheckbox(autoCheckOrFoldCheckbox, false);
             this.onOptionActionAutoCheckOrFold(false);
+            toggleCheckbox(foldToAnyBetButtonCheckboxe, false);
+            this.onOptionFoldToAnyBet(false);
+            toggleCheckbox(callButtonCheckbox, false);
+            this.onOptionCall(false);
         }
     }
 
@@ -479,21 +671,59 @@ export class MainUI {
         if (this.optionActionAutoCheckOrFold) {
             toggleCheckbox(autoCheckCheckbox, false);
             this.onOptionActionAutoCheck(false);
+            toggleCheckbox(foldToAnyBetButtonCheckboxe, false);
+            this.onOptionFoldToAnyBet(false);
+            toggleCheckbox(callButtonCheckbox, false);
+            this.onOptionCall(false);
         }
     }
+    onOptionFoldToAnyBet(value) {
+        this.optionFoldToAnyBet = value;
 
-    doFoldToAnyBet() {
-        if (!this.optionFoldToAnyBet || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat) {
+        if (this.optionFoldToAnyBet) {
+            toggleCheckbox(autoCheckCheckbox, false);
+            this.onOptionActionAutoCheck(false);
+            toggleCheckbox(autoCheckOrFoldCheckbox, false);
+            this.onOptionActionAutoCheckOrFold(false);
+            toggleCheckbox(callButtonCheckbox, false);
+            this.onOptionCall(false);
+        }
+    }
+    onOptionCall(value) {
+        this.optionCall = value;
+
+        if (this.optionCall) {
+            toggleCheckbox(autoCheckCheckbox, false);
+            this.onOptionActionAutoCheck(false);
+            toggleCheckbox(autoCheckOrFoldCheckbox, false);
+            this.onOptionActionAutoCheckOrFold(false);
+            toggleCheckbox(foldToAnyBetButtonCheckboxe, false);
+            this.onOptionFoldToAnyBet(false);
+        }
+    }
+    doFoldToBet() {
+        const isfoldToAnyBet = (foldToAnyBetButtonCheckboxe.checked && !!getCurrentTurn().call);
+        if ((!this.optionAlwaysFold && !isfoldToAnyBet) || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat)
             return false;
-        } else {
-            this.onFoldClick();
-            return true;
-        }
-    }
 
-    doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats) {
-        console.warn(round.state);
-        console.warn(autoFoldModeButtonCheckboxes.checked != true || round.state != "PreFlop" || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat);
+
+        this.onFoldClick();
+        return true;
+    }
+    doCall() {
+
+        const isCall = (callButtonCheckbox.checked );
+        if ((!isCall) || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat)
+            return false;
+        this.resetAutoCheckOptions();
+        if (!getCurrentTurn().canCall) {
+            // this.setActive(automaticActionsDiv, false);
+            return false;
+        }
+        this.onBetClick(callText.innerHTML);
+        return true;
+    }
+    doPreFlopAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats) {
         if (autoFoldModeButtonCheckboxes.checked != true || round.state != "PreFlop" || getPlayerSeat() == -1 || getPlayerSeat() != getCurrentTurn().seat)
             return false;
 
@@ -537,17 +767,13 @@ export class MainUI {
                 autoFoldTypes = { "3": "early_position", "4": "early_position", "5": "middle_position", "6": "middle_position", "7": "middle_position", "8": "late_position", "9": "late_position" };
             }
             autoFoldType = autoFoldTypes[playerPosition];
-            console.warn(`sb: ${seatOfSmallBlind},palyer:${palyer},playerPosition : ${playerPosition}, autoFoldType:${autoFoldType}`);
         }
 
         if (autoFoldType == "")
             return false;
 
         const playerCardHandGroup = getPlayerCardHandGroup(playerCards);
-        console.warn(`playerCardHandGroup : ${playerCardHandGroup}, autoFoldType : ${autoFoldType}`);
-        console.warn(`playerAutoFoldCards : ${this.playerAutoFoldCards[autoFoldType]}`);
         if (this.playerAutoFoldCards[autoFoldType] !== undefined) {
-            console.warn(`playerAutoFoldCards : ${this.playerAutoFoldCards[autoFoldType][playerCardHandGroup]}`);
             if (this.playerAutoFoldCards[autoFoldType] !== undefined && this.playerAutoFoldCards[autoFoldType][playerCardHandGroup] == true) {
                 this.onFoldClick();
                 return true;
@@ -601,7 +827,7 @@ export class MainUI {
         this.setActive(actionUIDiv, false);
         this.setActive(automaticActionsDiv, false);
         //this.setActive(sidebetUIDiv, true);
-        this.setActive(tipButtonDiv, true);
+        // this.setActive(tipButtonDiv, true);
     }
 
     onBetClick(bet) {
@@ -609,7 +835,7 @@ export class MainUI {
         this.setActive(actionUIDiv, false);
         this.setActive(automaticActionsDiv, false);
         // this.setActive(sidebetUIDiv, true);
-        this.setActive(tipButtonDiv, true);
+        //this.setActive(tipButtonDiv, true);
     }
 
     closeMenu() {
@@ -630,18 +856,24 @@ export class MainUI {
         this.playerAutoFoldCards = autoFoldCard;
     }
 
+    resetFoldToAnyBetOption() {
+        toggleCheckbox(foldToAnyBetButtonCheckboxe, false);
+    }
+
     setPlayerName(newPlayerInfo) {
         this.playerInfo.name = newPlayerInfo.name;
         $(meDiv).find("#myName")[0].innerText = this.playerInfo.name;
         this.setActive(meDiv, true);
     }
 
-    setHandResult(value) {
+    setHandResult(value, timeout = 0) {
         if (!value) {
             this.setActive(handResultDiv, false)
         } else {
-            this.setActive(handResultDiv, true)
-            handResultDiv.innerText = value;
+            setTimeout(() => {
+                this.setActive(handResultDiv, true)
+                handResultDiv.innerText = value;
+            }, timeout);
         }
     }
 
@@ -681,7 +913,9 @@ export class MainUI {
     }
 
     showLevel(value) {
-        this.setActive(anteSpan, value);
+        if (tableSettings.mode === "tournament")
+            this.setActive(anteSpan, value);
+
         this.setActive(levelSpan, value);
         this.setActive(nextSbBb, value);
         this.setActive(levelTimer, value);
@@ -720,6 +954,12 @@ export class MainUI {
         smallBlindSpan.innerHTML = smallBlindText.outerHTML;
         this.setActive(tableSettingSpanDiv, true);
     }
+    setAnte(ante) {
+        this.tableInfo.ante = ante;
+        const anteText = getMoneyText(ante);
+        anteSpan.innerHTML = anteText.outerHTML;
+        this.setActive(anteSpan, true);
+    }
 
     setBigBlind(bigBlind) {
         this.tableInfo.bigBlind = bigBlind;
@@ -734,7 +974,7 @@ export class MainUI {
 
     showAddChips(value) {
         for (const button of addChipsButtons) {
-            this.setActive1(button, value);
+            this.setDisplay(button, value);
         }
     }
 
@@ -747,7 +987,10 @@ export class MainUI {
     }
 
     onSitInClick() {
-        sitIn();
+        if (tableSettings.mode === "tournament")
+            this.setAlwaysFold(false);
+        else
+            sitIn();
     }
 
     onSitOutClick() {
@@ -756,7 +999,13 @@ export class MainUI {
 
     onShowCardClick() {
         showCards();
+        removeMuckedFlag();
         this.showShowCardsButton(false);
+        const playerCard = document.querySelector(".player_wrapper:nth-child(6) .player-cards");
+
+        if (playerCard) {
+            playerCard.classList.add("show");
+        }
     }
 
     showShowCardsButton(value) {
@@ -764,15 +1013,15 @@ export class MainUI {
     }
 
     showSitOut(value) {
-        this.setActiveElements1(sitOutButtons, value);
+        this.setElementsDisplay(sitOutButtons, value);
+    }
+
+    showPreFlopAutoFold(value) {
+        this.setActive(preFlopAutoFoldDiv, value);
     }
 
     showWaitForBB(value) {
-        this.setActiveElements1(waitForBBButtons, value);
-    }
-
-    showAutoFold(value) {
-        this.setActive1(autoFoldModeButtonDiv, value);
+        this.setElementsDisplay(waitForBBButtons, value);
     }
 
     setWaitForBB(value) {
@@ -781,28 +1030,31 @@ export class MainUI {
         }
     }
 
-    setFoldAnyBet(value) {
-        for (const autoFoldCheckbox of autoFoldCheckboxes) {
-            toggleCheckbox(autoFoldCheckbox, value);
-        }
+    setAlwaysFold(value) {
+        this.showSitIn(value)
+        this.optionAlwaysFold = value;
+        toggleCheckbox(alwaysFoldCheckbox, value, false);
     }
 
     showLeaveGameButton(value) {
-        this.setActiveElements1(leaveButtons, value);
+        this.setElementsDisplay(leaveButtons, value);
     }
 
     showBackLobbyButton(value) {
-        this.setActiveElements1(backLobbyButtons, value);
+        this.setElementsDisplay(backLobbyButtons, value);
     }
 
     showTipDealer(value) {
-        this.setActive(tipButtonDiv, value);
-        this.setActive1(tipSectionDiv, value);
-        this.setActive1(AutoTip, value);
+        // this.setActive(tipButtonDiv, value);
+        this.setDisplay(AutoTip, false);
+    }
+
+    showShuffleVerification(value) {
+        this.setDisplay(shuffleVerificationButtonDiv, value);
     }
 
     showSitOutNextHand(value) {
-        this.setActive1(sitOutNextHandButtons, value);
+        this.setDisplay(sitOutNextHandButtons, value);
     }
 
     setSitOutNextHand(value) {
@@ -814,10 +1066,10 @@ export class MainUI {
         if (!isBreak && this.interval != undefined) { this.clearBreakTime(); return; }
         if (!isBreak || this.interval != undefined) return;
 
-        this.breakDuration = breakDuration;
+        this.breakDuration = this.levelInfo.duration;
         breakCountdownDiv.style.visibility = "visible";
         breakCountdownDiv.style.display = "flex";
-        $(breakCountdownDiv).find("div")[0].style.animationDuration = `${breakDuration}s`;
+        $(breakCountdownDiv).find("div")[0].style.animationDuration = `${this.breakDuration}s`;
         $(breakCountdownDiv).find("div")[0].style.animationName = "progressAnimation";
         this.interval = setInterval(() => {
             let min = Math.floor(this.breakDuration / 60);
@@ -829,7 +1081,9 @@ export class MainUI {
             }
         }, 1000);
     }
-
+    roundResult() {
+        const response = this.saveHandHistory();
+    }
     clearBreakTime() {
         breakCountdownDiv.style.visibility = "hidden";
         breakCountdownDiv.style.display = "none";
@@ -842,7 +1096,7 @@ export class MainUI {
         for (const element of elements)
             element.style.visibility = (value == false || userMode === 1) ? "hidden" : "visible";
     }
-    setActiveElements1(elements, value) {
+    setElementsDisplay(elements, value) {
         for (const element of elements)
             element.style.display = (value == false || userMode === 1) ? "none" : "block";
     }
@@ -850,16 +1104,15 @@ export class MainUI {
     setActive(element, value) {
         element.style.visibility = (value == false || userMode === 1) ? "hidden" : "visible";
     }
-    setActive1(element, value) {
-
+    setDisplay(element, value) {
         element.style.display = (value == false || userMode === 1) ? "none" : "block";
     }
 
     setWaitList(players) {
-        this.setActive1(joinWaitingButton, true);
+        //this.setDisplay(joinWaitingButton, true);
 
-        waitListCount.innerText = players.length;
-        waitList.innerHTML = '';
+        /* waitListCount.innerText = players.length; */
+        // waitList.innerHTML = '';
 
 
         // const div = document.createElement('div');
@@ -879,16 +1132,16 @@ export class MainUI {
 
             userDiv.innerHTML = player;
 
-            waitList.append(userDiv);
+            //   waitList.append(userDiv);
         }
     }
 
     showWaitList(value) {
-        if (value) {
-            waitListDiv.style.display = 'flex';
-        } else {
-            waitListDiv.style.display = 'none';
-        }
+        /*  if (value) {
+             waitListDiv.style.display = 'flex';
+         } else {
+             waitListDiv.style.display = 'none';
+         } */
     }
 
     setPlayStatus(value) {
@@ -906,13 +1159,33 @@ export class MainUI {
         chatButton.style.display = value ? "block" : "none";
     }
 
-    addLog(text) {
-        logDiv.innerHTML += '<p class="firsr_but mt-2 px-2">' + text + '</p>';
+    addLog(logData) {
+        const action = this.parseLogMessage(logData);
 
+        if (action) {
+            if (action.isNewRound) {
 
-        let x = $('.logTabButton .activities')[0];
-        x.scrollTop = x.scrollHeight; // Scroll to the bottom
-        // x.scrollTo(0, x.scrollHeight);
+                this.handHistory = {
+                    preflop: [],
+                    flop: [],
+                    turn: [],
+                    river: []
+                };
+                this.currentStreet = 'preflop';
+                return;
+
+            }
+            if (this.currentStreet) {
+
+                this.handHistory[this.currentStreet].push({
+                    ...action,
+                });
+                if (currentIndex == msgData.length + 1 || msgData.length == 0) {
+                    this.displayHandHistory(this.handHistory);
+                    progressHandle.style.left = `${((currentIndex -1) / (msgData.length )) * 100}%`;
+                }
+            }
+        }
     }
 
     addChat(data) {
@@ -932,12 +1205,14 @@ export class MainUI {
                 if (Interval_time == 61) {
                     msg = "There is mandatory " + (Interval_time - 1) + " seconds delay if you want to rejoin this game";
                     $('.error-message')[0].innerHTML = msg;
+                    $('#msgModal').modal('show');
                 } else {
                     interval = setInterval(() => {
                         Interval_time--;
                         if (Interval_time > 0) {
                             msg = "There is mandatory " + Interval_time + " seconds delay if you want to rejoin this game";
                             $('.error-message')[0].innerHTML = msg;
+                            $('#msgModal').modal('show');
                         } else {
                             $('#msgModal').modal('hide');
                         }
@@ -949,14 +1224,18 @@ export class MainUI {
                         clearInterval(interval);
                     Interval_time = 1000;
                 });
+            } else {
+                $('.error-message')[0].innerHTML = msg;
+                $('#msgModal').modal('show');
             }
         }
 
-        $('.error-message')[0].innerHTML = msg;
-        $('#msgModal').modal('show');
+        
     }
 
     showDoubleLoginMsg(msg) {
+        setDetectedDoubleBrowser(true);
+
         $('.error-message')[0].innerHTML = msg;
         $('#msgModal #myModalLabel')[0].innerText = "Message"
         $('#msgModal button')[1].innerText = "Close Browser"
@@ -969,7 +1248,8 @@ export class MainUI {
         });
     }
 
-    showTournamentResult(hasWin, prize, rank) {
+    showTournamentResult(hasWin, prize, rank, isRegister, register_amount, id, tournament_id) {
+
         if (!hasWin) {
             $('.tournament-prize')[0].style.visibility = 'hidden';
         }
@@ -985,6 +1265,14 @@ export class MainUI {
         }
 
         $('#tournamentPrize')[0].innerText = prize;
+        const currency = (defaultCurrency === "USDC") ? "USDC" : "XRP";
+        $(rebuy_tournament).find('span')[0].innerText = `${register_amount} ${currency}`;
+        $('.tournament-rebuy')[0].style.display = (isRegister) ? 'block' : 'none';
+
+        rebuy_tournament.addEventListener('click', () => {
+            $(".loader").show();
+            registerTournament(tournament_id, id);
+        });
 
         $('#tournamentResultModal').modal('show');
 
@@ -993,7 +1281,218 @@ export class MainUI {
             window.close();
         });
     }
+    parseLogMessage(log) {
+        const action = {
+            playerName: '',
+            action: '',
+            amount: '',
+            position: '',
+            balance: '',
+            cards: [],
+            isNewRound: false,
+            avatar: ''
+        };
 
+        if (log.isNewRound) {
+            action.isNewRound = true;
+            return action;
+        }
+        if (log.log) {
+            const showCardsMatch = log.log.match(/^(.*?)\s+shows\s+([\w\d]+),([\w\d]+)/);
+            if (showCardsMatch) {
+                const playerName = showCardsMatch[1];
+
+                if (uniquePlayers.has(playerName)) {
+                    return null;
+                }
+
+                uniquePlayers.add(playerName);
+                action.playerName = playerName;
+                action.action = "Shows";
+                action.amount = log.rank;
+                action.avatar = log.avatar;
+                action.cards = [showCardsMatch[2], showCardsMatch[3]];
+                return action;
+            }
+            const winMatch = log.log.match(/(\w+)\s+Won\s+([\d.]+),\s+With:\s+\[([^\]]+)\]\s+(.+)/);
+
+            if (winMatch) {
+                action.playerName = winMatch[1];
+                action.action = "Won";
+                action.amount = parseFloat(winMatch[2]);
+                action.avatar = log.avatar;
+                return action;
+            }
+            const anteMatch = log.log.match(/ante\s*:\s*(\d+)/);
+
+            if (anteMatch) {
+                action.action = "All Ante";
+                action.amount = parseFloat(anteMatch[1]);
+                return action;
+            }
+        }
+
+        if (log.action) {
+            const actionType = log.action
+            const validActions = ["SB", "BB", "call", "bet", "raise", "fold", "check", "allin"];
+            if (actionType === "SB" || actionType === "BB") {
+                action.position = `<div class="player-tag-bb">${log.action}</div>`;
+            } else {
+                action.position = '';
+            }
+            if (validActions.includes(actionType)) {
+                if (log.amount)[
+                    this.updatePotSizes(this.currentStreet, log.amount)
+                ]
+                action.playerName = log.name;
+                action.action = log.action;
+                action.amount = log.amount || '';
+                action.balance = log.action == 'fold' ? '' : log.Balance || '';
+                action.avatar = log.avatar;
+                // action.position = this.getPlayerPosition(bettingMatch[1]);
+                return action;
+            }
+        }
+        const streetMatch = log.log.match(/(\w+): \[(.*?)\], (\d+) players/);
+        if (streetMatch) {
+            this.currentStreet = streetMatch[1].toLowerCase();
+            if (this.currentStreet == 'showdown') {
+                this.currentStreet = 'river';
+            }
+            if (this.currentStreet != 'preflop') {
+
+                action.playerName = 'Dealer';
+                action.action = streetMatch[1];
+                action.cards = streetMatch[2].split(',');
+                return action;
+            }
+        }
+        // return action;
+    }
+
+    displayHandHistory(handHistory) {
+            const logDiv = $('.logData')[0];
+            logDiv.innerHTML = '';
+
+            const table = document.createElement('table');
+            table.className = 'header';
+
+            table.innerHTML = `
+            <thead>
+                <tr>
+                    <td>
+                        <div class="header-title">Pre-Flop</div>
+                        <div class="header-value">${this.potSizes.preflop}</div>
+                    </td>
+                    <td>
+                        <div class="header-title">Flop</div>
+                        <div class="header-value">${this.potSizes.flop}</div>
+                    </td>
+                    <td>
+                        <div class="header-title">Turn</div>
+                        <div class="header-value">${this.potSizes.turn}</div>
+                    </td>
+                    <td>
+                        <div class="header-title">River</div>
+                        <div class="header-value">${this.potSizes.river}</div>
+                    </td>
+                </tr>
+            </thead>
+        `;
+
+            const tbody = document.createElement('tbody');
+            tbody.className = 'poker-table';
+            const row = document.createElement('tr');
+
+            ['preflop', 'flop', 'turn', 'river'].forEach(street => {
+                        const td = document.createElement('td');
+                        td.className = 'scroll_td';
+                        const scrollContent = document.createElement('div');
+                        scrollContent.className = 'scroll-content';
+                        handHistory[street].forEach(action => {
+                                    const playerWrapper = document.createElement('div');
+                                    playerWrapper.className = 'player-wrapper';
+                                    let dealerCardsHTML = '';
+                                    if (action.cards.length > 0) {
+
+                                        for (let i = 0; i < action.cards.length; ++i) {
+                                            const card = action.cards[i].toLowerCase();
+                                            if (card) {
+
+                                                const cardImgFilePath = getCardImageFilePath(card);
+                                                dealerCardsHTML += `<div class="content dealer-card" 
+                                value=${card}>
+                                <img class="" src="${cardImgFilePath}" style="height: 40px; width: 27px;"/>
+                                </div>`;
+                                            }
+                                        }
+                                    }
+
+                                    playerWrapper.innerHTML = `
+                    <div class="player-avatar-wrapper">
+                        ${action.position}
+                        <div class="player-avatar">
+                           ${action.avatar ? `<img src="${action.avatar}" alt="userAvatar">` : `<img src="./images/avtar.png" alt="Babar888">` }
+                        </div>
+                        <div class="playerBalance">
+                            ${action.balance ? `<img src="./images/ChipsIcon.png" alt="userAvatar"> <div class="player-balance">${action.balance}</div>` : ``}
+                        </div>
+                    </div>
+                    <div class="player-content">
+                        <div class="player-detail">
+                            <div class="player-name">${action.playerName}</div>
+                            
+                        </div>
+                        <div class="player-container">
+                            <div class="player-action">
+                                <span class="bet-action">${action.action}</span>
+                                ${action.amount ? `<span class="bet-action" style="">:</span><span class="bet-amount"> ${action.amount}</span>` : ''}
+                            </div>
+                            <div class="DealerCards ${dealerCardsHTML ? '' : 'empty'}" style="width: fit-content;display: grid;grid-template-columns: repeat(3, 27px);gap: 5px; margin-top:5px;">
+                                ${dealerCardsHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                scrollContent.appendChild(playerWrapper);
+            });
+            td.appendChild(scrollContent);
+            row.appendChild(td);
+        });
+
+        tbody.appendChild(row);
+        table.appendChild(tbody);
+        logDiv.appendChild(table);
+       
+    }
+
+    updatePotSizes(street, amount) {
+        this.potSizes[street] = amount;
+    }
+    saveHandHistory() {
+            msgData.push(JSON.parse(JSON.stringify(this.handHistory))); 
+            if(currentIndex == msgData.length ){
+                $('.hand-counter').html(`${msgData.length + 1} / <span class="totalLogs">${msgData.length + 1}</span>`);
+                currentIndex = msgData.length + 1;  
+                // this.displayHandHistory(this.handHistory);
+            } else {
+                $('.totalLogs').text(msgData.length + 1);
+            }
+            // this.showHandHistory(currentIndex);
+            uniquePlayers.clear();
+            return true;
+    }
+    showHandHistory(index) {
+        if (index > 0 && index < msgData.length +2) {
+            $('.hand-counter').html(`${index} / <span class="totalLogs">${msgData.length +1}</span>`);
+            if(index == msgData.length +1){
+                this.displayHandHistory(this.handHistory)
+            } else {
+                this.displayHandHistory(msgData[index-1]);
+            }
+        }
+    }
     // side bet code
 
     /* initSideBetPanel() {

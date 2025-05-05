@@ -1,4 +1,5 @@
 import { tableSubscribe } from "../services/table-server";
+import { defaultCurrency } from "../services/game-server";
 
 const showAsBBCheckbox = $("#showAsBBCheckbox")[0];
 const showAsSUDCheckbox = $("#showAsSUDCheckbox")[0];
@@ -17,21 +18,26 @@ export function getMoneyText(amount) {
     const container = document.createElement("div");
 
     if (showcurrency == "BB") {
-        container.innerText = `${Math.floor(amount / bigBlind * 100) / 100} BB`;
+        container.innerText = `${(round2(amount / bigBlind * 100)) / 100}Math.floor BB`;
     } else if (showcurrency == "USD") {
-        console.log(amount);
-        console.log(usdRate);
-        console.log(Math.floor(amount * usdRate * 100) / 100);
         var img = document.createElement("img");
         img.src = "images/mobile/coins 3 (2) (1).png";
-        container.classList.add("imageFeatures1");
+        container.classList.add("imageFeatures");
 
         container.appendChild(img);
 
         const amountText = document.createElement("span");
-        amountText.innerText = ` ${Math.floor(amount * usdRate * 100) / 100}`;
+        amountText.innerText = ` ${Math.floor(roundWithFormatAmount(amount * usdRate * 100)) / 100}`;
         container.appendChild(amountText);
         // container.innerText = `$ ${Math.floor(amount * usdRate * 100) /100}`;
+    } else if(showcurrency == "USDC"){
+        // var img = document.createElement("img");
+        // img.src = "./images/mobile/usdc_icon2.png";
+        // container.classList.add("imageFeatures2");
+        // container.appendChild(img);
+        const amountText = document.createElement("span");
+        amountText.innerText = ` ${roundWithFormatAmount(amount)}`;
+        container.appendChild(amountText);
     } else {
         var img = document.createElement("img");
         img.src = "images/mobile/coins 3 (1).png";
@@ -40,7 +46,7 @@ export function getMoneyText(amount) {
         container.appendChild(img);
 
         const amountText = document.createElement("span");
-        amountText.innerText = ` ${Math.floor(amount * 100) / 100}`;
+        amountText.innerText = ` ${roundWithFormatAmount(amount)}`;
         container.appendChild(amountText);
     }
 
@@ -50,13 +56,12 @@ export function getMoneyText(amount) {
 export function getMoneyValue(amount) {
     if (amount == undefined)
         amount = 0;
-
     if (showcurrency == "BB") {
-        return Math.floor(amount / bigBlind * 100) / 100;
+        return Math.floor(round2(amount / bigBlind * 100)) / 100;
     } else if (showcurrency == "USD") {
-        return Math.floor(amount * usdRate * 100) / 100;
+        return Math.floor(round2(amount * usdRate * 100)) / 100;
     }
-    return Math.floor(amount * 100) / 100;
+    return round2(amount);
 }
 
 export function getRoundValue(amount) {
@@ -70,13 +75,16 @@ export function getMoneyOriginalValue(amount) {
     if (amount == undefined)
         amount = 0;
 
-    // console.error(`usdRate : ${usdRate},bigBlind : ${bigBlind},amount : ${amount},showAsBBCheckbox : ${showAsBBCheckbox.checked},showAsSUDCheckbox : ${showAsSUDCheckbox.checked}`);
     if (showcurrency == "BB") {
-        return Math.floor(amount * bigBlind * 100) / 100;
+        return Math.floor(round2(amount * bigBlind * 100)) / 100;
     } else if (showcurrency == "USD") {
-        return Math.floor(amount / usdRate * 100) / 100;
+        return Math.floor(round2(amount / usdRate * 100)) / 100;
     }
-    return Math.floor(amount * 100) / 100;
+    return round2(amount);
+}
+
+export function round2(n) {
+    return Math.round(n * 100) / 100;
 }
 
 export function updatCurrency() {
@@ -85,10 +93,14 @@ export function updatCurrency() {
     } else if (showAsSUDCheckbox.checked) {
         showcurrency = "USD";
     } else {
-        showcurrency = "XRP";
+        showcurrency = defaultCurrency;
     }
 }
-
+function roundWithFormatAmount(n) {
+    var amount = Math.round(n * 100) / 100
+    const strAmount = amount.toString();
+        return amount.toLocaleString('en-IN');
+}
 
 function onTableSettings(settings) {
     bigBlind = settings.bigBlind;

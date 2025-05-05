@@ -1,0 +1,9 @@
+{
+    "socketDisconnect": "Socket disconnected, reconnecting.",
+    "moveNewTable": "You have been moved to a new table.",
+    "PlayerReportSuccess": "Thank you for your feedback. We will investigate shortly.",
+    "playerHashMatch": "Successfully verified the JSON string from server.",
+    "successVerification": "Verification successful: Shuffling was fair.",
+    "failVerification": "Verification failed: Shuffling was compromised.",
+    "cancelTournament": "Tournament cancelled due to insufficient players."
+  }

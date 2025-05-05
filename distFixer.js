@@ -3,6 +3,7 @@ var path = require('path');
 
 copyFolderRecursiveSync("images", "dist");
 copyFolderRecursiveSync("audio", "dist");
+copyFolderRecursiveSync("messages", "dist");
 
 function copyFileSync( source, target ) {
 

@@ -11,6 +11,7 @@
     "vite": "^2.9.15"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "postcss-nested": "^5.0.6",
     "socket.io-client": "^4.4.1"
   }

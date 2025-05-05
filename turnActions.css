@@ -1,11 +1,21 @@
-#turnActionsDiv,
-#automaticActionsDiv {
+#turnActionsDiv{
     position: absolute;
     /* bottom: calc( 3 * var(--aspect-ratio)); */
     right: 3vw;
     text-align: right;
     vertical-align: bottom;
     visibility: hidden;
+}
+
+#automaticActionsDiv {
+    position: absolute;
+    bottom: 3%;
+    right: calc(3 * var(--aspect-ratio));
+    width: 150px;
+}
+.checkToAnyBetButton{
+    display: flex;
+    align-items: center;
 }
 
 #turnActionsDiv {

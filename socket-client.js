@@ -24,23 +24,32 @@ function setSocketEventListeners() {
     socket.on("REQ_TABLE_STATUS", eventTrigger("onTableStatus"));
     socket.on("REQ_TABLE_SIDEPOTS", eventTrigger("onTableSidePots"));
     socket.on("REQ_TABLE_TURN", eventTrigger("onTableTurn"));
+    socket.on("REQ_TABLE_UPDATE_TURN", eventTrigger("onTableUpdateTurn"));
     socket.on("REQ_TABLE_ROUNDRESULT", eventTrigger("onTableRoundResult"));
     socket.on("REQ_TABLE_PLAYERSHOWCARDS", eventTrigger("onTablePlayerShowCards"));
     socket.on("REQ_TABLE_PLAYERMUCKCARDS", eventTrigger("onTablePlayerMuckCards"));
     socket.on("REQ_TABLE_PLAYERSHOWCARDSBTN", eventTrigger("onTablePlayerShowCardsButton"));
-    socket.on("REQ_TABLE_FOLDANYBET", eventTrigger("onTablePlayerFoldAnyBet"));
+    socket.on("REQ_TABLE_FOLDANYBET", eventTrigger("onTablePlayerAlwaysFold"));
     socket.on("REQ_TABLE_BUYIN", eventTrigger("onBuyInOpen"));
     socket.on("REQ_PLAYER_LEAVE", eventTrigger("onPlayerLeave"));
     socket.on("REQ_MESSAGE", eventTrigger("onMessage"));
     socket.on("REQ_Animation", eventTrigger("onAnimation"));
     socket.on("REQ_TOURNEY_INFO", eventTrigger("onTourneyInfo"));
     socket.on("REQ_TABLE_WAITLIST", eventTrigger("onCashWaitList"));
+    socket.on("REQ_CANCEL_BET", eventTrigger("onCancelBet"));
     socket.on("REQ_TABLE_LOG", eventTrigger("onLog"));
     socket.on("REQ_TABLE_CHAT", eventTrigger("onChat"));
     socket.on("connect", eventTrigger("onConnect"));
     socket.on("disconnect", eventTrigger("onDisconnect"));
     socket.on("REQ_INSURANC", eventTrigger("onInsurance"));
     socket.on("REQ_TABLE_TIP", eventTrigger("onTip"));
+    socket.on("REQ_Tournament_Cancel_Time", eventTrigger("onTournamentCancelTime"));
+    socket.on("REQ_TABLE_WAITFORBB", eventTrigger("onWaitForBB"));
+    socket.on("REQ_PLAYER_GENERATE_HASH_AND_RANDOM_STRING", eventTrigger("onPlayerGenerateHashAndRandomString"));
+    socket.on("REQ_ALL_Hashes", eventTrigger("onAllHashes"));
+    socket.on("REQ_PLAYER_RANDOM_STRING", eventTrigger("onPlayerRandomString"));
+    socket.on("REQ_PLAYER_GAME_SETTING", eventTrigger("onPlayerGameSetting"))
+    socket.on("REQ_VERIFY_JSON_STRING", eventTrigger("onVerifyJsonString"));
     /* socket.on("REQ_SIDEBET_OPTIONS", eventTrigger("onSideBetOptions"));
     socket.on("REQ_SIDEBET_HISTORY", eventTrigger("onSideBetHistory"));
     socket.on("REQ_TABLE_FREE_BALANCE", eventTrigger("onTableFreeBalance")); */
@@ -59,11 +68,12 @@ const eventListeners = {
     onTableStatus: [],
     onTableSidePots: [],
     onTableTurn: [],
+    onTableUpdateTurn: [],
     onTableRoundResult: [],
     onTablePlayerShowCards: [],
     onTablePlayerMuckCards: [],
     onTablePlayerShowCardsButton: [],
-    onTablePlayerFoldAnyBet: [],
+    onTablePlayerAlwaysFold: [],
     onBuyInOpen: [],
     onPlayerLeave: [],
     onMessage: [],
@@ -75,7 +85,15 @@ const eventListeners = {
     onTip: [],
     onConnect: [],
     onDisconnect: [],
+    onWaitForBB: [],
     onInsurance: [],
+    onCancelBet: [],
+    onPlayerGenerateHashAndRandomString: [],
+    onAllHashes: [],
+    onTournamentCancelTime: [],
+    onPlayerRandomString: [],
+    onVerifyJsonString: [],
+    onPlayerGameSetting: [],
     /*  onSideBetOptions: [],
      onSideBetHistory: [],
      onTableFreeBalance: [],
@@ -85,8 +103,8 @@ const eventListeners = {
 };
 
 function triggerEventListeners(name, data) {
-    console.log(`EventName: ${name}\nData:`);
-    console.log(data);
+    //console.log(`EventName: ${name}\nData:`);
+    //console.log(data);
     if (!eventListeners[name])
         return;
     try {
@@ -266,10 +284,18 @@ export function updatePlayerInfo(callback) {
     });
 }
 
-export function autoFold(value, callback) {
-    socket.emit("REQ_AUTO_FOLD", { value: value }, callback);
+export function getPreFlopAutoFold(value, callback) {
+    socket.emit("REQ_PRE_FLOP_AUTO_FOLD", { value: value }, callback);
 }
 
+export function shufflingVerificationReport(value) {
+    socket.emit("REQ_PRE_VERIFY_SHUFFLING", { value: value });
+}
+export function updatePlayerSetting(setting, value) {
+    console.log(setting, value);
+
+    socket.emit("REQ_PLAYER_GAME_SETTING", { setting: setting, value: value });
+}
 export function playerLeaveGame() {
     socket.emit("REQ_PLAYER_LEAVEGAME");
 }

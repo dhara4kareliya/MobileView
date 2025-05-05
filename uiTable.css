@@ -45,13 +45,7 @@
     border-width: 1px;
 }
 
-.tableName {
-    text-align: center;
-    letter-spacing: 0px;
-    color: #FFEB00;
-    text-shadow: 0px 3px 6px #FFEB004E;
-    font-size:calc( 3 * var(--aspect-ratio));
-}
+
 
 #meDiv {
     white-space: nowrap;
@@ -74,6 +68,9 @@
 .tableSettingsSpan {
     letter-spacing: 0px;
     text-align: right;
+    position: absolute;
+    top: -110%;
+    left: 0;
 }
 
 #centerBottom {
@@ -85,14 +82,8 @@
     .trophyDiv {
         padding-right: 0vw;
     }
-    
-    .tableName {
-        font-size: 2.5vw;
-    }
 }
 .second-top {
-    width: 510px!important;
-    height: 600px!important;
     border-radius: 35px!important;
     border: 2px solid #EFA434;
     background: linear-gradient(90deg, #181B3A 0%, #262A4E 48.44%, #181B3A 100%);

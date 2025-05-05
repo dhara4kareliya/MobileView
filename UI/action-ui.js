@@ -1,29 +1,31 @@
 import { turnAction } from "../services/table-server";
 import { toggleCheckbox } from "./checkbox";
 import { setSliderMax, setSliderMin, setSliderValue } from "./slider";
-import { getMoneyText, getMoneyValue, getMoneyOriginalValue } from "./money-display";
-import { autoFold } from "../socket-client";
-import { autofoldcards } from "./game-ui";
+import { getMoneyText, getMoneyValue, getMoneyOriginalValue, round2 } from "./money-display";
 
 const foldButton = $("#fold-button")[0];
 const callButton = $("#call-button")[0];
 const raiseButton = $("#raise-Button")[0];
 const actionUIDiv = $("#turnActionsDiv")[0];
 //const sidebetUIDiv = $(".button-section")[0];
-const tipButtonDiv = $("#tip-button")[0];
 const betSlider = $("#betSlider")[0];
 const betInput = $("#betDivWrapper input")[0];
 const betDivWrapper = $("#betDivWrapper")[0];
+const betAmountDiv = $("#betAmountDiv")[0];
+const betAmount = $(".betAmount")[0];
 const allInButton = $("#allInButton")[0];
 const bet70 = $("#bet70")[0];
 const bet50 = $("#bet50")[0];
 const bet33 = $("#bet33")[0];
 const minusButton = $("#betMinus")[0];
 const plusButton = $("#betPlus")[0];
+const callButton1 = $(".callButtonDiv")[0];
+const foldToAnyBetButtonDiv = $(".foldToAnyBetButton")[0];
 const raiseButtonSpan = $("#raise-Button .valueDisplay")[0];
+const raiseButtonLebel = $("#raise-Button .raise_text")[0];
 const autoModeCheckbox = $(".autoModeButton .checkbox")[0];
-const autoFoldModeButtonCheckboxes = $(".autoFoldModeButton1 .checkbox")[0];
-console.log(autoFoldModeButtonCheckboxes);
+const automaticActionsDiv = $("#automaticActionsDiv")[0];
+const betButtons = $(".betAmount div");
 
 export class ActionUI {
     constructor() {
@@ -36,20 +38,31 @@ export class ActionUI {
         bet33.addEventListener('click', () => this.setRaise(Math.floor(this.m_POT * 1 / 3 * 100) / 100));
         plusButton.addEventListener('click', () => this.setRaise(this.m_Raise + this.m_Increment));
         minusButton.addEventListener('click', () => this.setRaise(this.m_Raise - this.m_Increment));
-
+        for (const button of betButtons) {
+            button.addEventListener('click', () => {
+                const buttonValue = button.querySelector("span").innerText;
+                this.setRaise(buttonValue * this.m_bigBlind);
+                betButtons.removeClass("active");
+                button.classList.add("active");
+            })
+        }
         betInput.addEventListener('change', (e) => {
-            let value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value)) * 100) / 100;
-            value = this.m_showInBB ? value * this.m_bigBlind : value;
-            value = this.m_showInUSD ? value * this.m_usdRate : value;
+            let value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value),'change') * 100) / 100;
+            // value = this.m_showInBB ? value * this.m_bigBlind : value;
+            // value = this.m_showInUSD ? value * this.m_usdRate : value;
             this.setRaise(value);
         });
-
+        betInput.addEventListener('click', (e) => {
+            betInput.value = '';
+        })
         betInput.addEventListener('input', (e) => {
-            const value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value)) * 100) / 100;
-            const raiseBy = value;
-
-            if (raiseBy == this.getValidAmount(raiseBy))
-                raiseButtonSpan.innerText = value + this.m_CurrentBet;
+            const value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value), 'input') * 100) / 100;
+            
+            if (value == this.getValidAmount(value)){
+                raiseButtonLebel.style.display = (value == this.m_MaxRaise) ? 'none' : 'block';
+                const amountText = getMoneyText(value + this.m_CurrentBet);
+                raiseButtonSpan.innerHTML = (value == this.m_MaxRaise) ? 'ALL IN' : $(raiseButtonSpan).hasClass("moneyDisplay") ? amountText.outerHTML : getMoneyValue(value + this.m_CurrentBet);
+            }
         });
 
         this.showActionUI(false);
@@ -92,12 +105,24 @@ export class ActionUI {
     setDisplay(element, value) {
         element.style.display = (value == false) ? "none" : "block";
     }
+    setRaiseLebel(value){
+        if(value)
+            raiseButtonLebel.innerText = 'RAISE';
+        else 
+            raiseButtonLebel.innerText = 'BET';
 
-    setRaise(amount) {
-        this.m_Raise = this.getValidAmount(amount);
-        setSliderValue(betSlider, this.m_Raise + this.m_CurrentBet);
     }
-
+    setRaise(amount) {
+        raiseButtonSpan.innerText = (amount >= this.m_MaxRaise) ? 'ALL IN' : '';
+        raiseButtonLebel.style.display = (amount >= this.m_MaxRaise) ? 'none' : 'block';
+        var condition = (amount >= this.m_MaxRaise) ? true : false;
+        this.m_Raise = this.getValidAmount(amount);
+        betInput.value = (amount >= this.m_MaxRaise) ? getMoneyValue(amount) : getMoneyValue(this.m_Raise + this.m_CurrentBet);
+        setSliderValue(betSlider, this.m_Raise + this.m_CurrentBet, condition);
+    }
+    showBetButton(value) {
+        this.setActive(betAmount, !value);
+    }
     getValidAmount(amount) {
         return amount > this.m_MaxRaise ? amount = this.m_MaxRaise : amount < this.m_MinRaise ? amount = this.m_MinRaise : amount;
     }
@@ -106,39 +131,42 @@ export class ActionUI {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
         // this.showSidebetUI(false);
-        this.showTipUI(false);
         this.setRaise(this.m_MaxRaise);
+        this.setActive(foldToAnyBetButtonDiv, false);
+        this.setActive(callButton1, false);
     }
 
     fold() {
         this.setActive(automaticActionsDiv, false);
         this.setActive(actionUIDiv, false);
         this.showActionUI(false);
+        this.setActive(foldToAnyBetButtonDiv, false);
+        this.setActive(callButton1, false);
         // this.showSidebetUI(false);
-        this.showTipUI(true);
         turnAction("fold");
     }
 
     call() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
+        this.setActive(foldToAnyBetButtonDiv, false);
+        this.setActive(callButton1, false);
         // this.showSidebetUI(false);
-        this.showTipUI(true);
         turnAction("bet", this.m_Call);
     }
 
     check() {
         this.setActive(automaticActionsDiv, false);
         this.showActionUI(false);
+        this.setActive(foldToAnyBetButtonDiv, false);
+        this.setActive(callButton1, false);
         // this.showSidebetUI(false);
-        this.showTipUI(true);
         turnAction("bet", 0);
     }
 
     checkOrCall() {
         this.showActionUI(false);
         // this.showSidebetUI(false);
-        this.showTipUI(true);
         if (this.m_Call == 0)
             this.check();
         else
@@ -148,21 +176,26 @@ export class ActionUI {
     raise() {
         this.showActionUI(false);
         // this.showSidebetUI(false);
-        this.showTipUI(true);
         // turnAction("bet", this.m_Raise);
-        // console.error(`betInput.value : ${betInput.value},getMoneyOriginalValue : ${getMoneyOriginalValue(parseFloat(betInput.value))},m_CurrentBet : ${this.m_CurrentBet} = ${getMoneyOriginalValue(parseFloat(betInput.value)) - this.m_CurrentBet}`);
-        turnAction("bet", getMoneyOriginalValue(parseFloat(betInput.value)) - this.m_CurrentBet)
+        // console.error(`betInput.value : ${betInput.value},getMoneyOriginalValue : ${getMoneyOriginalValue(parseFloat(betInput.value), 'raise log')},m_CurrentBet : ${this.m_CurrentBet} = ${getMoneyOriginalValue(parseFloat(betInput.value), 'raise calculaton') - this.m_CurrentBet}`);
+
+        const bet = Math.min(Math.max(getMoneyOriginalValue(parseFloat(betInput.value), 'raise bet calculation'), this.m_MinRaise), this.m_MaxRaise);
+        turnAction("bet", bet)
     }
 
     showActionUI(value) {
         this.setActive(actionUIDiv, value);
         this.setActive(betDivWrapper, value);
+        this.setDisplay(betAmountDiv, value);
         this.setActive(raiseButton, value);
+
+        turnActionsDiv.querySelector(".bottom_buttons_Wrapper").style.zIndex = (value) ? 100 : 'unset';
 
         if (value) {
             this.setActive(automaticActionsDiv, false);
+            this.setActive(foldToAnyBetButtonDiv, false);
+            this.setActive(callButton1, false);
             // this.showSidebetUI(false);
-            this.showTipUI(false);
         }
 
         if (value && autoModeCheckbox.checked) {
@@ -170,32 +203,8 @@ export class ActionUI {
                 this.doAutoAction();
             }, 1000);
         }
-
-        if (autoFoldModeButtonCheckboxes.checked) {
-            autofoldcards();
-            console.log('checked');
-            // autoFold(autoFoldModeButtonCheckboxes.checked, (data) => {
-            //     data = JSON.parse(data);
-            //     console.log(data.status);
-            //     if (data.status == true) {
-            //         mainUI.setPlayerAutoFoldCards(data.AutoFoldCards);
-            //         const playerCards = table.getTurnPlayerCards(getPlayerSeat());
-            //         const activeSeats = table.getActiveSeats();
-            //         console.log(playerCards);
-            //         mainUI.doAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats);
-            //         return true;
-            //     }
-            // });
-        }
     }
 
-    /* showSidebetUI(value) {
-        this.setActive(sidebetUIDiv, value);
-    } */
-
-    showTipUI(value) {
-        this.setActive(tipButtonDiv, value);
-    }
 
     showCall(call, currentChips) {
         this.m_Call = call;
@@ -215,10 +224,14 @@ export class ActionUI {
     }
 
     showRaise(minRaise, maxRaise, pot, increment, currentBet) {
-        if (minRaise !== maxRaise)
+        if (minRaise !== maxRaise){
             this.setActive(betDivWrapper, true);
-        else
+            this.setDisplay(betAmountDiv, true);
+        }
+        else{
+            this.setDisplay(betAmountDiv, false);
             this.setActive(betDivWrapper, false);
+        }
         this.setActive(raiseButton, true);
         this.m_MinRaise = minRaise;
         this.m_MaxRaise = maxRaise;
@@ -226,18 +239,22 @@ export class ActionUI {
         this.m_Increment = increment;
         this.m_CurrentBet = currentBet;
 
-        setSliderMin(betSlider, minRaise + currentBet);
-        setSliderMax(betSlider, maxRaise + currentBet);
-        setSliderValue(betSlider, minRaise + currentBet);
+
+        setSliderMin(betSlider, round2(minRaise + currentBet));
+        setSliderMax(betSlider, round2(maxRaise + currentBet));
+        setSliderValue(betSlider, round2(minRaise + currentBet));
         this.m_Raise = minRaise;
 
+        raiseButtonLebel.style.display = 'block';
         if (this.m_MaxRaise == this.m_POT) {
             allInButton.innerText = "POT"
+            raiseButtonLebel.style.display = 'none';
         }
     }
 
     hideRaise() {
         this.setActive(betDivWrapper, false);
+        this.setDisplay(betAmountDiv, false);
         this.setActive(raiseButton, false);
     }
 
@@ -247,7 +264,7 @@ export class ActionUI {
         if (random < 2) {
             this.fold();
         } else if (random < 7 && raiseButton.style.visibility == "visible") {
-            betInput.value = Math.floor(Math.random() * (this.m_MaxRaise - this.m_MinRaise)) + this.m_MinRaise + this.m_CurrentBet;
+            betInput.value = Math.floor(Math.random() * (this.m_MaxRaise - this.m_MinRaise)) + this.m_MinRaise;
             this.raise();
         } else {
             this.checkOrCall();

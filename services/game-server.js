@@ -1,5 +1,7 @@
 import { Get, Post } from "../http-client";
 import { connectSocket, joinToTs, subscribe, joinToTsWithMtData } from "../socket-client";
+import { getMessage } from "../UI/language-ui";
+import { updatCurrency } from "../UI/money-display";
 
 export let userToken = getParamToken();
 
@@ -7,7 +9,15 @@ let tsData = undefined;
 let mtData = undefined;
 
 export const userMode = getParamUserMode();
+export let defaultCurrency = "XRP";
+
 // export const userMode = 1;
+let detectedDoubleBrowser = false;
+let moveTable = false;
+
+export function setDetectedDoubleBrowser(value) {
+    detectedDoubleBrowser = value;
+}
 
 connect().catch(err => {
     console.error(err);
@@ -15,8 +25,14 @@ connect().catch(err => {
 subscribe("onConnect", join);
 subscribe("onDisconnect", reconnect);
 
-async function reconnect () {
-    $('.error-message')[0].innerHTML = "Socket disconnected, reconnecting"
+async function reconnect() {
+    if (detectedDoubleBrowser || moveTable) {
+        moveTable = false;
+        return;
+    }
+
+    $('#msgModal #myModalLabel')[0].innerText = "Error Message";
+    $('.error-message')[0].innerHTML = getMessage('socketDisconnect')
     $('#msgModal').modal('show');
 
     await getTs(userToken);
@@ -81,6 +97,10 @@ export async function getTs (token) {
     response = JSON.parse(response);
     tsData = response;
     console.log(tsData);
+    defaultCurrency = tsData.currency;
+    updatCurrency();
+    $(".progress").css('width', '50%');
+    $(".progress-number").text('50%');
     return response;
 }
 
@@ -93,9 +113,11 @@ export function join () {
     joinToTs(userToken, tsData.token, userMode === 1 ? 'Observer' : 'Player');
 }
 
-export function setServer (server, token) {
+export function setServer(server, token, type = undefined) {
     tsData.server = addProtocol(server);
     tsData.token = token;
+    if (type == "migrate")
+        moveTable = true;
 }
 
 function addProtocol (url) {

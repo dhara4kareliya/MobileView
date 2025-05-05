@@ -255,12 +255,6 @@ p {
     color: #ffc502;
 }
 
-.activities {}
-
-@-moz-document url-prefix() {
-    .activities {}
-}
-
 .style-2::-webkit-scrollbar-thumb {
     border-radius: 10px!important;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)!important;
@@ -280,7 +274,9 @@ p {
     background: rgba(0, 0, 0, 0.19);
     border-radius: 9px;
 }
-
+.activities, .activity-list {
+    height: 100%;
+}
 @-moz-document url-prefix() {
     /* Styles specifically for Firefox */
     .style-2 {
@@ -327,12 +323,16 @@ p {
 
 .firsr_but {
     /* height: calc(12.6 * var(--aspect-ratio))!important; */
-    border-bottom: 1px solid #29334d;
+    border-bottom: 2px solid #29334d;
     color: white;
     font-size: calc((6.5 * var(--aspect-ratio)));
     font-weight: 400px;
     line-height: calc((9.4 * var(--aspect-ratio)));
     margin-left: 0px!important;
+}
+
+.round_end {
+    border-bottom: 2px solid #91CAFE !important;
 }
 
 .acc {
@@ -738,32 +738,36 @@ button:focus {
     /* position: relative; */
     display: flex;
 }
-.button-prents button:hover, 
+
+.button-prents button:hover,
 .button-prents button:focus {
     background-color: #FFEF33 !important;
 }
 
 #tip-button {
-	visibility: hidden;
+    visibility: hidden;
     display: flex !important;
-	align-items: center;
-	flex-direction: row;
+    align-items: center;
+    flex-direction: row;
 }
+
 #tip-button>button:disabled,
 button[disabled] {
     background-color: gray !important;
     color: #ffffff;
 }
+
 #tip-button>button:disabled:hover,
 button[disabled]:hover {
     background-color: gray !important;
     color: #ffffff;
 }
+
 #tip-button-section {
-	position: absolute;
-	right: calc(129 * var(--aspect-ratio));
-    display: none;
-	bottom: 1%;
+    position: absolute;
+    right: calc(129 * var(--aspect-ratio));
+    /*display: none;*/
+    bottom: 1%;
 }
 
 #tip-button p {
@@ -990,4 +994,417 @@ button[disabled]:hover {
     color: #99A5EB;
     text-align: center;
     font-size: calc(1.5*var(--aspect-ratio));
+}
+/* logs tab new design */
+
+#activityContainer{
+        position: relative;
+        z-index: 1000;
+        display: none;
+        padding: 0.5rem 0;
+        margin: 0.125rem 0 0;
+        font-size: 1rem;
+        color: #212529;
+        background-color: #15163B;
+        text-align: left;
+        background-clip: padding-box;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+}
+
+.poker-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 80px;
+    margin-top: 60px;
+    border-collapse: collapse;
+    background-color: #1a1f2e;
+}
+
+.header {
+    width: 100%;
+    z-index: 100;
+    border-collapse: collapse;
+    background-color: #0D0731;
+    height: 100%;
+}
+.activity-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #15163B;
+}
+.close-btns{
+    margin-left: 10px;
+}
+.header td {
+    text-align: center;
+    padding: 10px;
+    background: #0D0731;
+    border-right: 1px solid rgba(255, 255, 255, 0.33);
+    border-bottom: 1px solid #2a2f3e;
+}
+.header thead tr{
+		height: calc(10* var(--aspect-ratio));
+	}
+
+.header-title {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 5px;
+    font-family: krub;
+}
+
+.header-value {
+    font-size: 18px;
+    color: #57F8D8;
+}
+
+.poker-table td {
+    padding: 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.33);
+    background: #263D60;
+    vertical-align: top;
+}
+
+.player-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.player-avatar-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.player-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #91CAFE;
+}
+.dealer-card:nth-child(3n+1) {
+    clear: both;
+}
+.player-tag-bb {
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	background-color: #5E7620;
+	color: white;
+	padding: 1px 1px;
+	border-radius: 100%;
+	font-size: 8px;
+	font-weight: bold;
+	z-index: 2;
+	min-width: 20px;
+	text-align: center;
+    border: solid 1px white;
+    font-family: krub;
+}
+
+.player-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.player-name {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    font-family: krub;
+    font-weight: 700;
+}
+.player-detail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.player-container {
+    background-color: #6D8CAE;
+    border-radius: 6px;
+    padding: 5px;
+    position: relative;
+    filter: drop-shadow(2px 2px 3px rgba(255, 255, 255, 0.6));
+}
+
+.navigation-player-container {
+	background-color: #6D8CAE;
+	padding: 5px;
+	position: relative;
+	width: fit-content;
+	left: 25px;
+}
+
+.player-container::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: -5%;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 14px solid #6D8CAE;
+    transform: rotate(-241deg) translateY(-50%);
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-info {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-action {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: white;
+    /* justify-content: space-between; */
+}
+.DealerCards.empty {
+    margin-top: 0 !important;
+}
+.bet-amount,
+.bet-action {
+    font-family: 'Krub';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 13px;
+    color: white;
+    text-wrap: nowrap;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding-left: 0;
+    margin-top: 8px;
+    width: fit-content;
+}
+
+.card {
+    width: 20px;
+    height: 30px;
+    background-color: white;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
+}
+
+.card.red {
+    color: #ff0000;
+}
+.card.black {
+    color: black;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 8px;
+}
+
+.card.hearts::before {
+    content: '?';
+    color: #ff0000;
+}
+
+.card.diamonds::before {
+    content: '?';
+    color: #ff0000;
+}
+
+.card.spades::before {
+    content: '?';
+}
+
+.card.clubs::before {
+    content: '?';
+}
+
+.player-tag {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    background-color: #4d8c53;
+    color: white;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: normal;
+    z-index: 1;
+}
+
+.navigation-container {
+	width: 100%;
+	background-color: #0D0731;
+	padding: 20px 0;
+	bottom: 0;
+	left: 28%;
+	border-top: 1px solid #2a2f3e;
+	z-index: 111;
+}
+
+.navigation {
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 10px;
+    transform: translateX(9%);
+    width: 100%;
+}
+
+.nav-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #0066cc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    color: white;
+    font-size: 20px;
+}
+
+.nav-button:hover {
+    background-color: #0077ee;
+}
+
+.nav-button:active {
+    background-color: #0055bb;
+}
+
+.progress-bar1 {
+    width: 300px;
+    height: 7px;
+    background-color: #0087FF !important;
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+    overflow: visible;
+}
+
+.progress {
+    width: 90% !important;
+    height: 100%;
+    background-color: transparent !important;
+    border-radius: 2px;
+    position: relative;
+    overflow: visible;
+}
+
+.progress-handle {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    cursor: pointer;
+}
+
+.hand-counter {
+    position: absolute;
+    bottom: 63%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: calc(5* 3px);
+    font-family: krub;
+    font-weight: 600;
+}
+.totalLogs{
+    font-family: krub;
+}
+.scroll_td {
+    padding: 0; 
+}
+.activity-list{
+    overflow: auto;
+}
+.scroll-content {
+    overflow-y: auto;
+    display: block; 
+}
+.lodHeadText{
+    display: flex;
+    justify-content: space-between;
+    font-size: calc(5*var(--aspect-ratio));
+}
+
+.resize-handle {
+    width: 10px;
+    height: 10px;
+    background: #0066cc;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;  
+    z-index: 111;
+}
+.draggable-container {
+    position: absolute;
+    background: #263D60;
+    border: 1px solid #2a2f3e;
+    border-radius: 4px;
+    min-width: 100px;
+    min-height: 100px;
+    cursor: move;
+    resize: both;
+    overflow: auto;
+    z-index: 1000;
+    height: inherit;
+    width: inherit;
+}
+
+.drag-handle {
+    width: 100%;
+    cursor: move;
+    color: white;
+    padding: 2px 5px;
+    box-sizing: border-box;
+    height: inherit;
+    display: flex;
+  flex-direction: column;
+}
+.playerCards{
+    position: relative;
 }

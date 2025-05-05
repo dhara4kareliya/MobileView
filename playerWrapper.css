@@ -1,11 +1,11 @@
 .player_wrapper:nth-child(1) {
-    top: calc(0 * var(--aspect-ratio));
+    top: calc(16 * var(--aspect-ratio));
     position: absolute;
     left: calc(43 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(2) {
-    top: calc(0 * var(--aspect-ratio));
+    top: calc(16 * var(--aspect-ratio));
     position: absolute;
     left: calc(102 * var(--aspect-ratio)) !important;
 }
@@ -13,7 +13,7 @@
 .player_wrapper:nth-child(3) {
     top: calc(50 * var(--aspect-ratio));
     position: absolute;
-    right: calc(13 * var(--aspect-ratio));
+    right: calc(17 * var(--aspect-ratio));
 }
 
 .player_wrapper:nth-child(4) {
@@ -74,6 +74,12 @@
     position: absolute;
 }
 
+#tip-button>button:disabled,
+button[disabled] {
+    background-color: gray !important;
+    color: #ffffff;
+}
+
 .sitDownButton {
     background: #201e37 0% 0% no-repeat padding-box;
     border: 3px solid #ffffff52;
@@ -91,7 +97,8 @@
     content: ' ';
 }
 
-.player-cards {
+.player-cards,
+.fold-cards {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,7 +127,7 @@
     background: linear-gradient( 90deg, rgba(63, 95, 167, 0.7) 0%, rgba(63, 95, 168, 0.9) 24%, rgba(63, 95, 165, 0.6) 100%);
     width: calc((40 * var(--aspect-ratio)));
     /* max-width: 30vw; */
-    border: calc((1 * var(--aspect-ratio))) solid white;
+    /* border: calc((1 * var(--aspect-ratio))) solid white; */
     box-shadow: 0.5px 0.5px calc((1.8 * var(--aspect-ratio))) white;
     border-radius: calc((1.9 * var(--aspect-ratio)));
 }
@@ -138,6 +145,21 @@
     margin-left: calc(5 * var(--aspect-ratio));
 }
 
+.fold-cards {
+    top: 30%;
+    width: calc(11 * var(--aspect-ratio));
+    /* margin-left: calc(2.5 * var(--aspect-ratio));
+    margin-top: calc(2 * var(--aspect-ratio)); */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.fold-cards .content img {
+    height: calc( 20.1 * var(--aspect-ratio));
+    width: calc( 17.1 * var(--aspect-ratio));
+}
+
 .player_wrapper:is(.toPlay) .player-cards {
     top: 29%;
 }
@@ -146,6 +168,13 @@
 .player_wrapper:nth-child(6):is(.isPlayer) .player-card>.back {
     height: calc( 20.1 * var(--aspect-ratio));
     width: calc( 17.1 * var(--aspect-ratio));
+}
+.player_wrapper:nth-child(6):is(.isPlayer) .player-cards {
+   
+    transition: transform 0.7s ease-in-out;
+}
+.player_wrapper:nth-child(6):is(.isPlayer) .player-cards.show {
+    transform: scale(1.5);
 }
 
 .player-card {
@@ -170,6 +199,17 @@
     position: absolute;
 }
 
+.player-cards:is(.isCardsOpen) .front,
+.player-cards:is(.isCardsOpen) .back {
+    height: calc( 20.1 * var(--aspect-ratio));
+    width: calc( 17.1 * var(--aspect-ratio));
+}
+
+.player_wrapper:not(.isPlayer) .player-cards:is(.isCardsOpen),
+.player_wrapper:not(.isPlayer) .player-cards:is(.isCardsOpen) .fold-cards {
+    top: 25%;
+}
+
 .betAmountAnimation {
     font-size: 28px;
     color: #f4fc06;
@@ -183,7 +223,7 @@
     background: black;
     width: calc((35 * var(--aspect-ratio)));
     height: calc((2 * var(--aspect-ratio)));
-    top: calc((8 * var(--aspect-height-ratio)));
+    top: calc((6 * var(--aspect-height-ratio)));
     margin-left: calc((2.5 * var(--aspect-ratio)));
     position: relative;
 }
@@ -199,12 +239,12 @@
 .toPlay .timeCircle {
     width: calc((15 * var(--aspect-ratio)));
     border-radius: 50%;
-    border: 2px solid cyan;
+    --borderColor: cyan; /* Default color */
+    border: 2px solid var(--borderColor);
     background: linear-gradient( 90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 24%, rgba(0, 0, 0, 0.5) 100%);
     position: absolute;
-    top: calc((-6 * var(--aspect-ratio)));
+    top: calc((-2 * var(--aspect-ratio)));
     right: calc((-5 * var(--aspect-ratio)));
-    /* font-size: x-small; */
     height: calc((15 * var(--aspect-ratio)));
     font-size: calc((8 * var(--aspect-ratio)));
     z-index: 1;
@@ -229,7 +269,7 @@
     --barWidth: 30;
     --turnPgPrecentage: 20;
     background: radial-gradient( closest-side, var(--insideBackground) calc((100 - var(--barWidth)) * 1%), transparent calc((101 - var(--barWidth)) * 1%) 99.9%), conic-gradient( var(--barFillColor) calc(var(--turnPgPrecentage) * 1%), var(--barBackground) 0);
-    animation-name: turnCircleReact;
+    animation-name: turnCircleBank;
     animation-duration: 30s;
     animation-iteration-count: 1;
 }
@@ -265,6 +305,10 @@
 .player_wrapper:nth-child(6):is(.isPlayer) .avatar {
     width: 20vw;
     height: 20vw;
+}
+
+.player_wrapper:nth-child(6):is(.isPlayer) {
+    z-index: 1;
 }
 
 .player_wrapper:nth-child(6) .title {
@@ -310,7 +354,7 @@
 
 .player_wrapper:nth-child(1) .lastBetDiv {
     bottom: calc((-8 * var(--aspect-ratio))) !important;
-    right: calc((3 * var(--aspect-ratio))) !important;
+    right: calc((-6 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(2) .lastBetDiv {
@@ -324,9 +368,12 @@
 }
 
 .player_wrapper:nth-child(3) .lastBetDiv,
-.player_wrapper:nth-child(4) .lastBetDiv,
-.player_wrapper:nth-child(5) .lastBetDiv {
+.player_wrapper:nth-child(4) .lastBetDiv {
     bottom: calc((0 * var(--aspect-ratio))) !important;
+    left: calc((-30 * var(--aspect-ratio))) !important;
+}
+.player_wrapper:nth-child(5) .lastBetDiv {
+    bottom: calc((31 * var(--aspect-ratio))) !important;
     left: calc((-30 * var(--aspect-ratio))) !important;
 }
 
@@ -358,10 +405,13 @@
     left: calc(-7 * var(--aspect-ratio));
 }
 
-.player_wrapper:nth-child(7) .lastBetDiv,
 .player_wrapper:nth-child(8) .lastBetDiv,
 .player_wrapper:nth-child(9) .lastBetDiv {
     bottom: calc((0 * var(--aspect-ratio))) !important;
+    right: calc((-30 * var(--aspect-ratio))) !important;
+}
+.player_wrapper:nth-child(7) .lastBetDiv {
+    bottom: calc((31 * var(--aspect-ratio))) !important;
     right: calc((-30 * var(--aspect-ratio))) !important;
 }
 
@@ -464,8 +514,8 @@
     box-shadow: inset calc(0.3 * var(--aspect-ratio)) calc(0.5 * var(--aspect-ratio)) calc(1 * var(--aspect-ratio)) #000000b8;
     width: fit-content;
     margin: 0 auto;
-    /*   position: relative;
-            top: calc((15 * var(--aspect-ratio))); */
+    bottom: calc((-66 * var(--aspect-ratio)));
+    left: calc(9 * var(--aspect-ratio));
     padding: 0px calc((15 * var(--aspect-ratio)));
     border-radius: calc((2 * var(--aspect-ratio)));
     font-weight: 500;
@@ -510,8 +560,6 @@
         width: fit-content;
         margin: 0 auto;
         position: absolute;
-        top: calc((130 * var(--aspect-ratio)));
-        left: calc(23.8 * var(--aspect-ratio));
         padding: 0px calc((15 * var(--aspect-ratio)));
         border-radius: calc((2 * var(--aspect-ratio)));
         font-weight: 500;
@@ -562,10 +610,25 @@
     0% {
         --turnPgPrecentage: 0;
         --barBackground: #00ccff;
+        --borderColor: #00ccff; /* cyan */
     }
     100% {
         --turnPgPrecentage: 100;
         --barBackground: #00ccff;
+        --borderColor: #00ccff; /* cyan */
+    }
+}
+
+@keyframes turnCircleBank {
+    0% {
+        --turnPgPrecentage: 0;
+        --barBackground: #f70930;
+        --borderColor: #f70930; /* red */
+    }
+    100% {
+        --turnPgPrecentage: 100;
+        --barBackground: #f70930;
+        --borderColor: #f70930; /* red */
     }
 }
 
@@ -612,7 +675,8 @@
     opacity: 1;
     left: calc(27 * var(--aspect-ratio)) !important;
     position: absolute;
-    top: calc(289 * var(--aspect-ratio));
+    top: calc(319 * var(--aspect-ratio));
+    
 }
 
 #backButton img {

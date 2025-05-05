@@ -1,6 +1,9 @@
+import { updatePlayerSetting } from "../socket-client";
+
 const soundCheckbox = $("#muteCheckbox")[0];
 soundCheckbox.addEventListener('click', () => {
     setSoundEnable(!soundCheckbox.checked);
+    updatePlayerSetting('mute', soundCheckbox.checked);
 });
 
 let soundEnable = true;
@@ -40,73 +43,75 @@ export class Sound {
     }
 
     playCardDealt() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioCardDealt.play();
     }
 
     playEndStreet() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioEndStreet.play();
     }
 
     playFlop() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioFlop.play();
     }
 
     playTurnRiver() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioTurnRiver.play();
     }
 
     playWinnerPot() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioWinnerTakePot.play();
     }
 
     playCall() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioCall.play();
     }
 
     playCheck() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioCheck.play();
     }
 
     playRaise() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioRaise.play();
     }
 
     playAllin() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioAllin.play();
     }
 
     playFold() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioFold.play();
     }
 
     playTurnTime(isPlay) {
-        if (soundEnable == true){
-        if (isPlay) {
-            this.m_audioTurnTimer.play();
-        } else {
+        if (soundEnable == true && !document.hidden){
+            if (isPlay) {
+                this.m_audioTurnTimer.play();
+            } else {
+                this.m_audioTurnTimer.pause();
+            }
+        }else{
             this.m_audioTurnTimer.pause();
         }
-    }
 
     }
 
     playWin() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioWin.play();
     }
 
     playNotification() {
-        if (soundEnable == true)
+        if (soundEnable == true && !document.hidden)
         this.m_audioNotification.play();
     }
 

@@ -1,6 +1,8 @@
-import { emit, playerSitDown, playerLeaveGame, sendTurnAction, subscribe, connectSocket, ShowTipToDealer } from "../socket-client";
+import { emit, playerSitDown, playerLeaveGame, sendTurnAction, subscribe, connectSocket, ShowTipToDealer, updatePlayerSetting } from "../socket-client";
 import { setServer } from "./game-server";
-import { Get } from "../http-client";
+import { Get, hostAddress } from "../http-client";
+import { generateHashAndRandomString, verifyJSONFromServer } from './utils-server';
+import { getMessage } from "../UI/language-ui";
 
 export const PlayerState = Object.freeze({
     None: 0,
@@ -61,7 +63,7 @@ export class PlayerInfo {
 
 export class TableSetting {
     constructor(name, numberOfSeats, mode, level, nextSB,
-        nextBB, duration, smallBlind, bigBlind, ante, minBuyIn, maxBuyIn, displaySB, displayBB, displayAnte) {
+        nextBB, duration, smallBlind, bigBlind, ante, minBuyIn, maxBuyIn, displaySB, displayBB, displayAnte, isRandomTable, isEncryptedShuffling) {
         this.name = name;
         this.numberOfSeats = numberOfSeats;
         this.mode = mode;
@@ -77,6 +79,8 @@ export class TableSetting {
         this.displaySB = displaySB;
         this.displayBB = displayBB;
         this.displayAnte = displayAnte;
+        this.isRandomTable = isRandomTable;
+        this.isEncryptedShuffling = isEncryptedShuffling;
     }
 }
 
@@ -196,9 +200,10 @@ export class RoundResult {
 }
 
 export class SeatShowCards {
-    constructor(seat, cards) {
+    constructor(seat, cards, handrank) {
         this.seat = seat;
         this.cards = cards;
+        this.handrank = handrank;
     }
 }
 
@@ -209,6 +214,9 @@ export const turn = new Turn();
 let playerState = PlayerState.None;
 let playerSeat = -1;
 let type = "";
+let randomString = undefined;
+let hash = undefined;
+let allHashes = undefined;
 
 export function getCurrentTurn() {
     return turn;
@@ -241,8 +249,30 @@ function onPlayerLeave(reason) {
 
     const type = reason.type;
     if (type == 'migrate') {
-        setServer(reason.server, reason.token);
+        setServer(reason.server, reason.token, type);
+        $('.notification-message')[0].innerHTML = getMessage('moveNewTable');
+        $('#notificationModal').modal('show');
+        setTimeout(() => {
+            $('#notificationModal').modal('hide');
+        }, 3000);
         connectSocket(reason.server);
+        const soundCheckbox = $("#muteCheckbox")[0];
+        const fourColorsCheckbox = $("#fourColorsCheckbox")[0];
+        const showBBCheckbox = $("#showAsBBCheckbox")[0];
+        const showSUDCheckbox = $("#showAsSUDCheckbox")[0];
+        const shuffleVerificationButtonCheckboxe = $("#shuffleVerificationButton")[0];
+        const DisplayCards = $("#DisplayCards")[0];
+        const autoMuckCheckbox = $("#autoMuckCheckbox")[0];
+
+        setTimeout(function() {
+            updatePlayerSetting('mute', soundCheckbox.checked);
+            updatePlayerSetting('fourColors', fourColorsCheckbox.checked);
+            updatePlayerSetting('autoMuck', autoMuckCheckbox.checked);
+            updatePlayerSetting('shuffleVerification', shuffleVerificationButtonCheckboxe.checked);
+            updatePlayerSetting('DisplayCards', DisplayCards.checked);
+            updatePlayerSetting('showSUD', showSUDCheckbox.checked);
+            updatePlayerSetting('showBB', showBBCheckbox.checked);
+        }, 5000);
     } else if (type == 'tournament_leave' || type == 'double_browser_leave') {
         triggerEventListeners("onPlayerLeave", reason);
     } else {
@@ -336,7 +366,36 @@ export function turnAction(action, bet = 0) {
         bet = 0;
     sendTurnAction(action, bet);
 }
+function onTableUpdateTurn(res) {
+    copyTo(res, turn);
+    if (turn.seat == undefined)
+        turn.seat = -1;
+    if (turn.seat >= 0) {
+        if (turn.canRaise) {
+            turn.minRaise = turn.raise[0];
+            if (type == "plo")
+                turn.maxRaise = turn.pot;
+            else
+                turn.maxRaise = turn.raise[1];
+        } else {
+            turn.minRaise = 0;
+            turn.maxRaise = 0;
+        }
 
+        turn.timeout = turn.time[0];
+        turn.timeToReact = turn.time[1];
+        turn.timeBank = turn.time[2];
+    } else {
+        turn.call = 0;
+        turn.canRaise = false;
+        turn.minRaise = 0;
+        turn.maxRaise = 0;
+        turn.timeout = 0;
+        turn.timeToReact = 0;
+        turn.timeBank = 0;
+        turn.currentBet = 0;
+    }
+}
 function onTableRoundResult(res) {
     let result = new RoundResult(res.players, res.pots);
     triggerEventListeners("onRoundResult", result);
@@ -347,7 +406,7 @@ export function showCards() {
 }
 
 function onTablePlayerShowCards(res) {
-    const showCards = new SeatShowCards(res.seat, res.cards);
+    const showCards = new SeatShowCards(res.seat, res.cards, res.handrank, res.avatar);
     triggerEventListeners("onShowCards", showCards);
 }
 
@@ -359,8 +418,42 @@ function onTablePlayerShowCardsButton(res) {
     triggerEventListeners("onShowCardsButton", res);
 }
 
-function onTablePlayerFoldAnyBet(res) {
-    triggerEventListeners("onFoldAnyBet", res);
+function onTablePlayerAlwaysFold(res) {
+    triggerEventListeners("onAlwaysFold", res);
+}
+
+function onPlayerGenerateHashAndRandomString(res) {
+    const generatedInfo = generateHashAndRandomString();
+    hash = generatedInfo.hash;
+    randomString = generatedInfo.randomString;
+    emit('REQ_PLAYER_HASH', hash);
+}
+
+function onAllHashes(res) {
+    allHashes = res;
+    // Each user sends their random string to the server
+
+}
+
+function onPlayerRandomString(res) {
+    emit('REQ_PLAYER_RANDOM_STRING', randomString);
+}
+
+function onVerifyJsonString(res) {
+    triggerEventListeners("onVerifyShuffling", res);
+
+    /* const data = verifyJSONFromServer(res);
+
+
+    emit('REQ_PLAYER_VERIFY_JSON_STRING', data); */
+}
+
+function onTournamentCancelTime(res) {
+    triggerEventListeners("onTournamentCancelTime", res);
+}
+
+function onPlayerGameSetting(res) {
+    triggerEventListeners("onPlayerGameSetting", res);
 }
 
 function onBuyInOpen(res) {
@@ -370,9 +463,12 @@ function onBuyInOpen(res) {
 function onMessage(res) {
     triggerEventListeners("onMessage", res);
 }
+export function onCancelBet() {
+    triggerEventListeners("onCancelBet");
+}
 
 function onAnimation(res) {
-    triggerEventListeners("onPlayerAnimation", res);
+    triggerEventListeners("onAnimation", res);
 }
 
 function onTourneyInfo(res) {
@@ -395,12 +491,15 @@ function onTip(res) {
     triggerEventListeners("onTip", res);
 }
 
+function onWaitForBB(res) {
+    triggerEventListeners("onWaitForBB", res);
+}
+
 export function waitForBB(value = true) {
     emit("REQ_PLAYER_WAITFORBB", { value: value });
 }
 
 export function sitOutNextHand(value) {
-    console.log(`sitout: ${value}`);
     emit("REQ_PLAYER_SITOUTNEXTHAND", { value: value });
 }
 
@@ -418,7 +517,7 @@ export function sitDown(seatIndex) {
 }
 
 export function TipToDealer(amount) {
-    ShowTipToDealer(amount);
+    ShowTipToDealer(amount, () => {});
 }
 
 export function joinWaitingList() {
@@ -445,21 +544,41 @@ subscribe("onTableRoundResult", onTableRoundResult);
 subscribe("onTablePlayerShowCards", onTablePlayerShowCards);
 subscribe("onTablePlayerMuckCards", onTablePlayerMuckCards);
 subscribe("onTablePlayerShowCardsButton", onTablePlayerShowCardsButton);
-subscribe("onTablePlayerFoldAnyBet", onTablePlayerFoldAnyBet);
+subscribe("onTablePlayerAlwaysFold", onTablePlayerAlwaysFold);
 subscribe("onBuyInOpen", onBuyInOpen);
-
+subscribe("onWaitForBB", onWaitForBB);
 subscribe("onInsurance", onInsurance);
 subscribe("onMessage", onMessage);
+subscribe("onCancelBet", onCancelBet);
 subscribe("onAnimation", onAnimation);
 subscribe("onTourneyInfo", onTourneyInfo);
 subscribe("onCashWaitList", onCashWaitList);
 subscribe("onLog", onLog);
 subscribe("onChat", onChat);
 subscribe("onTip", onTip);
+subscribe("onPlayerGenerateHashAndRandomString", onPlayerGenerateHashAndRandomString);
+subscribe("onPlayerRandomString", onPlayerRandomString);
+subscribe("onAllHashes", onAllHashes);
+subscribe("onVerifyJsonString", onVerifyJsonString);
+subscribe("onPlayerGameSetting", onPlayerGameSetting);
+subscribe("onTournamentCancelTime", onTournamentCancelTime);
 /* subscribe("onSideBetOptions", onSideBetOptions);
 subscribe("onSideBetHistory", onSideBetHistory);
 subscribe("onTableFreeBalance", onTableFreeBalance); */
 
+export async function registerTournament(tournament_id, user_token) {
+    try {
+        const data = await Get(`api/tournamentRegistrationByApi?user_token=${user_token}&tournament_id=${tournament_id}`);
+        const option = JSON.parse(data);
+        $(".loader").hide();
+        if (option.result == 'success')
+            window.location.href = hostAddress + "/mobile-html/?t=" + option.token;
+        else
+            throw "Failed to connect to game server."
+    } catch {
+        throw "Failed to connect to game server."
+    }
+}
 
 export async function getOptions() {
     try {

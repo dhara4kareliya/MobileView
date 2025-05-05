@@ -886,8 +886,6 @@ p {
 }
 
 .second-top {
-    width: 510px!important;
-    height: 600px!important;
     border-radius: 35px!important;
     border: 2px solid #EFA434;
     background: linear-gradient(90deg, #181B3A 0%, #262A4E 48.44%, #181B3A 100%);

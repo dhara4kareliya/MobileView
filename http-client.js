@@ -1,5 +1,5 @@
- const hostAddress = "https://nrpoker.net";
-//  const hostAddress = "http://localhost:3002";
+ export const hostAddress = "https://nrpoker.net";
+//  export const hostAddress = "http://192.168.29.248:3002";
  // const hostAddress = "http://server149.xite.io:3000";
 
  /**

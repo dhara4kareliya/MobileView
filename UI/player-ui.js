@@ -1,5 +1,5 @@
 import { getPlayerSeat, sitDown, tableSettings } from "../services/table-server";
-import { getMoneyValue, getMoneyText } from "./money-display";
+import { getMoneyValue, getMoneyText, round2 } from "./money-display";
 import { Card, getCardImageFilePath } from "./card-ui";
 import { userMode } from '../services/game-server';
 import { Sound } from './audio';
@@ -19,6 +19,7 @@ const actionColors = {
     "MISSING SB": "#595959",
     "BB": "#595959",
     "SB": "#595959",
+    "ANTE": "#595959",
     "SittingOut": "#595959",
     "Waiting For BB": "#595959",
     "MUCKED": "#EC262F",
@@ -64,7 +65,6 @@ const fieldAlternativeActions = {
     blind: srcToken,
     avatar: (element, value) => {
         element.src = value;
-        console.log(value);
     },
     lastAction: (element, value) => {
         element.innerText = value;
@@ -158,7 +158,7 @@ function getSortedPlayerWrappers() {
 
 function tipButtonClickHandler(event) {
     const TipAmount = event.target.getAttribute('value');
-    ShowTipToDealer(TipAmount, () => {
+    ShowTipToDealer(round2(TipAmount), () => {
         // $('#TipToDealer').modal('show');
     });
 }
@@ -185,6 +185,7 @@ export class Player {
         this.missingSB = false;
         this.mucked = false;
         this.isPlaying = false;
+        this.isPlayerTurn = false;
     }
 
     setPlayState(isPlaying) {
@@ -234,7 +235,7 @@ export class Player {
             this.showCards(cards);
             return;
         }
-
+        this.clearCards();
         this.cards = cards;
 
         let twoCardsClassName = "";
@@ -242,6 +243,10 @@ export class Player {
 
         if (cards.length == 2) twoCardsClassName = "two-cards";
         if (cards.length == 4 || cards.length == 5) fourCardsClassName = "four-cards";
+
+        const isCardsOpen = this.cards.every(c => c !== '?');
+        if (isCardsOpen)
+            $(this.wrapper).find('.player-cards')[0].classList.add("isCardsOpen");
 
         if (fourCardsClassName != "") {
             $(this.wrapper).find('.player-cards').addClass(fourCardsClassName);
@@ -255,6 +260,10 @@ export class Player {
                                 </div>`;
 
             $(this.wrapper).find('.player-cards').append(tableCard)
+            if(this.wrapper.classList.contains('isPlayer')){
+                const logcards = $(`<img class="" src="${cardImgFilePath}" style="opacity:1;height: 40px;width: 25px;"/>`);
+                $('.playerCards').find('.cards').append(logcards)
+            }
         }
     }
 
@@ -262,6 +271,10 @@ export class Player {
         if (JSON.stringify(this.cards) === JSON.stringify(cards)) return;
 
         const playerCards = $(this.wrapper).find(".player-card");
+
+        const isCardsOpen = cards.every(c => c !== '?');
+        if (isCardsOpen)
+            $(this.wrapper).find('.player-cards')[0].classList.add("isCardsOpen");
 
         let i = 0;
         for (const card of playerCards) {
@@ -276,9 +289,22 @@ export class Player {
             card.style.animationName = "flip-animation";
         }
     }
+    checkPlayerCards() {
+        const playerCards = $(this.wrapper).find(".player-card");
+        if(playerCards.length > 0)
+            return true;
+        else 
+            return false;
+    }
 
     clearCards() {
-            $(this.wrapper).find('.player-cards')[0].innerHTML = '';
+        if(this.wrapper.classList.contains('isPlayer')){
+          $('.playerCards').find('.cards').html('')
+        }
+        const playerCards = $(this.wrapper).find('.player-cards')[0];
+        playerCards.innerHTML = '';
+        playerCards.classList.remove("isCardsOpen");
+
             this.cards = [];
         }
         /**
@@ -334,17 +360,7 @@ export class Player {
         const amountText = getMoneyText(amount);
         let value = amount ? amountText.outerHTML : false;
         this.setWrapperField("money", value);
-
-        if (this.wrapper.classList.contains('isPlayer')) {
-            console.log('contain');
-            const elements = $("#tip-button button");
-            const bigBlind = tableSettings.bigBlind;
-            for (const element of elements) {
-                const tipValue = element.attributes['value'].value;
-                element.disabled = (amount < (tipValue * bigBlind));
-            }
-
-        }
+        this.showTipButtons(amount);
     }
 
     setPlayerBet(amount) {
@@ -378,12 +394,13 @@ export class Player {
 
     muckCards() {
         this.mucked = true;
-        this.clearCards();
+        //this.clearCards();
         this.setWrapperField("lastAction", "MUCKED");
     }
 
     removeMuckedFlag() {
         this.mucked = false;
+        this.setWrapperField("lastAction", false);
     }
 
     removeActionLabel() {
@@ -441,6 +458,51 @@ export class Player {
             card.setRatio(0.5)
             card.drawCard();
         }
+    }
+
+    storeSitoutAndFoldCards(visible, cards) {
+        $(this.wrapper).find('.avtar_img')[0].onclick = undefined;
+        if (visible == true) {
+            this.storedCards = cards;
+
+            $(this.wrapper).find('.avtar_img')[0].onclick = () => {
+                if ($(this.wrapper).find(".fold-cards").length !== 0) {
+                    $(this.wrapper).find(".fold-cards").remove();
+                } else {
+                    this.showSitoutFoldCards(this.storedCards);
+                }
+            };
+        } else {
+            this.storedCards = [];
+            if ($(this.wrapper).find(".fold-cards").length !== 0) {
+                $(this.wrapper).find(".fold-cards").remove();
+            }
+        }
+    }
+
+    showSitoutFoldCards(cards) {
+        if (cards == undefined) return;
+
+        $(this.wrapper).append('<div class="fold-cards"></div>');
+        let twoCardsClassName = "";
+        let fourCardsClassName = "";
+
+        if (cards.length == 2) twoCardsClassName = "two-cards";
+        if (cards.length == 4 || cards.length == 5) fourCardsClassName = "four-cards";
+
+        if (fourCardsClassName != "") {
+            $(this.wrapper).find('.fold-cards').addClass(fourCardsClassName);
+        }
+        for (let i = 0; i < cards.length; ++i) {
+            const card = cards[i].toLowerCase();
+            const cardImgFilePath = getCardImageFilePath(card);
+            const tableCard = `<div class="content ${twoCardsClassName}">
+                                    <img src="${cardImgFilePath}"/>
+                                </div>`;
+
+            $(this.wrapper).find('.fold-cards').append(tableCard)
+        }
+
     }
 
     setDealerButton(visible) {
@@ -566,31 +628,58 @@ export class Player {
     }
 
     setTurnTimer(timeout, timeToReact, timeBank) {
+        const totalInitialTime = timeToReact + timeBank;
+        const elapsedTime = totalInitialTime - timeout;
+    
+        let remainingReactTime = Math.floor(timeToReact - elapsedTime);
+        if (remainingReactTime < 0) remainingReactTime = 0;
+
+        let remainingBankTime = Math.floor(timeBank);
+        let elapsedBankTime = 0;
+        if (remainingReactTime === 0) {
+            elapsedBankTime = Math.floor(timeBank - timeout);
+            remainingBankTime = Math.floor(timeout);
+            if (remainingBankTime < 0) remainingBankTime = 0;
+        }
+        const timeCircleCount = $(this.wrapper).find(".timeCircle div")[0];
+        timeCircleCount.innerText = remainingReactTime || remainingBankTime;
 
         this.resetPlayerWrapperClasses();
         if (this.turnCountInterval != undefined) { return; }
 
         var timeBanksound = false;
-        const timeCircleCount = $(this.wrapper).find(".timeCircle div")[0];
-        timeCircleCount.innerText = timeToReact;
+        this.isPlayerTurn = true;
+        
+        const timeCircle = $(this.wrapper).find(".timeCircle")[0];
+        const clonedTimeCircle = timeCircle.cloneNode(true);
+        
 
+        $(this.wrapper).find(".tangoHeadBlack").addClass("active-turn");
         this.turnCountInterval = setInterval(() => {
             const timeCircleCount = $(this.wrapper).find(".timeCircle div")[0];
-            if (timeToReact > 0) {
-                timeCircleCount.innerText = --timeToReact;
+            if (remainingReactTime > 0) {
+                timeCircleCount.innerText = --remainingReactTime;
             }
 
             // --timeToReact;
 
-            if (timeToReact === 0) {
-                if (timeBank >= 0) {
+            if (remainingReactTime === 0) {
+                if (remainingBankTime >= 0) {
+                    clonedTimeBar.style.animationDuration = `${remainingBankTime}s`;
+                    clonedTimeBar.style.animationName = "timeBankRunOut";
+                    // clonedTimeCircle.style.animationDuration = `${timeBank + 1}s`;
+                    clonedTimeCircle.style.animationName = "turnCircleBank";
                     if (!timeBanksound) {
                         sound.playTurnTime(true);
                         timeBanksound = true;
                     }
 
-                    timeCircleCount.innerText = timeBank--;
-                } else if (timeBank == -1) {
+                    timeCircleCount.innerText = remainingBankTime--;
+
+                    if (remainingBankTime < 3 && remainingBankTime > 0) {
+                        $(this.wrapper).find(".tangoHeadBlack").addClass("blink");
+                    }
+                } else if (remainingBankTime == 0) {
                     this.clearIntervalTimer();
                 }
             }
@@ -600,29 +689,29 @@ export class Player {
         const timeBar = $(this.wrapper).find(".turnTime div")[0];
         const clonedTimeBar = timeBar.cloneNode(true);
         timeBar.parentNode.replaceChild(clonedTimeBar, timeBar);
-        clonedTimeBar.style.animationDuration = `${timeToReact}s`;
+        clonedTimeBar.style.animationDuration = `${remainingReactTime}s`;
         clonedTimeBar.style.animationName = "timeReactRunOut";
 
 
-        const timeCircle = $(this.wrapper).find(".timeCircle")[0];
-        const clonedTimeCircle = timeCircle.cloneNode(true);
         timeCircle.parentNode.replaceChild(clonedTimeCircle, timeCircle);
-        clonedTimeCircle.style.animationDuration = `${timeToReact}s`;
+        clonedTimeCircle.style.animationDuration = `${remainingReactTime}s`;
         clonedTimeCircle.style.animationName = "turnCircleReact";
 
         this.reactTimeOut = setTimeout(() => {
-            clonedTimeBar.style.animationDuration = `${timeBank}s`;
+            clonedTimeBar.style.animationDuration = `${remainingBankTime}s`;
             clonedTimeBar.style.animationName = "timeBankRunOut";
-            clonedTimeCircle.style.animationDuration = `${timeBank + 1}s`;
-            clonedTimeCircle.style.animationName = "turnCircleBank";
+            // clonedTimeCircle.style.animationDuration = `${timeBank + 1}s`;
+            // clonedTimeCircle.style.animationName = "turnCircleBank";
 
             if (this.reactTimeOut != undefined)
                 clearTimeout(this.reactTimeOut);
-        }, timeToReact * 1000);
+        }, remainingReactTime * 1000);
 
     }
 
     clearTurnTimer() {
+        $(this.wrapper).find(".tangoHeadBlack").removeClass("blink");
+        $(this.wrapper).find(".tangoHeadBlack").removeClass("active-turn");
         sound.playTurnTime(false);
         this.clearIntervalTimer();
         this.resetPlayerWrapperClasses();
@@ -645,17 +734,41 @@ export class Player {
     }
 
     clearIntervalTimer() {
+        this.isPlayerTurn = false;
         if (this.turnCountInterval != undefined) {
             clearInterval(this.turnCountInterval);
             this.turnCountInterval = undefined;
         }
     }
 
-    TipDealer(data) {
+    showTipButtons(amount) {
+        if (!this.wrapper.classList.contains('isPlayer'))
+            return false;
+
+        const elements = $("#tip-button button");
+        const bigBlind = tableSettings.bigBlind;
+        for (const element of elements) {
+            const tipValue = element.attributes['value'].value;
+            element.disabled = (!amount || this.isPlayerTurn || amount < (tipValue * bigBlind));
+        }
+    }
+
+    showTipDealer(value){
+        if (!this.wrapper.classList.contains('isPlayer'))
+            return false;
+
+        const elements = $("#tip-button")[0];      
+        elements.style.visibility = value ? 'visible' : 'hidden';
+    }
+
+    setTipMessage(data) {
         const tostMessage = $(this.wrapper).find("#toastMessage")[0];
         const tostText = $(this.wrapper).find('#toastMessage .me-auto')[0];
         tostText.innerText = data.msg;
         tostMessage.style.display = 'block';
+
+        if (data.money !== undefined && data.seat === getPlayerSeat())
+            this.setPlayerMoney(data.money);
 
         setTimeout(() => {
             tostMessage.style.display = 'none';

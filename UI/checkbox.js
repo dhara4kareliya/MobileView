@@ -2,14 +2,16 @@ const checkedClass = "checked";
 const checkboxClass = ".checkbox";
 const checkboxes = $(checkboxClass);
 
-export function toggleCheckbox (checkbox, value) {
+export function toggleCheckbox(checkbox, value, toggleEvent = true) {
     let qcheckbox = $(checkbox);
     if (qcheckbox.hasClass(checkedClass) && value != true)
         qcheckbox.removeClass(checkedClass);
     else if (value != false)
         qcheckbox.addClass(checkedClass);
     checkbox.checked = qcheckbox.hasClass(checkedClass);
-    // checkbox.dispatchEvent(new Event('change'));
+
+    if (toggleEvent)
+        checkbox.dispatchEvent(new Event('change'));
 }
 
 for (const checkbox of checkboxes) {

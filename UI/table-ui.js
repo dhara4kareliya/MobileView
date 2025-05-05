@@ -1,6 +1,6 @@
 import { Player } from './player-ui';
 import { Sound } from './audio';
-import { getMoneyText, getMoneyValue } from "./money-display";
+import { getMoneyText, getMoneyValue, round2 } from "./money-display";
 import { TipToDealer, getPlayerSeat, tableSettings } from '../services/table-server';
 import { getCardImageFilePath } from './card-ui';
 
@@ -11,7 +11,6 @@ const winPotSpan = $("#winPot span")[0];
 const streetPotSpan = $("#currentSreetPotDiv span")[0];
 const sidePots = $(".sidePot");
 const logDiv = $('.logTabButton .activInner .log_data')[0];
-const AutoTip = $(".AutoTip")[0];
 const AutoTipCheckboxes = $(".AutoTip .checkbox")[0];
 let lastBet = 0;
 let prevState = "";
@@ -35,18 +34,29 @@ export class Table {
         this.siticonVisible = false;
         this.tableCardsCount = 0;
         this.closeTable = false;
+        this.numberOfSeats = 9;
+        this.playerSeates = new Map();
+        this.playerSeates.set(2, [0, 5]);
+        this.playerSeates.set(6, [0, 2, 3, 4, 5, 7]);
+        this.playerSeates.set(9, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+
     }
 
     init() {
-        this.playerWrappers = this.getSortedPlayerWrappers();
+        totalPotDiv.style.visibility = "hidden";
+        streetPotDiv.style.visibility = "hidden";
+    }
 
-        for (let i = 0; i < 9; ++i) {
+    setNumberOfSeats(numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+
+        if (this.players.length > 0) return;
+
+        this.playerWrappers = this.getSortedPlayerWrappers();
+        for (let i = 0; i < numberOfSeats; ++i) {
             let player = new Player(this.playerWrappers[i], i);
             this.players.push(player);
         }
-
-        totalPotDiv.style.visibility = "hidden";
-        streetPotDiv.style.visibility = "hidden";
     }
 
     setSitVisible(value) {
@@ -69,6 +79,7 @@ export class Table {
         for (const sidePot of sidePots) {
             sidePot.style = "";
             sidePot.style.visibility = "hidden";
+            sidePot.dataset.amount = "";
         }
         // if (pots === undefined) {
         //     this.setTotalPot(0);
@@ -81,14 +92,16 @@ export class Table {
         //     return;
         // }
 
-        for (let j = 0; j < 2; ++j)
+        for (let j = 0; j < 1; ++j)
             for (let i = 0; i < pots.length; ++i) {
-                const index = sidePots.length / 2 * j + i;
+                // const index = sidePots.length / 2 * j + i;
 
-                const sidePot = sidePots[index];
+                const sidePot = sidePots[i];
                 sidePot.style.visibility = "visible";
                 const moneySpan = $(sidePot).find(".money")[0];
-                moneySpan.innerText = getMoneyValue(pots[i].amount);
+                const amount = getMoneyValue(pots[i].amount);
+                moneySpan.innerText = amount;
+                sidePot.dataset.amount = amount;
                 if (j == 0)
                     totalPot += pots[i].amount;
             }
@@ -129,9 +142,8 @@ export class Table {
         this.closeTable = status;
     }
 
-    addTip(data) {
-        console.log(data);
-        this.players[data.seat].TipDealer(data);
+    setTipMessage(data) {
+        this.players[data.seat].setTipMessage(data);
     }
 
     setMode(mode) {
@@ -143,12 +155,16 @@ export class Table {
 
     getSortedPlayerWrappers() {
         let playerWrappers = $(".player_wrapper");
-        return playerWrappers.sort((a, b) => {
+        const sortedWrappers = playerWrappers.sort((a, b) => {
             if (a.classList[1] == undefined || b.classList[1] == undefined)
                 return 0;
             return +a.classList[1] - +b.classList[1];
         });
+        const seats = this.playerSeates.has(this.numberOfSeats) ? this.playerSeates.get(this.numberOfSeats) : this.playerSeates.get(9);
+
+        return sortedWrappers.filter((index, wrapper) => seats.indexOf(index) != -1);
     }
+
 
     /**
      * Rotates the seats such that the targetSeat
@@ -159,7 +175,8 @@ export class Table {
      */
     rotatePlayerWrappers(targetSeat, destinationSeat) {
         const tempArray = this.players.slice();
-        this.shift = (destinationSeat - targetSeat + this.players.length) % this.players.length;
+        const seats = this.playerSeates.has(this.numberOfSeats) ? this.playerSeates.get(this.numberOfSeats) : this.playerSeates.get(9);
+        this.shift = (seats.indexOf(destinationSeat) - targetSeat + this.players.length) % this.players.length;
         for (let i = 0; i < this.players.length; i++) {
             this.players[i] = tempArray[(i + this.shift) % this.players.length];
         }
@@ -195,12 +212,17 @@ export class Table {
             let player = this.players[i];
             let seat = this.seats[i];
             if (seat.state === "Empty") {
-                player.showSitDownButton(true && this.siticonVisible && this.closeTable !== true)
+                player.showSitDownButton(true && this.siticonVisible && this.closeTable !== true && tableSettings.isRandomTable !== true)
             }
         }
     }
 
     arrangeSeats(seats, RoundState) {
+        const playerCard = document.querySelector(".player_wrapper:nth-child(6).isPlayer .player-cards");
+            
+        if (playerCard) {
+            playerCard.classList.remove("show"); 
+        }
         let playingIndex = 0;
         const gameRunning = seats.find(seat => seat.state === 'Playing') !== undefined;
 
@@ -209,7 +231,7 @@ export class Table {
             let seat = seats[i];
             if (seat.state === "Empty") {
                 player.setPlayState(false);
-                player.showSitDownButton(this.mode === modes.Observing && this.siticonVisible && getPlayerSeat() < 0 && this.closeTable !== true)
+                player.showSitDownButton(this.mode === modes.Observing && this.siticonVisible && getPlayerSeat() < 0 && this.closeTable !== true && tableSettings.isRandomTable !== true)
             } else {
                 player.setIsPlayer(getPlayerSeat() != -1 && getPlayerSeat() == i);
                 player.showPlayer(true);
@@ -222,12 +244,14 @@ export class Table {
                 player.setAmountAnimation(false);
                 // player.setPlayerBet(seat.lastAction == "allin" ? seat.bet : seat.lastBet);
                 player.setPlayerBet(seat.lastBet);
+                player.storeSitoutAndFoldCards(getPlayerSeat() != -1 && getPlayerSeat() == i && (seat.fold || seat.isDeadCards), seat.cards);
+
                 if (lastBetPlayer == i) {
                     var checkAction = seat.lastAction == "check" || seat.lastAction == "fold";
-                    this.PlayerAnimation({ type: "betAction", animation: !checkAction, actionCheck: checkAction, data: { index: lastBetPlayer } });
+                    this.betActionAnimation({ type: "betAction", animation: !checkAction, actionCheck: checkAction, data: { index: lastBetPlayer } });
                     if (seat.state == "Playing") {
                         switch (seat.lastAction) {
-                            case "check": 
+                            case "check":
                                 sound.playCheck();
                                 break;
                             case "call":
@@ -293,7 +317,7 @@ export class Table {
             const player = this.players[i];
             player.setDealerButton(i == dealerSeat);
             player.setSmallBlindButton(false);
-            if (i == sbSeat) {
+            if (i == sbSeat && i != dealerSeat) {
                 if (this.showSbBbButtons)
                     player.setSmallBlindButton(true);
             } else if (i == bbSeat) {
@@ -322,59 +346,69 @@ export class Table {
             // $('.tableCards').append(tableCard)
         }
     }
-    PlayerAnimation(result) {
-        const players = this.players;
-        console.log(result);
-        if (result.type == "TableStatus") {
-            if (result.data.state != prevState && lastAnimationAction != "AllIn") {
-                const div = document.querySelector('.chipRow');
-                const rect = div.getBoundingClientRect();
-                players.forEach((player, index) => {
-                    const wrapper = player.wrapper;
-                    let element = wrapper.querySelector('.lastBetDiv');
-                    var x = rect.left;
-                    var y = rect.top;
 
-                    if (element)
-                        this.AnimateDivsToLocation(x + 42, y + 5, element, 0, `900ms`);
-                });
-            }
-            prevState = result.data.state;
-        } else if (result.type == "betAction") {
-            const index = result.data.index;
-            if (result.animation && lastBetPlayer != null && !result.actionCheck) {
-                const player = players[index];
-                console.warn(player);
+    wainnerAnimation(result) {
+        const rect = result.wrapper.querySelector('.avatar').getBoundingClientRect();
+        this.AnimateDivsToLocation(rect.left, rect.top, result.winPot, 0, `900ms`);
+        this.clearAnimateCss(result.element);
+        this.AnimateDivsToLocation(rect.left + 25, rect.top + 25, result.element, 0, `900ms`);
+    }
+    totalChipAnimation(result) {
+        if (result.data.state != prevState && lastAnimationAction != "allPlayersAllIn") {
+            const div = document.querySelector('.chipRow');
+            const rect = div.getBoundingClientRect();
+            this.players.forEach((player, index) => {
                 const wrapper = player.wrapper;
-                const player_wrapper = $(wrapper)[0];
-                const lastBetDiv = player_wrapper.querySelector(".lastBetDiv");
-                lastBetDiv.style = "";
-                lastBetDiv.style.visibility = "visible";
-                let lastBetDivImg = player_wrapper.querySelector(".lastBetDiv").querySelector("img");
-                let element = player_wrapper.querySelector('.betAnimation');
-                element.style = "";
-                element.style.visibility = "visible";
-                const rect = lastBetDivImg.getBoundingClientRect();
-                lastAnimationAction = result.type;
-                this.AnimateDivsToLocation(rect.left + 4, rect.top + 3, element, 0, `680ms`);
-                console.warn(lastBet);
-                player.setAmountAnimation(lastBet);
-                lastBetPlayer = null;
-                lastBet = 0;
-            } else if (result.actionCheck) {
-                lastBetPlayer = null;
-                lastBet = 0;
-            } else {
-                lastBetPlayer = index;
-                lastBet = result.data.bet;
-            }
-        } else if (result.type == "WinnerAnimate") {
-            const rect = result.wrapper.querySelector('.avatar').getBoundingClientRect();
-            this.AnimateDivsToLocation(rect.left, rect.top, result.winPot, 0, `900ms`);
-            this.clearAnimateCss(result.element);
-            this.AnimateDivsToLocation(rect.left + 25, rect.top + 25, result.element, 0, `900ms`);
-        } else if (result.type == "AllIn") {
+                let element = wrapper.querySelector('.lastBetDiv');
+                var x = rect.left;
+                var y = rect.top;
+
+                if (element)
+                    this.AnimateDivsToLocation(x + 25, y + 25, element, 0, `900ms`);
+            });
+        }
+        prevState = result.data.state;
+    }
+
+    betActionAnimation(result) {
+        const index = result.data.index;
+        if (result.animation && lastBetPlayer != null && !result.actionCheck) {
+            const player = this.players[index];
+            const wrapper = player.wrapper;
+            const player_wrapper = $(wrapper)[0];
+            const lastBetDiv = player_wrapper.querySelector(".lastBetDiv");
+            lastBetDiv.style = "";
+            lastBetDiv.style.visibility = "visible";
+            let lastBetDivImg = player_wrapper.querySelector(".lastBetDiv").querySelector("img");
+            let element = player_wrapper.querySelector('.betAnimation');
+            element.style = "";
+            element.style.visibility = "visible";
+            const rect = lastBetDivImg.getBoundingClientRect();
             lastAnimationAction = result.type;
+            this.AnimateDivsToLocation(rect.left - 11, rect.top + 15, element, 0, `680ms`);
+            player.setAmountAnimation(lastBet);
+            lastBetPlayer = null;
+            lastBet = 0;
+        } else if (result.actionCheck) {
+            lastBetPlayer = null;
+            lastBet = 0;
+        } else {
+            lastBetPlayer = index;
+            lastBet = result.data.bet;
+        }
+    }
+
+    setLastAnimationAction(action) {
+        lastAnimationAction = action;
+    }
+
+    returnSidePotAnimation(result) {
+        for (let i = 0; i < sidePots.length; i++) {
+            const sidePot = sidePots[i];
+            if (sidePot.dataset.amount == result.amount) {
+                const rect = this.players[result.returnSeatIndex].wrapper.querySelector('.avatar').getBoundingClientRect();
+                this.AnimateDivsToLocation(rect.left + 25, rect.top + 25, sidePot, 0, `900ms`);
+            }
         }
     }
     clearAnimateCss(element) {
@@ -400,7 +434,7 @@ export class Table {
         let index = 0;
         result.pots.forEach(pot => {
             const winners = pot.winners;
-            const indexDesktop = sidePots.length / 2 + index;
+            // const indexDesktop = sidePots.length / 2 + index;
             const indexMobile = index;
 
             setTimeout(() => {
@@ -410,48 +444,58 @@ export class Table {
                     let player = this.players[i];
                     if (winners.indexOf(i) != -1) {
 
+
                         var data = playerMap.filter((item) => item.seat === i)[0];
                         player.showWinner(true);
                         sound.playWin();
                         var winPot = $("#winPot")[0];
                         winPot.style = "";
                         winPot.style.visibility = "visible";
+                        if (i == getPlayerSeat() && tableSettings.mode === "cash") {
+                            player.showTipDealer(true);
+                            if (AutoTipCheckboxes.checked)
+                                TipToDealer(round2(pot.prize * 0.02));
+                        }
+
                         if (winners.length <= 1) {
-                            this.PlayerAnimation({ "type": "WinnerAnimate", "wrapper": player.wrapper, "element": sidePots[indexDesktop], "winPot": winPot, "indexMobile": indexMobile, "indexDesktop": indexDesktop });
+                            this.wainnerAnimation({ "type": "WinnerAnimate", "wrapper": player.wrapper, "element": sidePots[indexMobile], "winPot": winPot, "indexMobile": indexMobile });
                         } else {
-                            /* var sidePotClones = sidePots[indexDesktop].cloneNode(true);
-                             var winPotClones = winPot.cloneNode(true);
-                             var AllSidePotClones = [];
-                             for (var totalWinner = 0; totalWinner < winners.length; totalWinner++) {
-                                 var sidePotClone = sidePotClones.cloneNode(true);
-                                 var winPotClone = winPotClones.cloneNode(true);
-                                 const moneySpan = $(sidePotClone).find(".money")[0];
-                                 moneySpan.innerText = `$${pot.prize}`;
-                                 sidePots[indexDesktop].parentElement.appendChild(sidePotClone);
-                                 winPot.parentElement.appendChild(winPotClone);
-                                 this.PlayerAnimation({ "type": "WinnerAnimate", "wrapper": player.wrapper, "element": sidePotClone, "winPot": winPotClone, "indexMobile": indexMobile, "indexDesktop": indexDesktop });
-                                 AllSidePotClones.push({ "sidePotClone": sidePotClone, "winPotClone": winPotClone });
-                             }
-                             sidePots[indexDesktop].style.visibility = 'hidden';
-                             winPot.style.visibility = "hidden";
-                             setTimeout(() => {
-                                 AllSidePotClones.forEach(clone => {
-                                     clone.sidePotClone.remove();
-                                     clone.winPotClone.remove();
-                                 })
-                             }, 1200);*/
+                            var sidePotClones = sidePots[indexMobile].cloneNode(true);
+                            var winPotClones = winPot.cloneNode(true);
+                            var AllSidePotClones = [];
+                            for (var totalWinner = 0; totalWinner < winners.length; totalWinner++) {
+                                var sidePotClone = sidePotClones.cloneNode(true);
+                                var winPotClone = winPotClones.cloneNode(true);
+                                const moneySpan = $(sidePotClone).find(".money")[0];
+                                moneySpan.innerText = `$${pot.prize}`;
+                                sidePots[indexMobile].parentElement.appendChild(sidePotClone);
+                                winPot.parentElement.appendChild(winPotClone);
+                                this.wainnerAnimation({ "type": "WinnerAnimate", "wrapper": player.wrapper, "element": sidePotClone, "winPot": winPotClone, "indexMobile": indexMobile });
+                                AllSidePotClones.push({ "sidePotClone": sidePotClone, "winPotClone": winPotClone });
+                            }
+                            sidePots[indexMobile].style.visibility = 'hidden';
+                            winPot.style.visibility = "hidden";
+                            setTimeout(() => {
+                                AllSidePotClones.forEach(clone => {
+                                    clone.sidePotClone.remove();
+                                    clone.winPotClone.remove();
+                                })
+                            }, 1200);
                         }
                         player.showPrize(pot.prize);
                         if (data.hand != undefined) {
                             this.HighlightTableCards(data.hand.cards);
                             player.HighlightCards(data.hand.cards);
-                            player.showWinnerHand(true);
                             player.setWinnerCards(data.hand.cards);
-                            player.setWinnerHand(data.hand.rank);
+                            if(DisplayCards.checked){
+                                player.showWinnerHand(true);
+                                player.setWinnerHand(data.hand.rank);
+                            }
                         } else {
                             player.showWinnerHand(false);
                         }
-                        this.addLog(`${player.name} wins ${index === 1 ? 'main pot' : ('side pot ' + index)} of ${pot.prize} with ${data.hand ? data.hand.cards.join(' ') : ''}`)
+                        // this.addLog(`${player.name} wins ${index === 1 ? 'main pot' : ('side pot ' + index)} of ${pot.prize} with ${data.hand ? data.hand.cards.join(' ') : ''}`)
+                        // this.addLog(getPlayerSeat() === i, `${player.name} wins: ${potIndex === 0 ? 'main pot' : ('side pot ' + potIndex)}, ${pot.prize} ${data.hand ? 'with ' + data.hand.rank : ''}`);
                     } else {
                         player.setTotalCardMask();
                     }
@@ -466,6 +510,7 @@ export class Table {
                     player.HighlightCards();
                     player.showWinner(false);
                     player.showWinnerHand(false);
+                    player.showTipDealer(false);
                 });
             }, 2000 * index);
         });
@@ -476,24 +521,10 @@ export class Table {
                 player.showWinner(false);
                 this.clearTableCards();
                 player.clearPlayerAnimationCss();
+                player.showTipDealer(false);
                 prevState = "";
             });
         }, 2000 * index);
-    }
-
-    AutoTip(result){
-        result.pots.forEach(pot => {
-            const winners = pot.winners;
-                for (let i = 0; i < this.players.length; ++i) {
-                    if (winners.indexOf(i) != -1) {
-                            if (AutoTipCheckboxes.checked) {
-                                if(winners == getPlayerSeat()){
-                                TipToDealer((pot.prize* 0.02).toFixed(2));
-                                }
-                            }
-                    }
-                }
-        });
     }
 
     HighlightTableCards(cards) {
@@ -530,6 +561,7 @@ export class Table {
         for (let i = 0; i < this.players.length; ++i) {
             let player = this.players[i];
             if (i == turn.seat) {
+                player.showTipButtons(false);
                 player.setTurnTimer(turn.timeout, turn.timeToReact, Math.round(turn.timeBank));
                 player.removeActionLabel();
             } else {
@@ -546,7 +578,10 @@ export class Table {
         for (let i = 0; i < this.players.length; ++i) {
             let player = this.players[i];
             if (i == seat) {
-                player.showCards(cards);
+                if(player.checkPlayerCards())
+                    player.showCards(cards);
+                else
+                    player.setCards(cards);
             }
         }
     }

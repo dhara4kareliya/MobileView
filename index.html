@@ -17,6 +17,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.min.js"></script>
     <title>Poker Thing</title>
 </head>
 
@@ -37,7 +39,15 @@
 </div>-->
 
 <body>
-    <div class="loader"></div>
+    <div class="loader">
+    </div>
+    <div class="progressBarLoader">
+
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="progress-number">0%</div>
+    </div>
     <div class="container mobile_wrapper p-0">
         <table>
             <tr>
@@ -61,7 +71,7 @@
         </div>
         <div id="playerWrappers">
             <div class="player_wrapper">
-                <div class="avtar_img">
+                <!-- <div class="avtar_img">
                     <img src="images/avtar.png" class="playerLogo" />
                     <div class="player-cards"></div>
                 </div>
@@ -75,7 +85,7 @@
                 <div class="lastBetDiv">
                     <img src="data:image/png;base64,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"
                     /> $55
-                </div>
+                </div> -->
             </div>
             <div class="player_wrapper"></div>
             <div class="player_wrapper"></div>
@@ -88,7 +98,15 @@
         </div>
 
         <!-- </div> -->
-
+        <div class="tableSettingsSpan">
+            <span class="smallBlind" style="display: inline-block;">10</span>/
+            <span class="bigBlind" style="display: inline-block;">20</span> Ante <span class="ante">5</span>
+            <div class="tournamentOnly">
+                Level
+                <span class="level">13</span><br /> NextLevel <span class="nextSBBB">10/20</span><br />
+                <span class="timer"></span>
+            </div>
+        </div>
         <!--Main Cards End-->
         <div class="middle_table_card cardImageimg">
             <div class="cardsImage" style="transform: translateY(-40px)">
@@ -99,21 +117,23 @@
                 <div id="winPot" class="box chipRow" style="visibility: hidden">
                     Total Win Pot: <span class="money">$100</span>
                 </div>
+                <div class="timers">
+                    <div>
+                        <span class="minutes">00</span>
+                        <div class="smalltext lang" key="minutes">Minutes</div>
+                    </div>
+                    <div>
+                        <span class="seconds">00</span>
+                        <div class="smalltext lang" key="seconds">Seconds</div>
+                    </div>
+                </div>
                 <div class="tableCards"></div>
                 <div class="center_div">
                     <div id="currentSreetPotDiv">
                         <img src="./images/green.png" />
                         <span class="money">$50</span>
                     </div>
-                    <div class="tableSettingsSpan">
-                        <span class="smallBlind" style="display: inline-block;">10</span>/
-                        <span class="bigBlind" style="display: inline-block;">20</span>
-                        <div class="tournamentOnly">
-                            Ante <span class="ante">5</span> Level
-                            <span class="level">13</span><br /> NextLevel <span class="nextSBBB">10/20</span><br />
-                            <span class="timer"></span>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="handResult">Three of a kind</div>
             </div>
@@ -127,7 +147,7 @@
         </div>
         <!--Bottom Button-->
     </div>
-    <div class="">
+    <div class="target_label">
         <div class="targets1">
             <div class="div_doller mb-1 sidePot box">
                 <span class="Side">pot 1</span>
@@ -192,10 +212,18 @@
     <div id="turnActionsDiv" style="visibility: visible !important">
         <div class="onclick" id="myDIV" style="visibility: visible !important">
             <div class="width-50 bet-mannual" id="betDivWrapper">
-                <div id="betShow" style="display: none">
-                    <input type="number" />
-                </div>
+
                 <div id="betDiv">
+                    <div id="betAmountDiv" class="amount-mannual">
+                        <div class="betAmount">
+                            <div><span>4 </span>BB</div>
+                            <div><span>3 </span>BB</div>
+                            <div><span>2 </span>BB</div>
+                            <div><span>1 </span>BB</div>
+                            <!-- <div><span>2.5 </span>BB</div> -->
+                            <!-- <div><span>3.5 </span>BB</div> -->
+                        </div>
+                    </div>
                     <table class="slider_small">
                         <tr>
                             <td>
@@ -210,6 +238,9 @@
                                 </div>
                             </td>
                             <td class="td_id">
+                                <div id="betShow">
+                                    <input type="number" />
+                                </div>
                                 <div id="betPlus">+</div>
                                 <div id="betSlider" style="margin: auto" class="slider">
                                     <div id="betSliderArea">
@@ -224,12 +255,13 @@
                 </div>
             </div>
         </div>
+       
         <div class="bottom_buttons_Wrapper p-0">
             <button class="flod_1" id="fold-button">FOLD</button>
-            <button class="flod_2 d-flex" id="call-button">CALL</button>
+            <button class="flod_2 " id="call-button">CALL</button>
 
             <button class="flod_3" id="raise-Button" style="visibility: visible">
-                BET
+                <span class="raise_text">BET</span>
                 <span class="valueDisplay betSlider moneyDisplay">50</span>
             </button>
         </div>
@@ -245,8 +277,37 @@
             </div>
         </div>
     </div>
+    <div class="img_first10 mb-1 foldToAnyBetButton" style="position: absolute;bottom: 8%;right: calc(3 * var(--aspect-ratio));width: 100px;">
+        <div class="d-flex h-100" style="padding: 2px 0px ;">
+            <div class="checkbox">
+                <img src="./images/mobile/v@2x.png">
+            </div>
+            <span>Fold to any bet</span>
+        </div>
+    </div>
+    <div class="sideButtonsDiv">
+        <div class="d-flex callButtonDiv" style="padding: 2px 0px ;">
+            <div class="checkbox">
+                <img src="./images/mobile/v@2x.png">
+            </div>
+            <span>Call<span class="callText"></span></span>
+        </div>
+    </div>
+    <div id="automaticActionsDiv" class="sideButtonsDiv" >
+        <div id="autoCheckButton" class="checkToAnyBetButton mb-1" style="bottom: 4.5%;">
+            <div class="checkbox">
+                <img src="./images/mobile/v@2x.png">
+            </div> 
+            <span class="lang" key="check">Auto Check</span>
+        </div>
+        <div id="autoCheckOrFoldButton" class="checkToAnyBetButton mb-1" style="bottom: 1%;">
+            <div class="checkbox">
+                <img src="./images/mobile/v@2x.png">
+            </div> <span class="lang" key="check/Fold">Check/Fold</span>
+        </div>
+    </div>
     <div class="modal fade" id="insuranceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog Second-mod" style="transition: transform 0.3s ease-out !important;transform: translate(13px, 64px) !important;">
+        <div class="modal-dialog Second-mod" style="transition: transform 0.3s ease-out !important;transform: translate(0px, 49px) !important;display: flex;align-items: center;justify-content: center;">
             <div class="modal-content second-top">
                 <div class="modal-body">
                     <div class="border-around mt-3">
@@ -269,9 +330,9 @@
                     <div class="doller_prents m-2">
                         <p class="doller_p">
                             <span class="pay lang" key="pay">Pay</span>
-                            <span class="sane insurancePrice">$8</span><br />
+                            <span class="sane insurancePrice" style="display: inline-block;">$8</span><br />
                             <span class="pay lang" key="save">Save</span>
-                            <span class="sane allInPrice1">$119.40 </span>
+                            <span class="sane allInPrice1" style="display: inline-block;">$119.40 </span>
                         </p>
                     </div>
                     <div class="two_btn">
@@ -629,7 +690,7 @@
                             </div>
                         </div>
 
-                        <div style="display: none">
+                        <div>
                             <div class="conatiner-fluid mt-3 mb-4 mx-2">
                                 <div class="row">
                                     <div id="showAsSUDCheckbox" class="checkbox col-auto">
@@ -661,6 +722,36 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="conatiner-fluid mt-3 mb-4 mx-2 shuffleVerificationButtonDiv">
+                            <div class="row">
+                                <div id="shuffleVerificationButton" class="checkbox col-auto">
+                                    <img src="./images/mobile/v@2x.png" />
+                                </div>
+                                <div class="col-auto png_img mx-1">
+                                    <div class="png_img text-end">
+                                        <img src="./images/mobile/verification@2x.png" />
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <span class="same_class"><b>Shuffle Verification</b></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conatiner-fluid mt-3 mb-4 mx-2 DisplayCardsDiv">
+                            <div class="row">
+                                <div id="DisplayCards" class="checkbox col-auto">
+                                    <img src="./images/mobile/v@2x.png" />
+                                </div>
+                                <div class="col-auto png_img mx-1">
+                                    <div class="png_img text-end">
+                                        <img src="./images/mobile/verification@2x.png" />
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <span class="same_class"><b>Display final 5 cards</b></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -672,6 +763,12 @@
     <div id="breakTime" class="menuDiv" style="display: none">
         <div>
             <div class="menuTitle">Break Time</div>
+            <div class="timer">00:45</div>
+        </div>
+    </div>
+    <div id="tournamentCancelTime" class="menuDiv">
+        <div>
+            <div class="menuTitle"> Waiting for players.<br> Tournament will be canceled in</div>
             <div class="timer">00:45</div>
         </div>
     </div>
@@ -697,7 +794,21 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body" style="font-size: 1rem;;">
+                        <p class="notification-message lang" key="errorBody">You have been moved to a new table.</p>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="tournamentResultModal" style="display: none" tabindex="-1" role="dialog">
         <div class="modal-dialog" style="max-width: 400px;transform: translate(10px,61px);margin:19px !important;">
             <div class="modal-content" id="mContent">
@@ -727,7 +838,7 @@
                         <div class="row my-2">
                             <div class="col-12 d-flex" style="justify-content: center; align-items: center">
                                 <h5>
-                                    <span style="color: #ce152e">Finished Tournament :</span>
+                                    <span style="color: #ce152e">Finished Tournament :</span><br>
                                     <span style="color: #e78d2b"><span id="tournamentRank">39</span>
                                     <span id="tournament_place">th</span> place</span>
                                 </h5>
@@ -736,9 +847,16 @@
                         <div class="row my-4 tournament-prize">
                             <div class="col-12 d-flex" style="justify-content: center; align-items: center">
                                 <h5>
-                                    <span style="color: #254a98">Price:</span>
+                                    <span style="color: #254a98">Prize:</span>
                                     <span style="color: #c92138"><span id="tournamentPrize">150</span></span>
                                 </h5>
+                            </div>
+                        </div>
+                        <div class="row tournament-rebuy">
+                            <div class="col-12 d-flex" style="justify-content: center; align-items: center;">
+                                <button class="rebuy_tournament">
+                                    <h5 class="m-0 ">Rebuy (<span>25</span>)</h5>
+                                </button>
                             </div>
                         </div>
                         <div class="row mt-2 mb-5">
@@ -784,7 +902,76 @@
         <img src="./images/mobile/office-chair@2x.png" />
         I AM BACK
     </button>
+    <div class="" id="activityContainer">
+        <div class="activities pb-3 style-2">
+            <!-- <div class="activInner">
 
+                <div class="act">
+                    <div class="main_dib d-flex justify-content-between mt-2">
+                        <div class="text-white mt-2 acc px-3">
+                            Activitie:
+                        </div>
+                        <div class="mt-2" style="margin-right: 10px">
+                            <button type="button" class="btn-closes">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="maindiv_bar">
+                        <div class="act_scroll">
+                            <div class="message_div mx-3 mb-3">
+                                <div class="log_data"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="drag-handle">
+                <div class="activity-header">
+                    <span style="width: 100%;">ACTIVITIE</span>
+                    <button class="close-btns" id="closeLogButton" onclick="showLogTab(false)">
+                            <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                <div class="activity-list logData">
+                </div>
+                <div class="playerCards">
+                    <div class="navigation-container">
+                        <div class="navigation-player-container">
+                            <!-- <div class="player-action">
+                                <span class="bet-action">Call</span> <span class="bet-amount">5</span>
+                            </div> -->
+                            <div class="cards"  style="margin-top: 0;">
+                                <!-- <div class="card spades black" style="height: 50px; width: 25px;">J</div>
+                                <div class="card spades black" style="height: 50px; width: 25px;">K</div>
+                                <div class="card hearts red" style="height: 50px; width: 25px;">Q</div>
+                                <div class="card spades black" style="height: 50px; width: 25px;">A</div> -->
+                                <!-- <img class="" src="./images/png/102x142/8d.png" style="opacity:1;height: 50px;width: 25px;">
+                                <img class="" src="./images/png/102x142/8d.png" style="opacity:1;height: 50px;width: 25px;"> -->
+                            </div>
+                        </div>
+                        <div class="hand-counter">1 / <span class="totalLogs">1</span></div>
+                        <div class="navigation">
+                            <div class="nav-button prev-button">
+                                <!-- ← -->
+                                <img src="./images/Left.png" alt="Previous" style="height: 50px;">
+                            </div>
+                            <div class="progress-bar1">
+                                <div class="progress">
+                                    <div class="progress-handle"></div>
+                                </div>
+                            </div>
+                            <div class="nav-button next-button">
+                                <!-- → -->
+                                <img src="./images/Right1.png" alt="Previous" style="height: 50px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="resize-handle"></div> -->
+            </div>
+        </div>
+    </div>
     <div id="uiTable" class="menuDiv">
         <div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal_top_tra">
@@ -809,7 +996,7 @@
                                 <div class="img_first1 mb-1 settingsButton">
                                     <img src="./images/mobile/icons8-settings-250.png" /><span>Settings</span>
                                 </div>
-                                <div class="">
+                                <!-- <div class="">
                                     <div class="img_first mb-1 waitingList">
                                         <div class="waitingListSide">
                                             <span class="span_5">5</span>
@@ -826,7 +1013,7 @@
                                             <div class="innerUser">user 5</div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="img_first6 mb-1 chatButton2">
                                     <div type="button" class="dropdown-toggle w-100 d-flex" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -905,42 +1092,17 @@
                                     </div>
                                 </div>
                                 <div class="img_first7 mb-1 logTabButton">
-                                    <div type="button" class="dropdown-toggle w-100 d-flex" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="./images/Icon metro-notification 1.png" alt=" chair" /><span>Log
-                                            Tab</span>
+                                    <div class=" w-100 d-flex">
+                                        <img src="./images/Icon metro-notification 1.png" alt=" chair" /><span>Hands History</span>
                                     </div>
-                                    <div class="dropdown-menu righht leftArrow py-0">
-                                        <div class="activities pb-3 style-2">
-                                            <div class="activInner">
-                                                <div class="act">
-                                                    <div class="main_dib d-flex justify-content-between mt-2">
-                                                        <div class="text-white mt-2 acc px-3">
-                                                            Activitie:
-                                                        </div>
-                                                        <div class="mt-2" style="margin-right: 10px">
-                                                            <button type="button" class="btn-closes">
-                                                                <i class="bi bi-x"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="maindiv_bar">
-                                                        <div class="act_scroll">
-                                                            <div class="message_div mx-3 mb-3">
-                                                                <div class="log_data1"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
-                                <div class="img_first10 mb-1 autoFoldButton">
+                                <div class="img_first10 mb-1 alwaysFoldButton">
                                     <div class="d-flex h-100" style="align-items: center;">
                                         <div class="checkbox">
                                             <img src="./images/mobile/v@2x.png" />
                                         </div>
-                                        <span>FOLD TO ANY BET</span>
+                                        <span class="lang" key="alwaysFold">Always Fold</span>
                                     </div>
                                 </div>
                                 <div class="img_first10 mb-1 sitOutNextHandButton">
@@ -959,26 +1121,26 @@
                                         <span>WAIT FOR BB</span>
                                     </div>
                                 </div>
-                                <div class="img_first10 mb-1 AutoTip">
-                                    <div class="d-flex h-100" style="align-items: center;">
+                                <div class="img_first10 mb-1 AutoTip" style="display: none;">
+                                    <div class="d-flex h-100" style="align-items: center;display: none;">
                                         <div class="checkbox">
                                             <img src="./images/mobile/v@2x.png" />
                                         </div>
                                         <span class="lang" key="AutoTip">Auto Tip</span>
                                     </div>
                                 </div>
-                                <div class="img_first10 mb-1 autoModeButton">
+                                <div class="img_first10 mb-1 autoModeButton" style="display: none;">
                                     <div class="checkbox">
                                         <img src="./images/mobile/v@2x.png" />
                                     </div>
                                     <span>AUTO MODE</span>
                                 </div>
-                                <div class="img_first10 mb-1 autoFoldModeButton1">
+                                <div class="img_first10 mb-1 preFlopAutoFold">
                                     <div class="d-flex h-100" style="align-items: center;">
                                         <div class="checkbox 1">
                                             <img src="./images/mobile/v@2x.png" />
                                         </div>
-                                        <span>AUTO FOLD</span>
+                                        <span class="lang" key="preFlopAutoFold">Pre Flop Auto fold</span>
                                     </div>
 
                                 </div>
@@ -1016,6 +1178,10 @@
                                                                                                                                 historynone1.style.display = "none";
                                                                                                                             });
                                                                                                                         });*/
+                                                                                                                        function showLogTab(value) {
+            const activityContainer = document.getElementById("activityContainer");
+            activityContainer.style.display = "none";
+        }
 </script>
 
 </html>
