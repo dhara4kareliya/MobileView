@@ -48,12 +48,12 @@
 	width: 50%;
 	background-color: #e0e0e0;
 	border-radius: 10px;
-	overflow: hidden;
-	height: 20px;
 }
 .progress-bar{
+	overflow: hidden;
     left: 50%;
     top: 50%;
+	height: 20px;
     position: absolute;
     transform: translate(-50%, -50%);
 }
@@ -749,11 +749,9 @@ html {
 }
 
 .tangoHeadBlack {
-    background: linear-gradient( 90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 24%, rgba(0, 0, 0, 0.5) 100%);
+    background: linear-gradient( 90deg, rgba(0, 0, 0) 0%, rgba(0, 0, 0) 24%, rgba(0, 0, 0) 100%);
     width: calc((40 * var(--aspect-ratio)));
-    /* width: 25vw; */
-    /* border-top-left-radius: calc((1.5 * var(--aspect-ratio)));
-    border-top-right-radius: calc((1.5 * var(--aspect-ratio))); */
+    position: relative;
 }
 
 .playerFirstRangeInner {
@@ -1219,8 +1217,8 @@ input {
         padding-top: calc((13 * var(--aspect-ratio))) !important;
     }
     .player_wrapper:nth-child(7) .lastBetDiv {
-        bottom: calc((19 * var(--aspect-ratio))) !important;
-        right: calc((-30 * var(--aspect-ratio))) !important;
+        bottom: calc((36 * var(--aspect-ratio))) !important;
+        right: calc((-16 * var(--aspect-ratio))) !important;
     }
 }
 
@@ -2067,7 +2065,7 @@ input {
 
 
 #allInButton {
-    width: 45px;
+    width: 40px;
     letter-spacing: 0px;
     text-align: center;
     color: #ffffff;
@@ -2101,7 +2099,7 @@ input {
 #bet70 {
     background: #1c1c1c 0% 0% no-repeat padding-box;
     border-radius: 0px 0px 0px 0px;
-    width: 45px;
+    width: 40px;
     box-shadow: 1px 1px 0.5px rgba(255, 255, 255, 0.349) inset;
     letter-spacing: 0px;
     text-align: center;
@@ -2122,7 +2120,7 @@ input {
 #bet50 {
     background: #1c1c1c 0% 0% no-repeat padding-box;
     border-radius: 0px 0px 0px 0px;
-    width: 45px;
+    width: 40px;
     box-shadow: 1px 1px 0.5px rgba(255, 255, 255, 0.349) inset;
     border-right: 1px solid #000000;
     border-left: 1px solid #000000;
@@ -2150,7 +2148,7 @@ input {
     border-left: 1px solid #000000;
     border-bottom: 1px solid #000000;
     border-top: 1px solid #272727;
-    width: 45px;
+    width: 40px;
     letter-spacing: 0px;
     /* border-right: 1px solid #000000; */
     /* border-left: 1px solid #000000; */
@@ -3059,7 +3057,7 @@ input {
 	gap: 5px;
     color:white;
     box-shadow: -1.5px -1.5px 2px 0px rgba(255, 255, 255, 0.7);
-
+    margin-top: 6px;
 }
 .betAmount div {
 	border: 1px solid #91CAFE;
@@ -3068,7 +3066,7 @@ input {
 	width: calc(15 * var(--aspect-ratio));
 	text-align: center;
 	font-size: calc(5 * var(--aspect-ratio));
-	padding: 4.5px 4px;
+	padding: 4.5px 3px;
 	box-shadow: 0px 1px 2px 0px rgba(255, 255, 255, 0.35);
     cursor: pointer;
 }
@@ -3076,20 +3074,19 @@ input {
     box-shadow: inset 0px 0px 3px 1.5px rgba(145, 202, 254, 0.8);
     border: none !important;
 }
-.player-balance{
-    font-size: 11px;
-    color: white;
-    text-overflow: ellipsis;
-    font-family: krub;
-    font-weight: 700;
+.player-balance {
+	font-size: calc(5 * var(--aspect-ratio));
+	color: white;
+	font-family: krub;
+	font-weight: 700;
 }
 .playerBalance{
     display: flex;
     justify-content: center;
-    gap: 1px;
+    gap: calc(2*var(--aspect-ratio));
     align-items: center;
 }
-.playerBalance img{
-    height: 22px;
-    width: 22px;
+.playerBalance img {
+	height: calc(6 * var(--aspect-ratio));
+	width: calc(6 * var(--aspect-ratio));
 }

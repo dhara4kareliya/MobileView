@@ -43,75 +43,73 @@ export class Sound {
     }
 
     playCardDealt() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioCardDealt.play();
     }
 
     playEndStreet() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioEndStreet.play();
     }
 
     playFlop() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioFlop.play();
     }
 
     playTurnRiver() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioTurnRiver.play();
     }
 
     playWinnerPot() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioWinnerTakePot.play();
     }
 
     playCall() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioCall.play();
     }
 
     playCheck() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioCheck.play();
     }
 
     playRaise() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioRaise.play();
     }
 
     playAllin() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioAllin.play();
     }
 
     playFold() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioFold.play();
     }
 
     playTurnTime(isPlay) {
-        if (soundEnable == true && !document.hidden){
-            if (isPlay) {
-                this.m_audioTurnTimer.play();
-            } else {
-                this.m_audioTurnTimer.pause();
-            }
-        }else{
+        if (soundEnable == true){
+        if (isPlay) {
+            this.m_audioTurnTimer.play();
+        } else {
             this.m_audioTurnTimer.pause();
         }
+    }
 
     }
 
     playWin() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioWin.play();
     }
 
     playNotification() {
-        if (soundEnable == true && !document.hidden)
+        if (soundEnable == true)
         this.m_audioNotification.play();
     }
 

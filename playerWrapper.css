@@ -124,7 +124,7 @@ button[disabled] {
 }
 
 .player_wrapper:is(.toPlay) .tangoHeadBlack {
-    background: linear-gradient( 90deg, rgba(63, 95, 167, 0.7) 0%, rgba(63, 95, 168, 0.9) 24%, rgba(63, 95, 165, 0.6) 100%);
+    background: linear-gradient( 90deg, rgba(63, 95, 167) 0%, rgba(63, 95, 168) 24%, rgba(63, 95, 165) 100%);
     width: calc((40 * var(--aspect-ratio)));
     /* max-width: 30vw; */
     /* border: calc((1 * var(--aspect-ratio))) solid white; */
@@ -143,6 +143,7 @@ button[disabled] {
     top: 35%;
     width: calc(11 * var(--aspect-ratio));
     margin-left: calc(5 * var(--aspect-ratio));
+    transform: translateX(-64%);
 }
 
 .fold-cards {
@@ -166,13 +167,18 @@ button[disabled] {
 
 .player_wrapper:nth-child(6):is(.isPlayer) .player-card>.front,
 .player_wrapper:nth-child(6):is(.isPlayer) .player-card>.back {
-    height: calc( 20.1 * var(--aspect-ratio));
+    height: calc( 22.1 * var(--aspect-ratio));
     width: calc( 17.1 * var(--aspect-ratio));
 }
 .player_wrapper:nth-child(6):is(.isPlayer) .player-cards {
-   
-    transition: transform 0.7s ease-in-out;
+	margin-left: 0;
+	transition: transform 0.7s ease-in-out;
+	left: 50%;
+	transform: translateX(-70%);
 }
+.player_wrapper:nth-child(6) .player-card {
+    /* margin-right: calc(-9.5* var(--aspect-ratio)); */
+ }
 .player_wrapper:nth-child(6):is(.isPlayer) .player-cards.show {
     transform: scale(1.5);
 }
@@ -201,7 +207,7 @@ button[disabled] {
 
 .player-cards:is(.isCardsOpen) .front,
 .player-cards:is(.isCardsOpen) .back {
-    height: calc( 20.1 * var(--aspect-ratio));
+    height: calc( 22.1 * var(--aspect-ratio));
     width: calc( 17.1 * var(--aspect-ratio));
 }
 
@@ -353,28 +359,28 @@ button[disabled] {
 }
 
 .player_wrapper:nth-child(1) .lastBetDiv {
-    bottom: calc((-8 * var(--aspect-ratio))) !important;
+    bottom: calc((-7 * var(--aspect-ratio))) !important;
     right: calc((-6 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(2) .lastBetDiv {
-    bottom: calc((-8 * var(--aspect-ratio))) !important;
+    bottom: calc((-5 * var(--aspect-ratio))) !important;
     left: calc((3 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(6) .lastBetDiv {
-    bottom: calc((64 * var(--aspect-ratio))) !important;
+    bottom: calc((68 * var(--aspect-ratio))) !important;
     left: calc((5 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(3) .lastBetDiv,
 .player_wrapper:nth-child(4) .lastBetDiv {
-    bottom: calc((0 * var(--aspect-ratio))) !important;
-    left: calc((-30 * var(--aspect-ratio))) !important;
+    bottom: calc((36 * var(--aspect-ratio))) !important;
+    left: calc((-14 * var(--aspect-ratio))) !important;
 }
 .player_wrapper:nth-child(5) .lastBetDiv {
-    bottom: calc((31 * var(--aspect-ratio))) !important;
-    left: calc((-30 * var(--aspect-ratio))) !important;
+    bottom: calc((36 * var(--aspect-ratio))) !important;
+    left: calc((-13 * var(--aspect-ratio))) !important;
 }
 
 .player_wrapper:nth-child(2) .dealer,
@@ -407,8 +413,8 @@ button[disabled] {
 
 .player_wrapper:nth-child(8) .lastBetDiv,
 .player_wrapper:nth-child(9) .lastBetDiv {
-    bottom: calc((0 * var(--aspect-ratio))) !important;
-    right: calc((-30 * var(--aspect-ratio))) !important;
+    bottom: calc((36 * var(--aspect-ratio))) !important;
+    right: calc((-16 * var(--aspect-ratio))) !important;
 }
 .player_wrapper:nth-child(7) .lastBetDiv {
     bottom: calc((31 * var(--aspect-ratio))) !important;
@@ -665,18 +671,18 @@ button[disabled] {
 }
 
 #backButton {
-    background: transparent linear-gradient( 180deg, #0e093eba 0%, #101011ba 28%, #211672ba 100%, #261a81ba 100%) 0% 0% no-repeat padding-box !important;
-    box-shadow: inset 12px 12px 20px #191c39ad !important;
-    border: 1px solid #707070 !important;
-    border-radius: 10px !important;
-    color: white !important;
-    width: calc(45 * var(--aspect-ratio)) !important;
-    height: calc(14 * var(--aspect-ratio)) !important;
-    opacity: 1;
-    left: calc(27 * var(--aspect-ratio)) !important;
-    position: absolute;
-    top: calc(319 * var(--aspect-ratio));
-    
+	background: transparent linear-gradient( 180deg, #0e093eba 0%, #101011ba 28%, #211672ba 100%, #261a81ba 100%) 0% 0% no-repeat padding-box !important;
+	box-shadow: inset 12px 12px 20px #191c39ad !important;
+	border: 1px solid #707070 !important;
+	border-radius: 10px !important;
+	color: white !important;
+	width: calc(55 * var(--aspect-ratio)) !important;
+	height: calc(16 * var(--aspect-ratio)) !important;
+	opacity: 1;
+	left: calc(24 * var(--aspect-ratio)) !important;
+	position: absolute;
+	top: calc(319 * var(--aspect-ratio));
+	font-size: calc( 6 * var(--aspect-ratio));
 }
 
 #backButton img {
@@ -771,4 +777,32 @@ button[disabled] {
     100% {
         opacity: 0;
     }
+}
+
+.player-cards:is(.isCardsOpen).four-cards .player-card:first-child{
+    rotate: -12.82deg;
+	/* margin-top: 8px; */
+}
+.player-cards:is(.isCardsOpen).four-cards .player-card:nth-child(2){
+    rotate: -7deg;
+	margin-top: -6px;
+}
+.player-cards:is(.isCardsOpen).four-cards .player-card:nth-child(3){
+    rotate: -1deg;
+	margin-top: -8px;
+}
+.player-cards:is(.isCardsOpen).four-cards .player-card:nth-child(4){
+    rotate: 4deg;
+	margin-top: -7px;
+}
+.player-cards:is(.isCardsOpen).four-cards .player-card:nth-child(5){
+    rotate: 10deg;
+	margin-top: -1px;
+}
+.player-cards:is(.isCardsOpen).four-cards .player-card:nth-child(6){
+	rotate: 18deg;
+	padding-top: 8px;
+}
+.player-cards:is(.isCardsOpen).four-cards .player-card{
+    margin-right: -1.25rem;
 }

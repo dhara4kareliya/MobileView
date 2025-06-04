@@ -1059,7 +1059,10 @@ tr,
 .player_wrapper:nth-child(6) .player-cards {
     top: 40%;
     width: calc(11 * var(--aspect-ratio));
-    margin-left: calc(7 * var(--aspect-ratio));
+    margin-left: calc(0 * var(--aspect-ratio));
+}
+.player_wrapper:nth-child(6) .player-card {
+   margin-right: calc(-9.5* var(--aspect-ratio));
 }
 
 .player-card>.front,

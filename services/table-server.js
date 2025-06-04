@@ -62,11 +62,12 @@ export class PlayerInfo {
 }
 
 export class TableSetting {
-    constructor(name, numberOfSeats, mode, level, nextSB,
+    constructor(name, numberOfSeats, mode, gameType, level, nextSB,
         nextBB, duration, smallBlind, bigBlind, ante, minBuyIn, maxBuyIn, displaySB, displayBB, displayAnte, isRandomTable, isEncryptedShuffling) {
         this.name = name;
         this.numberOfSeats = numberOfSeats;
         this.mode = mode;
+        this.gameType = gameType;
         this.level = level;
         this.nextSB = nextSB;
         this.nextBB = nextBB;
@@ -181,9 +182,10 @@ export class RoundResult {
      * @param {PlayerInfo[]} players 
      * @param {Pot} pots 
      */
-    constructor(players, pots) {
+    constructor(players, pots, vpip) {
         this.players = players;
         this.pots = pots;
+        this.vpip = vpip;
     }
 
     get lastPlayers() {
@@ -263,15 +265,17 @@ function onPlayerLeave(reason) {
         const shuffleVerificationButtonCheckboxe = $("#shuffleVerificationButton")[0];
         const DisplayCards = $("#DisplayCards")[0];
         const autoMuckCheckbox = $("#autoMuckCheckbox")[0];
+        const deckColorMenu = $("#fourColorsCheckbox .dropdown-menu li.active")[0];
 
         setTimeout(function() {
             updatePlayerSetting('mute', soundCheckbox.checked);
-            updatePlayerSetting('fourColors', fourColorsCheckbox.checked);
+            // updatePlayerSetting('fourColors', fourColorsCheckbox.checked);
             updatePlayerSetting('autoMuck', autoMuckCheckbox.checked);
             updatePlayerSetting('shuffleVerification', shuffleVerificationButtonCheckboxe.checked);
             updatePlayerSetting('DisplayCards', DisplayCards.checked);
             updatePlayerSetting('showSUD', showSUDCheckbox.checked);
             updatePlayerSetting('showBB', showBBCheckbox.checked);
+            updatePlayerSetting('deckColor', deckColorMenu.dataset.value);
         }, 5000);
     } else if (type == 'tournament_leave' || type == 'double_browser_leave') {
         triggerEventListeners("onPlayerLeave", reason);
@@ -285,7 +289,12 @@ function onPlayerInfo(info) {
     copyTo(info, myInfo);
     triggerEventListeners("onPlayerInfo", myInfo);
 }
-
+function onStateData(res) {
+    triggerEventListeners("onStateData", res);
+}
+function onPrizeData(res) {
+    triggerEventListeners("onPrizeData", res);
+}
 function onPlayerState(state) {
     playerState = state.state;
     triggerEventListeners("onPlayerState", playerState);
@@ -397,7 +406,7 @@ function onTableUpdateTurn(res) {
     }
 }
 function onTableRoundResult(res) {
-    let result = new RoundResult(res.players, res.pots);
+    let result = new RoundResult(res.players, res.pots, res.vpip);
     triggerEventListeners("onRoundResult", result);
 }
 
@@ -535,6 +544,8 @@ export function playerLeaveTable() {
 
 subscribe("onPlayerLeave", onPlayerLeave);
 subscribe("onPlayerInfo", onPlayerInfo);
+subscribe("onStateData", onStateData);
+subscribe("onPrizeData", onPrizeData);
 subscribe("onTableSettings", onTableSettings);
 subscribe("onPlayerState", onPlayerState);
 subscribe("onTableStatus", onTableStatus);

@@ -3,7 +3,7 @@ import { setSliderMax, setSliderMin, setSliderValue } from "./slider";
 import { getPlayerSeat, myTotalMoneyInGame } from '../services/table-server';
 import { tableSettings, myInfo, myMoneyInGame } from "../services/table-server";
 import { toggleCheckbox } from "./checkbox";
-import { getRoundValue, getMoneyText, getMoneyValue, getMoneyOriginalValue } from "./money-display";
+import { getRoundValue, getMoneyText, getMoneyValue, getMoneyOriginalValue, roundWithFormatAmount } from "./money-display";
 
 const buyInButton = $("#buyInButton")[0];
 const buyInRange = $("#buyInRange")[0];
@@ -82,18 +82,18 @@ export class BuyInUI {
         });
 
         buyInInput.addEventListener('change', () => {
-            this.setBuyInValidValue(getMoneyOriginalValue(parseInt(buyInInput.value).toFixed(2)));
+            this.setBuyInValidValue(getMoneyOriginalValue(parseFloat(buyInInput.value).toFixed(2)));
         });
 
         buyInSlider.addEventListener('change', () => {
-            this.setBuyInValidValue(parseInt(buyInSlider.value).toFixed(2));
+            this.setBuyInValidValue(parseFloat(buyInSlider.value).toFixed(2));
         });
 
         transferConfirm.addEventListener('click', () => {
             if (this.currentTransferAmount - this.globalBalance >= 0)
                 return;
 
-            this.setTransferValidValue(getMoneyOriginalValue(parseInt(transferInput.value)).toFixed(2));
+            this.setTransferValidValue(getMoneyOriginalValue(parseFloat(transferInput.value)).toFixed(2));
 
             transferLoader.style.visibility = 'visible';
             playerTransfer(this.currentTransferAmount, this.updateBalancesAfterTransfer);
@@ -108,11 +108,11 @@ export class BuyInUI {
         });
 
         transferInput.addEventListener('change', () => {
-            this.setTransferValidValue(getMoneyOriginalValue(parseInt(transferInput.value)).toFixed(2));
+            this.setTransferValidValue(getMoneyOriginalValue(parseFloat(transferInput.value)).toFixed(2));
         });
 
         transferSlider.addEventListener('change', () => {
-            this.setTransferValidValue(parseInt(transferSlider.value).toFixed(2));
+            this.setTransferValidValue(parseFloat(transferSlider.value).toFixed(2));
         });
 
         chipsLowerThenBuyInCheckbox.addEventListener('change', () => {
@@ -225,8 +225,8 @@ export class BuyInUI {
 
         setSliderValue(buyInSlider, Math.max(this.currentTableMoney, this.minBuyIn));
         buyInInput.value = getMoneyValue(Math.max(this.currentTableMoney, this.minBuyIn));
-        const tableChipText = getMoneyText(this.currentTableMoney);
-        tableChipSpan.innerHTML = tableChipText.outerHTML;
+        const tableChipText = tableSettings.mode == 'cash' ? getMoneyText(this.currentTableMoney).outerHTML : roundWithFormatAmount(getMoneyValue(this.currentTableMoney));
+        tableChipSpan.innerHTML = tableChipText; 
     }
 
     showBuyIn(visible) {

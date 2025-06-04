@@ -81,7 +81,8 @@ function updateDisplay(slider) {
                 getMoneyValue(slider.value);
         }
     }
-        betInput.value = getMoneyValue(round2(slider.value - actionUI.m_CurrentBet));
+
+    betInput.value = getMoneyValue(round2(slider.value - actionUI.m_CurrentBet));
 }
 
 export function setSliderValue(slider, value, condition = false) {
@@ -100,7 +101,7 @@ export function setSliderValue(slider, value, condition = false) {
     thumb.style[vertical ? "top" : "left"] = `${precent}%`;
     slider.value = value;
     if(!condition)
-        slider.dispatchEvent(new Event('change', { value: value }));
+    slider.dispatchEvent(new Event('change', { value: value }));
 }
 
 export function setSliderMin(slider, min) {

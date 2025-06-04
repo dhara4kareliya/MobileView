@@ -10,13 +10,14 @@ import { Sound } from "./audio";
 import { toggleCheckbox } from "./checkbox";
 import { updatCurrency } from "./money-display";
 import { verifySeed } from '../services/utils-server';
-import { initializeDeck, CardShuffler } from './card-ui';
+import { initializeDeck, CardShuffler, setDeckCardValue } from './card-ui';
 import { getMessage } from "./language-ui";
 
 let previousMainPlayerIndex = -1;
 let lastTurnSeat = -1;
 let prevRoundState = "None";
 let prevRound;
+var buyInAmount = 0;
 
 const mainPlayerIndex = 5;
 const table = new Table();
@@ -29,6 +30,7 @@ const cardShuffler = new CardShuffler();
 const showBBCheckbox = $("#showAsBBCheckbox")[0];
 const showSUDCheckbox = $("#showAsSUDCheckbox")[0];
 const shuffleVerificationButtonCheckboxe = $("#shuffleVerificationButton")[0];
+const fourColorMenu = $("#fourColorsCheckbox .dropdown-menu li");
 const DisplayCards = $("#DisplayCards")[0];
 
 showBBCheckbox.addEventListener('change', () => {
@@ -46,7 +48,16 @@ showSUDCheckbox.addEventListener('change', () => {
     setShowInUSD(showSUDCheckbox.checked);
     updatePlayerSetting('showSUD', showSUDCheckbox.checked);
 });
-
+for (const button of fourColorMenu) {
+    button.addEventListener('click', () => {
+        $(fourColorMenu).removeClass("active");
+        const value = button.dataset.value;
+        button.classList.add("active");
+        updatePlayerSetting('deckcolor', value);
+        $("#fourColorsCheckbox").find("button")[0].innerText = button.innerText;
+        setDeckCardValue(value);
+    });
+}
 shuffleVerificationButtonCheckboxe.addEventListener('change', () => {
     updatePlayerSetting('shuffleVerification', shuffleVerificationButtonCheckboxe.checked);
 });
@@ -129,13 +140,21 @@ function onPlayerInfo(playerInfo) {
     $(".progress-number").text('100%');
     $(".target_label").show();
     mainUI.setPlayerName(playerInfo);
+    mainUI.setPlayerDetail(playerInfo);
+    mainUI.setwinnerHistory(playerInfo.history)
+    buyInAmount = playerInfo.buyInAmount
 
     setInterval(() => {
         $(".loader").hide();
         $(".progressBarLoader").hide();
     }, 300);
 }
-
+function onStateData(data) {
+   mainUI.setCurrentStatsData(data);
+}
+function onPrizeData(data) {
+   mainUI.setPrizeData(data);
+}
 /* function onSideBet(res) {
     mainUI.updateSideBetOptions(res.street, res.streetText, res.options);
 }
@@ -151,10 +170,12 @@ function onTableFreeBalance(balance) {
 function onTableSettings(settings) {
     var usdRate = parseFloat(settings.usdRate).toFixed(2);
     mainUI.setTableName(settings.name);
+    mainUI.setTournamentName(settings.tournamentName, settings.tournamentStructure);
     mainUI.setSmallBlind(settings.smallBlind);
     mainUI.setAnte(settings.ante);
     mainUI.setBigBlind(settings.bigBlind);
     actionUI.setBigBlind(settings.bigBlind);
+    mainUI.setGameType(settings.gameType);
     actionUI.setUsdRate(usdRate);
     table.setBigBlind(settings.bigBlind);
     table.setUsdRate(usdRate);
@@ -162,14 +183,26 @@ function onTableSettings(settings) {
     table.setNumberOfSeats(settings.numberOfSeats);
     mainUI.showShuffleVerification(settings.isEncryptedShuffling);
     let name = settings.mode == 'tournament' ? settings.tournamentName : settings.name;
+    mainUI.setTournamentInfo(settings.mode == "tournament");
     // settings.mode = settings.mode.charAt(0).toUpperCase() + settings.mode.slice(1);
     mainUI.setLogHead(settings.mode, settings.bigBlind, settings.smallBlind, settings.handId, name);
-
+    if(settings.mode == 'tournament'){
+        mainUI.setbuyin(settings.tournamentRegistrationFee)
+    }
+     if(getPlayerSeat() >= 0){
+        const playerMoney = myMoneyInGame();
+        if(settings.mode == 'cash')
+            mainUI.setProfit(playerMoney - buyInAmount);
+        else 
+            mainUI.setProfit(playerMoney);
+        
+        mainUI.setTableBalance(playerMoney);
+    }
     if (settings.mode == "tournament") {
         mainUI.showLevel(true);
         mainUI.showTournamentTime(settings.timeDuration);
         mainUI.setLevelInfo(settings.level, settings.duration, settings.nextSB, settings.nextBB, settings.displayAnte, settings.displaySB, settings.displayBB);
-        mainUI.showTrophyInfo(true);
+        // mainUI.showTrophyInfo(true);
         table.setSitVisible(false);
         // setShowDollarSign(false);
     } else {
@@ -251,28 +284,32 @@ function onTableStatus(status) {
 
         let isBet = false;
         let isCallButton = false;
+        let isCheckButton = true;
         let lastBet = 0;
         for (let index = 0; index < status.seats.length; index++) {
             const currentValue = status.seats[index];
-            if(mainPlayerSeat !== index && currentValue.lastBet > 0){
-                if (status.state == 'PreFlop' && !['sb', 'bb'].includes(currentValue.lastAction)) {
-                    isBet = true;
-                } else {
-                    isBet = false;
-                }
+            if(currentValue.lastAction){
+                if(mainPlayerSeat !== index && currentValue.lastBet > 0){
+                    if (status.state == 'PreFlop' && !['sb', 'bb'].includes(currentValue.lastAction)) {
+                        isBet = true;
+                    } else {
+                        isBet = false;
+                    }
 
-                if(status.seats[mainPlayerSeat].lastBet < currentValue.lastBet  && status.seats[mainPlayerSeat].lastAction !== 'fold' && ['call', 'raise'].includes(currentValue.lastAction))
-                {
-                    console.log(currentValue);
-                    isCallButton = true;
-                    lastBet = Math.max(currentValue.lastBet,lastBet);
+                    if(status.seats[mainPlayerSeat].lastBet < currentValue.lastBet  && !['fold','allin'].includes(status.seats[mainPlayerSeat].lastAction) && ['call', 'raise', 'allin'].includes(currentValue.lastAction)  && status.state == prevRoundState)
+                    {
+                        isCallButton = true;
+                        lastBet = Math.max(currentValue.lastBet,lastBet);
+                    }
                 }
-                   
-                
+                if(status.seats[mainPlayerSeat].lastBet < currentValue.lastBet && ['call', 'raise','allin'].includes(currentValue.lastAction)) {
+                    isCheckButton = false;
+                }
             }
         }
 
-        mainUI.setCallButton((isCallButton) ? lastBet :  isCallButton, status.seats[mainPlayerSeat].lastBet);
+        mainUI.setCallButton((isCallButton) ? lastBet :  isCallButton, status.seats[mainPlayerSeat].lastBet, status.seats[mainPlayerSeat].money);
+        mainUI.showautoCheckButton(isCheckButton);
         actionUI.showBetButton(isBet);
     }
     let firstSeat = Math.max(0, mainPlayerSeat);
@@ -303,7 +340,6 @@ function onTableStatus(status) {
             return currentValue.state === "Playing" && mainPlayerSeat != index && mainPlayerBet < currentValue.lastBet  && !['sb', 'bb'].includes(currentValue.lastAction);
         });
         mainUI.setFoldToAnyBetText(isAutoFold);
-        mainUI.showautoCheckButton(status.seats[mainPlayerSeat].lastAction != 'sb');
         mainUI.showFoldToAnyBetOption(status.state != "Showdown" && ['sb', 'bb', undefined].includes(status.seats[mainPlayerSeat].lastAction));
     } else {
         mainUI.showFoldToAnyBetOption(false);
@@ -417,7 +453,7 @@ function checkAutoCheckFoldValid(seats, isShow) {
 function onRoundResult(roundResult) {
     table.showRoundResult(roundResult);
     mainUI.resetFoldToAnyBetOption();
-    mainUI.roundResult();
+    mainUI.roundResult(roundResult);
 
     // const players = roundResult.lastPlayers;
     // mainUI.showShowCardsButton(roundResult.players.length > 1 && players.length == 1 && players[0].seat != getPlayerSeat());
@@ -444,9 +480,20 @@ function onAnimation(res) {
 }
 
 function onPlayerGameSetting(res) {
-    var checkBoxes = { mute: $("#muteCheckbox")[0], fourColors: $("#fourColorsCheckbox")[0], autoMuck: autoMuckCheckbox, showBB: showBBCheckbox, showSUD: showSUDCheckbox, shuffleVerification: shuffleVerificationButtonCheckboxe, DisplayCards: DisplayCards }
+    var checkBoxes = { mute: $("#muteCheckbox")[0], autoMuck: autoMuckCheckbox, showBB: showBBCheckbox, showSUD: showSUDCheckbox, shuffleVerification: shuffleVerificationButtonCheckboxe, DisplayCards: DisplayCards }
     Object.keys(res).forEach(value => {
-        toggleCheckbox(checkBoxes[value], res[value]);
+        if(value == "deckcolor"){
+             $(fourColorMenu).removeClass("active");
+            for (const element of fourColorMenu) {
+                if (element.dataset.value == res[value]) {
+                    element.classList.add("active");
+                    $("#fourColorsCheckbox").find("button")[0].innerText = element.textContent.trim();
+                    setDeckCardValue( res[value]);
+                }
+            }
+        } else {
+            toggleCheckbox(checkBoxes[value], res[value]);
+        }
     });
 
 }
@@ -538,10 +585,10 @@ function onRoundTurn(turn) {
 
         mainUI.setTurnFlag(true);
 
-        actionUI.showCall(turn.call, myMoneyInGame());
+        actionUI.showCall(turn.call, myMoneyInGame(), tableSettings.mode);
 
         if (turn.canRaise)
-            actionUI.showRaise(turn.minRaise, turn.maxRaise, turn.pot, tableSettings.bigBlind, turn.currentBet);
+            actionUI.showRaise(turn.minRaise, turn.maxRaise, turn.pot, tableSettings.bigBlind, turn.currentBet, tableSettings.mode);
         else
             actionUI.hideRaise();
     } else {
@@ -578,7 +625,8 @@ function onCancelBet() {
 }
 
 function onTourneyInfo(res) {
-    mainUI.setTrophyInfo(res.position, res.number);
+    mainUI.setTrophyInfo(res.position, res.number, res.playingPlayers);
+    mainUI.setAverageAndBiggestStack(res.averageStack, res.biggestStack);
 }
 
 function onCashWaitList(res) {
@@ -610,6 +658,8 @@ function onBuyInPanelOpen(res) {
 }
 
 tableSubscribe("onPlayerInfo", onPlayerInfo);
+tableSubscribe("onStateData", onStateData);
+tableSubscribe("onPrizeData", onPrizeData);
 tableSubscribe("onTableSettings", onTableSettings);
 tableSubscribe("onPlayerState", onPlayerState);
 tableSubscribe("onPlayerLeave", onPlayerLeave);

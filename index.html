@@ -6,16 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" /> -->
 
+    <link id="favicon" rel="icon" type="image/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" /> -->
+    <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@500&family=Inter:wght@100;400;600&family=Lato:ital,wght@1,100&family=Montserrat:wght@500;600&family=Sarala:wght@700&family=Yeseva+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://momentjs.com/downloads/moment.js"></script>
     <script src="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.min.js"></script>
@@ -39,7 +45,7 @@
 </div>-->
 
 <body>
-    <div class="loader">
+    <!-- <div class="loader">
     </div>
     <div class="progressBarLoader">
 
@@ -47,7 +53,7 @@
             <div class="progress"></div>
         </div>
         <div class="progress-number">0%</div>
-    </div>
+    </div> -->
     <div class="container mobile_wrapper p-0">
         <table>
             <tr>
@@ -286,7 +292,7 @@
         </div>
     </div>
     <div class="sideButtonsDiv">
-        <div class="d-flex callButtonDiv" style="padding: 2px 0px ;">
+        <div class="d-flex callButtonDiv" style="visibility: hidden;">
             <div class="checkbox">
                 <img src="./images/mobile/v@2x.png">
             </div>
@@ -707,8 +713,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="conatiner-fluid mt-3 mb-4 mx-2">
-                            <div class="row">
+                        <div class="conatiner-fluid mt-3 mb-4 mx-2 fullcolordeck">
+                            <!-- <div class="row">
                                 <div id="fourColorsCheckbox" class="checkbox col-auto">
                                     <img src="./images/mobile/v@2x.png" />
                                 </div>
@@ -719,8 +725,28 @@
                                 </div>
                                 <div class="col-auto">
                                     <span class="same_class"><b>4 colors deck</b></span>
+                                </div> -->
+                                <div class="dropdown" id="fourColorsCheckbox">
+                                    <button
+                                        class="dropdown-toggle"
+                                        type="button"
+                                        id="fourColorDropdown"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Full colors deck
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="fourColorDropdown">
+                                        <li data-value="fullcolor" class="active"> Full colors deck </li>
+                                        <li data-value="4color"> 4 Color deck </li>
+                                        <li data-value="2color"> 2 Color deck </li>
+                                    </div>
                                 </div>
-                            </div>
+                                    <span
+                                    class="lang same_class"
+                                    key="FourColours"
+                                    >Cards color deck</span
+                                    > 
                         </div>
                         <div class="conatiner-fluid mt-3 mb-4 mx-2 shuffleVerificationButtonDiv">
                             <div class="row">
@@ -881,6 +907,259 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+     <div id="winningHistoryModal" style="display:none;">
+        <div class="modal-container">
+            <div class="winningData">
+                <div class="tableInfo">
+                    <div class="modal-title tableInfoTital">Table Information</div>
+
+                    <table class="table-info-box">
+                        <tr class="info-row">
+                            <td class="info-label">TABLE NAME</td>
+                            <td class="info-label">:</td>
+                            <td class="info-data winHistoryTablename">---</td>
+                        </tr>
+                        <tr class="info-row">
+                            <td class="info-label">BLINDS</td>
+                            <td class="info-label">:</td>
+                            <td class="info-data">
+                                <div class="blindData">
+                                <span class="sb">--</span> / <span class="bb">--</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="info-row">
+                            <td class="info-label">GAME TYPE</td>
+                            <td class="info-label">:</td>
+                            <td class="skyFont info-data gameType">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="profileInfo">
+                    <div class="box-title profileInfoTital">Profile Data</div>
+                    <table class="profile-data-box">
+                        <tr class="info-row">
+                            <td class="info-label">BUY-IN</td>
+                            <td class="info-label">:</td>
+                            <td class="info-data winHistoryBuyIn">0</td>
+                        </tr>
+                        <tr class="info-row">
+                            <td class="info-label">PROFIT & LOSS</td>
+                            <td class="info-label">:</td>
+                            <td class="skyFont info-data profit">0</td>
+                        </tr>
+                        <tr class="info-row">
+                            <td class="info-label">CURRENT TABLE VPIP</td>
+                            <td class="info-label">:</td>
+                            <td class="skyFont info-data"><span class=" winHistoryVpip">0</span>%</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="winnings-history-box">
+                    <div class="box-title">Winnings History</div>
+                    <div class="winningHistoryBox">
+                        <table class="historyBox">
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <button class="winHistoryClose"  onclick="showwinningTab(false)">
+                 Close
+                </button>
+        </div>
+    </div>
+    <div id="statsModal" style="display:none;">
+        <div class="modal-container">
+            <div class="profile-header">
+                <div class="avatar-container">
+                    <div class="statsAvatar"></div>
+                </div>
+                <div class="user-info">
+                    <span>
+                        <span class="flag statsFlag"></span>
+                        <span class="statsUsername">abc</span>
+                    </span>
+                </div>
+            </div>
+
+            <table class="statsBalanceInfo">
+                <tr class="balance-row">
+                    <td class="balance-label">Available Balance</td>
+                    <td>:</td>
+                    <td class="statsGlobal">0</td>
+                </tr>
+                <tr class="balance-row">
+                    <td class="balance-label">Table Wallet Balance</td>
+                    <td>:</td>
+                    <td class="statsWallet">0</td>
+                </tr>
+                <tr class="balance-row">
+                    <td class="balance-label">Table Balance</td>
+                    <td>:</td>
+                    <td class="statsTable">0</td>
+                </tr>
+            </table>
+            <div class="sepration"></div>
+            <div class="stats-box">
+                <div class="stats-title">Total Stats <span class="totalStatsType">PL06</span></div>
+                <table class="stats-table">
+                    <thead>
+                        <tr class="stats-row-labels box-head">
+                            <th>HANDS</th>
+                            <th>VPIP</th>
+                            <th>PFR</th>
+                            <th>WIN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="stats-row-values">
+                            <td ><span class="totalhand">0</span></td>
+                            <td ><span class="totalvpip">0</span>%</td>
+                            <td ><span class="totalpfr">0</span>%</td>
+                            <td ><span class="totalwin">0</span>%</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr class="stats-row-labels box-head">
+                            <th>C-BET</th>
+                            <th>3 BET</th>
+                            <th>WT</th>
+                            <th>WSD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="stats-row-values">
+                            <td><span class="totalcbet">0</span>%</td>
+                            <td><span class="total3bet">0</span>%</td>
+                            <td><span class="totalwt">0</span>%</td>
+                            <td><span class="totalwsd">0</span>%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stats-box">
+                <div class="stats-title">Current Table Stats <span class="currentStatsType">PL06</span></div>
+                <table class="stats-table">
+                    <thead>
+                        <tr class="stats-row-labels box-head">
+                            <th>HANDS</th>
+                            <th>VPIP</th>
+                            <th>PFR</th>
+                            <th>WIN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="stats-row-values ">
+                            <td class="currentHand">0</td>
+                            <td><span class="currentVpip">0</span>%</td>
+                            <td><span class="currentPfr">0</span>%</td>
+                            <td><span class="currentWin">0</span>%</td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr class="stats-row-labels box-head" >
+                            <th>C-BET</th>
+                            <th>3 BET</th>
+                            <th>WT</th>
+                            <th>WSD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="stats-row-values">
+                            <td><span class="currentCbet">0</span>%</td>
+                            <td><span class="current3bet">0</span>%</td>
+                            <td><span class="currentWT">0</span>%</td>
+                            <td><span class="currentWsd">0</span>%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="winHistoryClose"  onclick="showStatsTab(false)"> Close </button>
+        </div>
+    </div>
+    <div class="modal fade" id="tournamentInfoModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="tournament-popup-content">
+                <span class="tournament-popup-close"  onclick="hideModal('tournamentInfoModal')">
+                <span class="close-inner">&times;</span></span>
+                <div class="tournament-popup-title">Tournament Information</div>
+                <table class="tournament-popup-table">
+                    <tr>
+                        <td>Tournament Name</td>
+                        <td>:</td>
+                        <td class="tournamentName">Sunday Million</td>
+                    </tr>
+                    <tr>
+                        <td>Tournament Structure</td>
+                        <td>:</td>
+                        <td class="tournamentStructure">Hyper</td>
+                    </tr>
+                    <tr>
+                        <td>Game</td>
+                        <td>:</td>
+                        <td class="gameType">PLO 6</td>
+                    </tr>
+                    <tr>
+                        <td>Level</td>
+                        <td>:</td>
+                        <td class="tournamentLevelInfo">
+                            <div >
+                            <span class="smallBlind"></span> SB <span class="bigBlind"></span> BB
+                            </div>
+                            <div>
+                                <span class="level"></span> Ante <span class="ante"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Position</td>
+                        <td>:</td>
+                        <td class="position">14 / 152</td>
+                    </tr>
+                    <tr>
+                        <td>Average Stack</td>
+                        <td>:</td>
+                        <td class="averageStack">1,00,000</td>
+                    </tr>
+                    <tr>
+                        <td>Bigger Stack</td>
+                        <td>:</td>
+                        <td class="biggestStack">1,45,000</td>
+                    </tr>
+                    <tr>
+                        <td>Prizes Pool</td>
+                        <td>:</td>
+                        <td class="prizePool">100$</td>
+                    </tr>
+                    <tr>
+                        <td>Prizes Structure</td>
+                        <td>:</td>
+                        <td><button class="popup-view-btn" onclick="showModal('prizeInfoModal')">View</button></td>
+                    </tr>
+                    <tr>
+                        <td>Next Prize</td>
+                        <td>:</td>
+                        <td>10$ Place 10</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="prizeInfoModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="tournament-popup-content">
+                <span class="tournament-popup-close"  onclick="hideModal('prizeInfoModal')">
+                <span class="close-inner">&times;</span></span>
+                <div class="tournament-popup-title">Prizes Structure</div>
+                <table class="prize-popup-table">
+                  
+                </table>
             </div>
         </div>
     </div>
@@ -1097,6 +1376,24 @@
                                     </div>
                                     
                                 </div>
+                                <div class="img_first7 mb-1 winTabButton" onclick="showwinningTab(true)">
+                                    <div class=" w-100 d-flex">
+                                        <img src="./images/Icon metro-notification 1.png" alt=" chair" />
+                                        <span class="lang" key="logTab">Winning History</span>
+                                    </div>
+                                </div>
+                                <div class="img_first7 mb-1 logTabButton statsTabButton" onclick="showStatsTab(true)">
+                                    <div class=" w-100 d-flex">
+                                        <img src="./images/Icon metro-notification 1.png" alt=" chair" />
+                                        <span class="lang" key="logTab">Stats Data</span>
+                                    </div>
+                                </div>
+                                <div class="img_first7 mb-1  tournamentInfo" onclick="showModal('tournamentInfoModal')">
+                                    <div class=" w-100 d-flex"> 
+                                        <img src="./images/Icon metro-notification 1.png" alt=" chair" />
+                                        <span class="lang" >Tournament Info</span>
+                                    </div>
+                                </div>
                                 <div class="img_first10 mb-1 alwaysFoldButton">
                                     <div class="d-flex h-100" style="align-items: center;">
                                         <div class="checkbox">
@@ -1178,9 +1475,28 @@
                                                                                                                                 historynone1.style.display = "none";
                                                                                                                             });
                                                                                                                         });*/
-                                                                                                                        function showLogTab(value) {
+        function hideModal(id){
+            $("#"+id).modal('hide');
+        }
+        function showModal(id){
+            $("#"+id).modal('show');
+        }                                                                                                 function showLogTab(value) {
             const activityContainer = document.getElementById("activityContainer");
             activityContainer.style.display = "none";
+        }
+        function showwinningTab(value) {
+            const winningHistoryModal = document.getElementById("winningHistoryModal");
+            if (value)
+                winningHistoryModal.style.display = 'flex';
+            else
+                 winningHistoryModal.style.display = 'none';
+        }
+        function showStatsTab(value) {
+            const statsModal = document.getElementById("statsModal");
+            if (value)
+                statsModal.style.display = 'flex';
+            else
+                 statsModal.style.display = 'none';
         }
 </script>
 

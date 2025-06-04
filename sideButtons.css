@@ -1063,49 +1063,54 @@ button[disabled]:hover {
 }
 
 .poker-table td {
-    padding: 10px;
+    padding: 10px 0;
     border-right: 1px solid rgba(255, 255, 255, 0.33);
     background: #263D60;
     vertical-align: top;
+    /* padding-left: 0 !important; */
 }
 
 .player-wrapper {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 16px;
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 16px;
+	margin-left: 5px;
+	text-align: left;
+	flex-direction: column;
 }
-
+.hands_upper_part{
+    display: flex;
+    align-items: center;
+    gap: calc( 5 * var(--aspect-ratio));
+}
 .player-avatar-wrapper {
     position: relative;
     flex-shrink: 0;
 }
 
 .player-avatar {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
+    width: calc(13 * var(--aspect-ratio));
+    height: calc(13 * var(--aspect-ratio));
     overflow: hidden;
-    border: 2px solid #91CAFE;
 }
 .dealer-card:nth-child(3n+1) {
     clear: both;
 }
 .player-tag-bb {
 	position: absolute;
-	top: -5px;
-	left: -5px;
+	top: -3px;
+	left: 0;
 	background-color: #5E7620;
 	color: white;
-	padding: 1px 1px;
+	padding: 1px;
 	border-radius: 100%;
-	font-size: 8px;
+	font-size: calc( 3 * var(--aspect-ratio));
 	font-weight: bold;
 	z-index: 2;
-	min-width: 20px;
+	/* min-width: 20px; */
 	text-align: center;
-    border: solid 1px white;
-    font-family: krub;
+	border: solid 1px white;
+	font-family: krub;
 }
 
 .player-content {
@@ -1114,16 +1119,16 @@ button[disabled]:hover {
 }
 
 .player-name {
-    font-size: 14px;
-    color: white;
-    margin-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    font-family: krub;
-    font-weight: 700;
-}
+	font-size: calc( 5.5 * var(--aspect-ratio));
+	color: white;
+	margin-bottom: calc(1 * var(--aspect-ratio));
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+	font-family: krub;
+	font-weight: 700;
+} 
 .player-detail{
     display: flex;
     justify-content: space-between;
@@ -1132,9 +1137,10 @@ button[disabled]:hover {
 .player-container {
     background-color: #6D8CAE;
     border-radius: 6px;
-    padding: 5px;
+    padding: calc(1 * var(--aspect-ratio));
     position: relative;
     filter: drop-shadow(2px 2px 3px rgba(255, 255, 255, 0.6));
+    padding-left: calc( 3 * var(--aspect-ratio));
 }
 
 .navigation-player-container {
@@ -1146,16 +1152,16 @@ button[disabled]:hover {
 }
 
 .player-container::before {
-    content: "";
-    position: absolute;
-    left: -16px;
-    top: -5%;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 14px solid #6D8CAE;
-    transform: rotate(-241deg) translateY(-50%);
+	content: "";
+	position: absolute;
+	left: -9px;
+	top: 1%;
+	width: 0;
+	height: 0;
+	border-left: 3px solid transparent;
+	border-right: 3px solid transparent;
+	border-top: 8px solid #6D8CAE;
+	transform: rotate(-241deg) translateY(-50%);
 }
 
 .player {
@@ -1166,9 +1172,16 @@ button[disabled]:hover {
 }
 
 .player-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	position: absolute;
+	top: 0;
+	left: 3px;
+	width: inherit;
+	height: inherit;
+	border-radius: 50%;
+	border: 1px solid #91CAFE;
 }
 
 .player-info {
@@ -1179,12 +1192,11 @@ button[disabled]:hover {
 }
 
 .player-action {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-    color: white;
-    /* justify-content: space-between; */
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: calc(4 * var(--aspect-ratio));
+	color: white;
 }
 .DealerCards.empty {
     margin-top: 0 !important;
@@ -1194,7 +1206,6 @@ button[disabled]:hover {
     font-family: 'Krub';
     font-style: normal;
     font-weight: 700;
-    font-size: 12px;
     line-height: 13px;
     color: white;
     text-wrap: nowrap;
@@ -1319,6 +1330,7 @@ button[disabled]:hover {
     position: relative;
     cursor: pointer;
     overflow: visible;
+        height: 7px;
 }
 
 .progress {
@@ -1361,8 +1373,10 @@ button[disabled]:hover {
     overflow: auto;
 }
 .scroll-content {
-    overflow-y: auto;
-    display: block; 
+	overflow-y: auto;
+	display: block;
+	width: calc(45 * var(--aspect-ratio)) !important;
+	text-wrap: wrap;
 }
 .lodHeadText{
     display: flex;

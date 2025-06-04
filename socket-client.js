@@ -50,6 +50,8 @@ function setSocketEventListeners() {
     socket.on("REQ_PLAYER_RANDOM_STRING", eventTrigger("onPlayerRandomString"));
     socket.on("REQ_PLAYER_GAME_SETTING", eventTrigger("onPlayerGameSetting"))
     socket.on("REQ_VERIFY_JSON_STRING", eventTrigger("onVerifyJsonString"));
+    socket.on("REQ_STATE_DATA", eventTrigger("onStateData"));
+    socket.on("REQ_PRIZE_DATA", eventTrigger("onPrizeData"));
     /* socket.on("REQ_SIDEBET_OPTIONS", eventTrigger("onSideBetOptions"));
     socket.on("REQ_SIDEBET_HISTORY", eventTrigger("onSideBetHistory"));
     socket.on("REQ_TABLE_FREE_BALANCE", eventTrigger("onTableFreeBalance")); */
@@ -94,6 +96,8 @@ const eventListeners = {
     onPlayerRandomString: [],
     onVerifyJsonString: [],
     onPlayerGameSetting: [],
+    onStateData: [],
+    onPrizeData: [],
     /*  onSideBetOptions: [],
      onSideBetHistory: [],
      onTableFreeBalance: [],

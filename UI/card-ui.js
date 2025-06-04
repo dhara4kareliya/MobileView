@@ -1,12 +1,8 @@
-import { updatePlayerSetting } from "../socket-client";
-
-const fourColorsCheckbox = $("#fourColorsCheckbox")[0];
-fourColorsCheckbox.addEventListener('change', () => {
-    updatePlayerSetting('fourColors', fourColorsCheckbox.checked);
-    setFourColors(fourColorsCheckbox.checked);
-
-});
-let fourColors = false;
+let colorValue = 'fullcolor';
+export function setDeckCardValue(value){
+    colorValue = value
+    setFourColors();
+} 
 
 const cardImages = [];
 
@@ -26,9 +22,15 @@ function setupCardImages() {
         const image = new Image();
         let name = value + suit;
         cardImages[name.toLowerCase()] = image;
-        if (fourColors && (suit == "c" || suit == "d"))
-            name += "1";
-        image.src = `./images/png/102x142/${name.toString().toLowerCase()}.png`;
+        if (colorValue == '4color' && (suit == "c" || suit == "d")) 
+                name += "1";
+
+        var src = `./images/png/102x142/${name}.png`;
+
+        if (colorValue == 'fullcolor') 
+            src = `./images/png/4-card/${name}.png`;
+
+        image.src = src;
     };
     for (const suit of suites) {
         for (const value of values) {
@@ -79,24 +81,41 @@ export function getCardImageFilePath(cardName) {
     let name = cardName.toString().toLowerCase();
     name = name.replace("t", "10");
     if (name == "?") name = "back";
-    if ((name.includes('c') || name.includes('d')) && fourColors)
+    if ((name.includes('c') || name.includes('d')) && colorValue == '4color')
         name = name + '1';
 
-    return `./images/png/102x142/${name}.png`;
+     var src = `./images/png/102x142/${name}.png`;
+    if (colorValue == 'fullcolor')
+        src =  `./images/png/4-card/${name}.png`;
+
+    return src;
 }
 
 function setFourColors(value) {
-    fourColors = value;
     setupCardImages();
 
     const cards = $(".front");
     for (const card of cards) {
         const filePath = card.src;
-        if (value && (filePath.at(-5) == 'c' || filePath.at(-5) == 'd')) {
-            card.src = filePath.slice(0, filePath.length - 4) + "1.png";
-        } else if (!value && (filePath.at(-6) == 'c' || filePath.at(-6) == 'd')) {
-            card.src = filePath.slice(0, filePath.length - 5) + ".png";
+       const fileName = filePath.split("/").pop();
+        let baseName = fileName.replace(".png", "").replace(/1$/, "");
+        let suit = baseName[baseName.length - 1]; 
+        let newFileName;
+
+        if (colorValue === '4color') {
+            if (suit === 'c' || suit === 'd') {
+                newFileName = `${baseName}1.png`;
+            } else {
+                newFileName = `${baseName}.png`;  
+            }
+        } else if (colorValue === '2color') {
+            newFileName = `${baseName}.png`;      
         }
+
+        card.src = `./images/png/102x142/${newFileName}`;
+        if(colorValue == 'fullcolor') {
+            card.src = `./images/png/4-card/${baseName}.png`;
+        } 
     }
 }
 

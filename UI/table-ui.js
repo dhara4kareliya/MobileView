@@ -1,6 +1,6 @@
 import { Player } from './player-ui';
 import { Sound } from './audio';
-import { getMoneyText, getMoneyValue, round2 } from "./money-display";
+import { getMoneyText, getMoneyValue, round2, roundWithFormatAmount } from "./money-display";
 import { TipToDealer, getPlayerSeat, tableSettings } from '../services/table-server';
 import { getCardImageFilePath } from './card-ui';
 
@@ -64,14 +64,14 @@ export class Table {
     }
 
     setTotalPot(amount) {
-        const amountText = getMoneyText(amount);
-        totalPotSpan.innerHTML = winPotSpan.innerHTML = amountText.outerHTML
+        const amountText = tableSettings.mode == 'cash' ? getMoneyText(amount).outerHTML : roundWithFormatAmount(getMoneyValue(amount));
+        totalPotSpan.innerHTML = winPotSpan.innerHTML = amountText
         totalPotDiv.style.visibility = "visible";
     }
 
     setStreetPot(amount) {
-        const amountText = getMoneyText(amount);
-        streetPotSpan.innerHTML = amountText.outerHTML;
+        const amountText = tableSettings.mode == 'cash' ? getMoneyText(amount).outerHTML : roundWithFormatAmount(getMoneyValue(amount));
+        streetPotSpan.innerHTML = amountText;
         streetPotDiv.style.visibility = "visible";
     }
 
@@ -316,14 +316,14 @@ export class Table {
         for (let i = 0; i < this.players.length; ++i) {
             const player = this.players[i];
             player.setDealerButton(i == dealerSeat);
-            player.setSmallBlindButton(false);
-            if (i == sbSeat && i != dealerSeat) {
-                if (this.showSbBbButtons)
-                    player.setSmallBlindButton(true);
-            } else if (i == bbSeat) {
-                if (this.showSbBbButtons)
-                    player.setBigBlindButton(true);
-            }
+            // player.setSmallBlindButton(false);
+            // if (i == sbSeat && i != dealerSeat) {
+            //     if (this.showSbBbButtons)
+            //         player.setSmallBlindButton(true);
+            // } else if (i == bbSeat) {
+            //     if (this.showSbBbButtons)
+            //         player.setBigBlindButton(true);
+            // }
         }
     }
 
@@ -562,7 +562,7 @@ export class Table {
             let player = this.players[i];
             if (i == turn.seat) {
                 player.showTipButtons(false);
-                player.setTurnTimer(turn.timeout, turn.timeToReact, Math.round(turn.timeBank));
+                player.setTurnTimer(turn.timeout, turn.timeToReact, Math.round(turn.timeBank), getPlayerSeat() == i);
                 player.removeActionLabel();
             } else {
                 player.clearTurnTimer();

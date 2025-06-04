@@ -18,7 +18,7 @@ export function getMoneyText(amount) {
     const container = document.createElement("div");
 
     if (showcurrency == "BB") {
-        container.innerText = `${(round2(amount / bigBlind * 100)) / 100}Math.floor BB`;
+        container.innerText = `${roundWithFormatAmount(Math.floor(round2(amount / bigBlind * 100)) / 100)} BB`;
     } else if (showcurrency == "USD") {
         var img = document.createElement("img");
         img.src = "images/mobile/coins 3 (2) (1).png";
@@ -27,7 +27,7 @@ export function getMoneyText(amount) {
         container.appendChild(img);
 
         const amountText = document.createElement("span");
-        amountText.innerText = ` ${Math.floor(roundWithFormatAmount(amount * usdRate * 100)) / 100}`;
+        amountText.innerText = ` ${roundWithFormatAmount(Math.floor(amount * usdRate * 100) / 100)}`;
         container.appendChild(amountText);
         // container.innerText = `$ ${Math.floor(amount * usdRate * 100) /100}`;
     } else if(showcurrency == "USDC"){
@@ -56,6 +56,7 @@ export function getMoneyText(amount) {
 export function getMoneyValue(amount) {
     if (amount == undefined)
         amount = 0;
+
     if (showcurrency == "BB") {
         return Math.floor(round2(amount / bigBlind * 100)) / 100;
     } else if (showcurrency == "USD") {
@@ -96,10 +97,12 @@ export function updatCurrency() {
         showcurrency = defaultCurrency;
     }
 }
-function roundWithFormatAmount(n) {
+export function roundWithFormatAmount(n) {
     var amount = Math.round(n * 100) / 100
-    const strAmount = amount.toString();
-        return amount.toLocaleString('en-IN');
+    if (amount >= 10000 && amount % 1000 === 0) {
+        return (amount / 1000) + 'K';
+    }
+    return amount.toLocaleString('en-US');
 }
 
 function onTableSettings(settings) {

@@ -1,5 +1,5 @@
 import { getPlayerSeat, sitDown, tableSettings } from "../services/table-server";
-import { getMoneyValue, getMoneyText, round2 } from "./money-display";
+import { getMoneyValue, getMoneyText, round2, roundWithFormatAmount } from "./money-display";
 import { Card, getCardImageFilePath } from "./card-ui";
 import { userMode } from '../services/game-server';
 import { Sound } from './audio';
@@ -248,6 +248,7 @@ export class Player {
         if (isCardsOpen)
             $(this.wrapper).find('.player-cards')[0].classList.add("isCardsOpen");
 
+        console.log(cards.length)
         if (fourCardsClassName != "") {
             $(this.wrapper).find('.player-cards').addClass(fourCardsClassName);
         }
@@ -357,8 +358,8 @@ export class Player {
 
     setPlayerMoney(amount) {
         this.money = getMoneyValue(amount);
-        const amountText = getMoneyText(amount);
-        let value = amount ? amountText.outerHTML : false;
+        const amountText = tableSettings.mode == 'cash' ? getMoneyText(amount).outerHTML : roundWithFormatAmount(getMoneyValue(amount));
+        let value = amount ? amountText : false;
         this.setWrapperField("money", value);
         this.showTipButtons(amount);
     }
@@ -368,8 +369,7 @@ export class Player {
         let value = false;
 
         if (amount) {
-            const amountText = getMoneyText(amount);
-            value = amountText.outerHTML;
+            value = tableSettings.mode == 'cash' ? getMoneyText(amount).outerHTML : roundWithFormatAmount(getMoneyValue(amount));
         }
 
         this.setWrapperField("lastBet", value);
@@ -433,8 +433,7 @@ export class Player {
     showPrize(amount) {
         let value = false;
         if (amount) {
-            const amountText = getMoneyText(amount);
-            value = amountText.outerHTML;
+            value = tableSettings.mode == 'cash' ? getMoneyText(amount).outerHTML : roundWithFormatAmount(getMoneyValue(amount));
         }
         this.setWrapperField("prize", value);
     }
@@ -512,21 +511,21 @@ export class Player {
             this.setWrapperField("dealer", true);
     }
 
-    setSmallBlindButton(visible) {
-        if (this.missingSB) return;
-        if (!visible)
-            this.setWrapperField("blind", false);
-        else
-            this.setWrapperField("blind", smallBlindSrc);
-    }
+     setSmallBlindButton(visible) {
+    //     if (this.missingSB) return;
+    //     if (!visible)
+    //         this.setWrapperField("blind", false);
+    //     else
+    //         this.setWrapperField("blind", smallBlindSrc);
+     }
 
-    setBigBlindButton(visible) {
-        if (this.missingBB) return;
-        if (!visible)
-            this.setWrapperField("blind", false);
-        else
-            this.setWrapperField("blind", bigBlindSrc);
-    }
+     setBigBlindButton(visible) {
+    //     if (this.missingBB) return;
+    //     if (!visible)
+    //         this.setWrapperField("blind", false);
+    //     else
+    //         this.setWrapperField("blind", bigBlindSrc);
+     }
 
     setMissingBigBlindButton(visible) {
         this.missingBB = visible;
@@ -627,7 +626,7 @@ export class Player {
         }
     }
 
-    setTurnTimer(timeout, timeToReact, timeBank) {
+    setTurnTimer(timeout, timeToReact, timeBank, isRootPlayer) {
         const totalInitialTime = timeToReact + timeBank;
         const elapsedTime = totalInitialTime - timeout;
     
@@ -669,7 +668,7 @@ export class Player {
                     clonedTimeBar.style.animationName = "timeBankRunOut";
                     // clonedTimeCircle.style.animationDuration = `${timeBank + 1}s`;
                     clonedTimeCircle.style.animationName = "turnCircleBank";
-                    if (!timeBanksound) {
+                    if (!timeBanksound && isRootPlayer) {
                         sound.playTurnTime(true);
                         timeBanksound = true;
                     }

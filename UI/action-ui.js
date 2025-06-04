@@ -1,7 +1,7 @@
 import { turnAction } from "../services/table-server";
 import { toggleCheckbox } from "./checkbox";
 import { setSliderMax, setSliderMin, setSliderValue } from "./slider";
-import { getMoneyText, getMoneyValue, getMoneyOriginalValue, round2 } from "./money-display";
+import { getMoneyText, getMoneyValue, getMoneyOriginalValue, round2, roundWithFormatAmount } from "./money-display";
 
 const foldButton = $("#fold-button")[0];
 const callButton = $("#call-button")[0];
@@ -47,7 +47,7 @@ export class ActionUI {
             })
         }
         betInput.addEventListener('change', (e) => {
-            let value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value),'change') * 100) / 100;
+            let value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value)) * 100) / 100;
             // value = this.m_showInBB ? value * this.m_bigBlind : value;
             // value = this.m_showInUSD ? value * this.m_usdRate : value;
             this.setRaise(value);
@@ -56,7 +56,7 @@ export class ActionUI {
             betInput.value = '';
         })
         betInput.addEventListener('input', (e) => {
-            const value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value), 'input') * 100) / 100;
+            const value = Math.floor(getMoneyOriginalValue(parseFloat(e.target.value)) * 100) / 100;
             
             if (value == this.getValidAmount(value)){
                 raiseButtonLebel.style.display = (value == this.m_MaxRaise) ? 'none' : 'block';
@@ -177,9 +177,9 @@ export class ActionUI {
         this.showActionUI(false);
         // this.showSidebetUI(false);
         // turnAction("bet", this.m_Raise);
-        // console.error(`betInput.value : ${betInput.value},getMoneyOriginalValue : ${getMoneyOriginalValue(parseFloat(betInput.value), 'raise log')},m_CurrentBet : ${this.m_CurrentBet} = ${getMoneyOriginalValue(parseFloat(betInput.value), 'raise calculaton') - this.m_CurrentBet}`);
+        // console.error(`betInput.value : ${betInput.value},getMoneyOriginalValue : ${getMoneyOriginalValue(parseFloat(betInput.value))},m_CurrentBet : ${this.m_CurrentBet} = ${getMoneyOriginalValue(parseFloat(betInput.value)) - this.m_CurrentBet}`);
 
-        const bet = Math.min(Math.max(getMoneyOriginalValue(parseFloat(betInput.value), 'raise bet calculation'), this.m_MinRaise), this.m_MaxRaise);
+         const bet = Math.min(Math.max(getMoneyOriginalValue(parseFloat(betInput.value)), this.m_MinRaise), this.m_MaxRaise);
         turnAction("bet", bet)
     }
 
@@ -205,25 +205,29 @@ export class ActionUI {
         }
     }
 
+    /* showSidebetUI(value) {
+        this.setActive(sidebetUIDiv, value);
+    } */
 
-    showCall(call, currentChips) {
+
+    showCall(call, currentChips,mode) {
         this.m_Call = call;
 
         if (call == 0) {
             callButton.innerHTML = "CHECK";
         } else {
-            const callText = getMoneyText(call);
-            callButton.innerHTML = `CALL ${callText.outerHTML}`;
+            const callText = mode == 'cash' ? getMoneyText(call).outerHTML : roundWithFormatAmount(getMoneyValue(call));
+            callButton.innerHTML = `CALL ${callText}`;
 
             if (call >= currentChips) {
                 this.hideRaise();
-                const callText = getMoneyText(call);
-                callButton.innerHTML = `CALL ${callText.outerHTML}`;
+                const callText = mode == 'cash' ? getMoneyText(call).outerHTML : roundWithFormatAmount(getMoneyValue(call));
+                callButton.innerHTML = `CALL ${callText}`;
             }
         }
     }
 
-    showRaise(minRaise, maxRaise, pot, increment, currentBet) {
+    showRaise(minRaise, maxRaise, pot, increment, currentBet, mode) {
         if (minRaise !== maxRaise){
             this.setActive(betDivWrapper, true);
             this.setDisplay(betAmountDiv, true);
@@ -238,7 +242,7 @@ export class ActionUI {
         this.m_POT = pot;
         this.m_Increment = increment;
         this.m_CurrentBet = currentBet;
-
+        mode === 'cash' ? !$(raiseButtonSpan).hasClass('moneyDisplay') && $(raiseButtonSpan).addClass('moneyDisplay') : $(raiseButtonSpan).removeClass('moneyDisplay');
 
         setSliderMin(betSlider, round2(minRaise + currentBet));
         setSliderMax(betSlider, round2(maxRaise + currentBet));

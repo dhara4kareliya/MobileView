@@ -4,13 +4,34 @@ import { toggleCheckbox } from "./checkbox";
 import { getPlayerSeat, getCurrentTurn, turnAction, joinWaitingList } from '../services/table-server';
 import { removeMuckedFlag, showBuyIn } from './game-ui';
 import { userMode, userToken, setDetectedDoubleBrowser, defaultCurrency } from '../services/game-server';
-import { getMoneyText } from "./money-display";
+import { getMoneyText, getMoneyValue, round2, roundWithFormatAmount } from "./money-display";
 import { getCardImageFilePath, getPlayerCardHandGroup } from "./card-ui";
 import { customTimer } from "../services/utils-server";
 import { getMessage } from "./language-ui";
+import countryData from '../messages/country.json';
 
 const tableSettingSpanDiv = $(".tableSettingsSpan")[0];
 const tableNameDiv = $(".tableName")[0];
+
+const currentStatsType = $(".currentStatsType")[0];
+const winHistoryTablename = $(".winHistoryTablename")[0];
+const winHistoryVPIP = $(".winHistoryVpip")[0];
+const historyBox = $(".historyBox")[0];
+const sbSpan = $(".sb")[0];
+const bbSpan = $(".bb")[0];
+const profit = $(".profit")[0];
+const gameTypeDiv = $(".gameType");
+const winHistoryBuyIn = $(".winHistoryBuyIn")[0];
+const statsUsername = $(".statsUsername")[0];
+const statsAvatar = $(".statsAvatar")[0];
+const statsFlag = $(".statsFlag")[0];
+const statsTable = $(".statsTable")[0];
+const statsWallet = $(".statsWallet")[0];
+const statsGlobal = $(".statsGlobal")[0];
+const statsTabButton = $(".statsTabButton")[0];
+const tournamentNameDiv = $(".tournamentName")[0];
+const tournamentInfoDiv = $(".tournamentInfo")[0];
+const prizeBox = $(".prize-popup-table")[0];
 
 const actionUIDiv = $("#turnActionsDiv")[0];
 
@@ -23,10 +44,10 @@ const waitForBBButtons = $(".waitForBBButton");
 const waitForBBCheckboxes = $(".waitForBBButton .checkbox");
 const sitOutNextHandButtons = $(".sitOutNextHandButton")[0];
 const sitOutNextHandCheckboxes = $(".sitOutNextHandButton .checkbox")[0];
-const smallBlindSpan = $(".smallBlind")[0];
-const bigBlindSpan = $(".bigBlind")[0];
-const anteSpan = $(".ante")[0];
-const levelSpan = $(".level")[0];
+const smallBlindSpan = $(".smallBlind");
+const bigBlindSpan = $(".bigBlind");
+const anteSpan = $(".ante");
+const levelSpan = $(".level");
 const nextSbBb = $(".nextSBBB")[0];
 const tournamentTimers = $(".timers")[0];
 const levelTimer = $(".tournamentOnly .timer")[0];
@@ -46,10 +67,9 @@ const closeUiTable = $(".closeUiTable")[0];
 const CloseModal = $(".close, #GO");
 const tournamentDivs = $(".tournamentOnly");
 const meDiv = $("#meDiv")[0];
-const tropyDivs = $(".trophyDiv");
+// const tropyDivs = $(".trophyDiv");
 const callText = $(".callText")[0];
-console.log(callText)
-const tropySpans = $(".trophyDiv span");
+const tropySpans = $(".position")[0];
 const openMenuButton = $("#openMenuButton")[0];
 const tournamentCancelTimeDiv = $("#tournamentCancelTime")[0];
 //const mobileSideBar = $("#mobileSideBar")[0];
@@ -101,6 +121,7 @@ const uniquePlayers = new Set();
 let isDragging = false;
 let startX, scrollLeft;
 let touchStartX = 0;
+let m_Call = 0;
 
 let msgData = [];
 let currentIndex = msgData.length + 1;
@@ -157,6 +178,7 @@ export class MainUI {
         this.playerAutoFoldCards = [];
         this.currentStreet = '';
         this.currentHandActions = [];
+        this.currentPlayer = 0;
         // this.showAutoCheckOrFold = false;
         this.init();
 
@@ -201,6 +223,7 @@ export class MainUI {
         // this.setDisplay(waitListDropdown, false);
         this.setDisplay(AutoTip, false);
         this.setDisplay(shuffleVerificationButtonDiv, false);
+        this.setDisplay(tournamentInfoDiv, false);
         // this.setActive(addTipsButtons, false);
 
         sitInBtn.addEventListener('click', () => {
@@ -258,8 +281,8 @@ export class MainUI {
             this.onShowCardClick();
         });
 
-        for (const tropyDiv of tropyDivs)
-            this.setActive(tropyDiv, false);
+        // for (const tropyDiv of tropyDivs)
+        //     this.setActive(tropyDiv, false);
 
         for (const button of leaveButtons)
             button.addEventListener('click', () => { playerLeaveTable(); });
@@ -507,6 +530,9 @@ export class MainUI {
 
         }
     }
+    setTournamentInfo(isTournament){
+        this.setDisplay(tournamentInfoDiv, isTournament);
+    }
     setLogHead(mode, bb, sb, handId, name) {
         mode = mode.replace(/^./, c => c.toUpperCase());
         LogHead.innerHTML = `<div class="lodHeadText"><div>Nrpoker. ${mode}. </div><div>${name} </div><div>${bb}/${sb}. Hand ${handId}</div></div>`;
@@ -572,17 +598,20 @@ export class MainUI {
 
     }
 
-    setTrophyInfo(position, number) {
-        for (const tropySpan of tropySpans) {
-            tropySpan.innerText = `${position}/${number}`;
-        }
+    setTrophyInfo(position, number, playingPlayers) {
+            tropySpans.innerText = `${position}/${number}`;
+            
+        this.currentPlayer = playingPlayers;
     }
 
-    showTrophyInfo(value) {
-        for (const tropyDiv of tropyDivs)
-            this.setActive(tropyDiv, value);
+    // showTrophyInfo(value) {
+    //     for (const tropyDiv of tropyDivs)
+    //         this.setActive(tropyDiv, value);
+    // }
+    setAverageAndBiggestStack(averageStack, biggestStack) {
+        $(".averageStack").html(roundWithFormatAmount(averageStack));
+        $(".biggestStack").html(roundWithFormatAmount(biggestStack));
     }
-
     showFoldToAnyBetCheckbox(value) {
         for (const alwaysFoldButton of alwaysFoldButtons) {
             this.setDisplay(alwaysFoldButton, value);
@@ -622,7 +651,7 @@ export class MainUI {
         this.setActive(foldToAnyBetButtonDiv, value);
         if(!value){
             this.setActive(autoCheckButton, false);
-            this.setActive(callButton, false);
+            //this.setActive(callButton, false);
         }
         if(round.state === "PreFlop" ){
             this.setActive(autoCheckOrFoldButton, false);
@@ -630,11 +659,16 @@ export class MainUI {
             this.setActive(autoCheckOrFoldButton, value);
         }
     }
-    setCallButton(value, mainPlayerBet)
+    setCallButton(value, mainPlayerBet, totalMoney)
     {
         value ? this.setActive(callButton, true) : this.setActive(callButton, false);
-        if(value)
-            callText.innerText = value - mainPlayerBet;
+        if(value){
+            if(value > totalMoney)
+                value = totalMoney;
+            m_Call = value - mainPlayerBet;
+            const callbuttonText = tableSettings.mode == 'cash' ? getMoneyText(value - mainPlayerBet).outerHTML : roundWithFormatAmount(getMoneyValue(value - mainPlayerBet));
+            callText.innerHTML = callbuttonText;
+        }
     }
     setFoldToAnyBetText(value, mainPlayerBet) {
         $(foldToAnyBetButtonDiv).find('span')[0].innerHTML = value ? 'Fold' : 'Fold to any bet';
@@ -717,10 +751,9 @@ export class MainUI {
             return false;
         this.resetAutoCheckOptions();
         if (!getCurrentTurn().canCall) {
-            // this.setActive(automaticActionsDiv, false);
             return false;
         }
-        this.onBetClick(callText.innerHTML);
+        this.onBetClick(m_Call);
         return true;
     }
     doPreFlopAutoFold(autoFoldModeButtonCheckboxes, playerCards, activeSeats) {
@@ -864,8 +897,42 @@ export class MainUI {
         this.playerInfo.name = newPlayerInfo.name;
         $(meDiv).find("#myName")[0].innerText = this.playerInfo.name;
         this.setActive(meDiv, true);
+        statsUsername.innerText = this.playerInfo.name;
     }
 
+    setbuyin(amount){
+        winHistoryBuyIn.innerText = roundWithFormatAmount(getMoneyValue(amount)); 
+    }
+    setPlayerDetail(newPlayerInfo) {
+        console.log(newPlayerInfo);
+        if(tableSettings.mode == 'cash')
+        winHistoryBuyIn.innerText = roundWithFormatAmount(getMoneyValue(newPlayerInfo.buyInAmount)); 
+
+        winHistoryVPIP.innerText = roundWithFormatAmount(getMoneyValue(newPlayerInfo.vpip)); 
+        statsAvatar.innerHTML = `<img src="${newPlayerInfo.avatar}" />`
+        statsWallet.innerText = roundWithFormatAmount(newPlayerInfo.tableBalance)
+        statsGlobal.innerText = roundWithFormatAmount(newPlayerInfo.globalBalance)
+        statsFlag.innerHTML = `<img src="./images/flag/${countryData[newPlayerInfo.country ? newPlayerInfo.country : 'Greece'].toLowerCase()}.svg" />`
+
+        // add total statsData
+
+        $('.totalStatsType').text((newPlayerInfo.statsData.GameType).toUpperCase())
+        $('.totalhand').text(newPlayerInfo.statsData.hand)
+        $('.totalvpip').text(newPlayerInfo.statsData.vpip)
+        $('.totalpfr').text(newPlayerInfo.statsData.pfr)
+        $('.totalwin').text(newPlayerInfo.statsData.win)
+        $('.totalcbet').text(newPlayerInfo.statsData.cbet)
+        $('.total3bet').text(newPlayerInfo.statsData.threebet)
+        $('.totalwt').text(newPlayerInfo.statsData.wt)
+        $('.totalwsd').text(newPlayerInfo.statsData.wsd)
+    }
+    setProfit(profitAmount) {
+        profit.innerText = roundWithFormatAmount(getMoneyValue(profitAmount)); 
+        profit.style.color = profitAmount >= 0 ? 'green' : 'red';
+    }
+    setTableBalance(balance) {
+        statsTable.innerHTML = tableSettings.mode == 'cash' ? getMoneyText(balance).outerHTML : roundWithFormatAmount(getMoneyValue(balance));
+    }
     setHandResult(value, timeout = 0) {
         if (!value) {
             this.setActive(handResultDiv, false)
@@ -890,11 +957,18 @@ export class MainUI {
 
         if (level != undefined) {
             const smallBlindText = getMoneyText(sb);
-            smallBlindSpan.innerHTML = smallBlindText.outerHTML;
+            for (const sbspan of smallBlindSpan)
+            sbspan.innerHTML = smallBlindText.outerHTML;
+
             const bigBlindText = getMoneyText(bb);
-            bigBlindSpan.innerHTML = bigBlindText.outerHTML;
-            anteSpan.innerText = ante;
-            levelSpan.innerText = level;
+            for (const bbspan of bigBlindSpan)
+            bbspan.innerHTML = bigBlindText.outerHTML;
+        
+            for (const antespan of anteSpan)
+            antespan.innerHTML = ante;
+
+            for (const levelspan of levelSpan)
+            levelspan.innerHTML = level;
         }
 
         this.setActiveElements(tournamentDivs, true);
@@ -914,11 +988,12 @@ export class MainUI {
 
     showLevel(value) {
         if (tableSettings.mode === "tournament")
-            this.setActive(anteSpan, value);
+            this.setActiveElements(anteSpan, value);
 
-        this.setActive(levelSpan, value);
+        this.setActiveElements(levelSpan, value);
         this.setActive(nextSbBb, value);
         this.setActive(levelTimer, value);
+        this.setDisplay(statsTabButton, !value);
     }
 
     runLevelDurationTimer() {
@@ -944,32 +1019,82 @@ export class MainUI {
 
     setTableName(name) {
         this.tableInfo.name = name;
-        tableNameDiv.innerText = name;
+        tableNameDiv.innerText = winHistoryTablename.innerText = name;
         this.setActive(tableNameDiv, true);
+        currentStatsType.innerText = (tableSettings.gameType).toUpperCase();
     }
 
+    setTournamentName(name, tournamentStructure) {
+        $(tournamentNameDiv).html(name);
+        $('.tournamentStructure').text(tournamentStructure);
+    }
+    setCurrentStatsData(data){
+        $('.currentVpip').text(data.vpip ? round2(data.vpip) : 0);
+        $('.currentHand').text(data.hand ? round2(data.hand) : 0);
+        $('.currentPfr').text(data.pfr ? round2(data.pfr) : 0);
+        $('.currentWin').text(data.winRate ? round2(data.winRate) : 0);
+        $('.currentCbet').text(data.cBet ? round2(data.cBet) : 0);
+        $('.current3bet').text(data.threeBet ? round2(data.threeBet) : 0);
+        $('.currentWsd').text(data.wsd ? round2(data.wsd) : 0);
+        $('.currentWT').text(data.wt ? round2(data.wt) : 0);
+    }
+    setPrizeData(data){
+        $('.prizePool').text(data.prizePoolValue ? round2(data.prizePoolValue) : 0);
+        if(data.isSatellite == 0){
+            if(data.prizePool.length > 0){
+                data.prizePool.sort((a, b) => a.placePaid - b.placePaid);
+                prizeBox.innerHTML = '';
+                for (let i = 0; i < data.prizePool.length; ++i) {
+                    var prizePoolData = `<tr>
+                    <td>${data.prizePool[i].position} place</td>
+                    <td>-</td>
+                    <td class="prizeInfoPlace">${data.prizePool[i].result}</td>
+                    </tr>`
+                    
+                    prizeBox.innerHTML += prizePoolData;
+                }
+                const lastPrize = data.prizePool[data.prizePool.length - 1];
+                if (lastPrize.placePaid > this.currentPlayer) {
+                    $('.nextPrize').text(`${data.prizePool[this.currentPlayer - 1].result} Place ${this.currentPlayer}`);
+                } else {
+                    $('.nextPrize').text(`${lastPrize.result} Place ${lastPrize.placePaid}`);
+                }
+           }
+        } else {
+           prizeBox.innerHTML += `<div>${data.ticket} Free Entries to ${data.winning_name}</div>`;
+        }
+    }
     setSmallBlind(smallBlind) {
         this.tableInfo.smallBlind = smallBlind;
         const smallBlindText = getMoneyText(smallBlind);
-        smallBlindSpan.innerHTML = smallBlindText.outerHTML;
-        this.setActive(tableSettingSpanDiv, true);
+        for (const sbspan of smallBlindSpan)
+            sbspan.innerHTML = smallBlindText.outerHTML;
+
+        sbSpan.innerHTML = smallBlindText.outerHTML
+       
+        // this.setActive(tableSettingSpanDiv, true);
     }
     setAnte(ante) {
         this.tableInfo.ante = ante;
         const anteText = getMoneyText(ante);
-        anteSpan.innerHTML = anteText.outerHTML;
-        this.setActive(anteSpan, true);
+        for (const antespan of anteSpan)
+            antespan.innerHTML = anteText.outerHTML;
+        this.setActiveElements(anteSpan, true);
     }
 
     setBigBlind(bigBlind) {
         this.tableInfo.bigBlind = bigBlind;
         const bigBlindText = getMoneyText(bigBlind);
-        bigBlindSpan.innerHTML = bigBlindText.outerHTML;
-        this.setActive(tableSettingSpanDiv, true);
+        for (const bbspan of bigBlindSpan)
+            bbspan.innerHTML = bigBlindText.outerHTML;
+
+         bbSpan.innerHTML = bigBlindText.outerHTML;
+        // this.setActive(tableSettingSpanDiv, true);
     }
 
-    setShowDollarSign(value) {
-
+    setGameType(gameType) {
+        for (const typeDiv of gameTypeDiv)
+            typeDiv.innerText = gameType;
     }
 
     showAddChips(value) {
@@ -1081,8 +1206,61 @@ export class MainUI {
             }
         }, 1000);
     }
-    roundResult() {
-        const response = this.saveHandHistory();
+    roundResult(roundResult) {
+        this.saveHandHistory();
+         let players = roundResult.players
+        winHistoryVPIP.innerText = roundWithFormatAmount(getMoneyValue(roundResult.vpip)); 
+        for(let j=0; j < players.length; ++j ){
+            const player = players[j];
+            if(player.prize > 0 && player.winnerHistory[0].index == getPlayerSeat()){
+                this.setwinnerHistory(player.winnerHistory);
+            }
+        }
+    }
+     setwinnerHistory(history){
+        if(history){
+
+            historyBox.innerHTML = '';
+            for (let k = 0; k < history.length; k++) {
+                let playercard = history[k].playercard;
+                let tablecard = history[k].tablecard;
+                let playerContainer = '';
+                let tableContainer = '';
+                if (typeof cards === "string") {
+                    cards = cards.split(",").map(card => {
+                        return card.replace(/^1([HDSC])$/, "A$1");
+                    });
+                }
+                for (let i = 0; i < playercard.length; ++i) {
+                    let card = playercard[i];
+                    const cardImgFilePath = getCardImageFilePath(card);
+                    var playerCardHtml = `<img src="${cardImgFilePath}" class="card-image">`
+                        playerContainer += playerCardHtml;
+
+                }
+                for (let i = 0; i < tablecard.length; ++i) {
+                    let card = tablecard[i];
+                    const cardImgFilePath = getCardImageFilePath(card);
+                    var tableCardHtml = `<img src="${cardImgFilePath}" class="card-image">`
+                        tableContainer += tableCardHtml;
+
+                }
+                var winningHistoryData = 
+                `<tr class="winnings-history-item">
+                    <td class="info-label">${history[k].rank ? history[k].rank : 'HighCard'}</td>
+                    <td class="card-stack">
+                        <span class="playerCardContainer">${playerContainer}</span>
+                        <span>${tableContainer}</span>
+                    
+                    </td>
+                    <td class="winnings-details">
+                        <span class="winnings-amount">+${roundWithFormatAmount(parseFloat(history[k].amount).toFixed(1))}</span>
+                        <span class="arrow"><i class="fa-solid fa-angle-right"></i></span>
+                    </td>
+                </tr>`;
+                historyBox.innerHTML += winningHistoryData;
+            }
+        }
     }
     clearBreakTime() {
         breakCountdownDiv.style.visibility = "hidden";
@@ -1325,7 +1503,7 @@ export class MainUI {
             }
             const anteMatch = log.log.match(/ante\s*:\s*(\d+)/);
 
-            if (anteMatch) {
+            if (anteMatch && anteMatch[1] !== "0") {
                 action.action = "All Ante";
                 action.amount = parseFloat(anteMatch[1]);
                 return action;
@@ -1429,29 +1607,32 @@ export class MainUI {
                                     }
 
                                     playerWrapper.innerHTML = `
-                    <div class="player-avatar-wrapper">
-                        ${action.position}
-                        <div class="player-avatar">
-                           ${action.avatar ? `<img src="${action.avatar}" alt="userAvatar">` : `<img src="./images/avtar.png" alt="Babar888">` }
-                        </div>
-                        <div class="playerBalance">
-                            ${action.balance ? `<img src="./images/ChipsIcon.png" alt="userAvatar"> <div class="player-balance">${action.balance}</div>` : ``}
-                        </div>
-                    </div>
-                    <div class="player-content">
-                        <div class="player-detail">
-                            <div class="player-name">${action.playerName}</div>
+                    <div class="hands_upper_part"> 
+                        <div class="player-avatar-wrapper">
+                            ${action.position}
+                            <div class="player-avatar">
+                            ${action.avatar ? `<img src="${action.avatar}" alt="userAvatar">` : `<img src="./images/avtar.png" alt="Babar888">` }
+                            </div>
                             
                         </div>
-                        <div class="player-container">
-                            <div class="player-action">
-                                <span class="bet-action">${action.action}</span>
-                                ${action.amount ? `<span class="bet-action" style="">:</span><span class="bet-amount"> ${action.amount}</span>` : ''}
+                        <div class="player-content">
+                            <div class="player-detail">
+                                <div class="player-name">${action.playerName}</div>
+                                
                             </div>
-                            <div class="DealerCards ${dealerCardsHTML ? '' : 'empty'}" style="width: fit-content;display: grid;grid-template-columns: repeat(3, 27px);gap: 5px; margin-top:5px;">
-                                ${dealerCardsHTML}
+                            <div class="player-container">
+                                <div class="player-action">
+                                    <span class="bet-action">${action.action}</span>
+                                    ${action.amount ? `<span class="bet-action" style="">:</span><span class="bet-amount"> ${action.amount}</span>` : ''}
+                                </div>
+                                <div class="DealerCards ${dealerCardsHTML ? '' : 'empty'}" style="width: fit-content;display: grid;grid-template-columns: repeat(3, 27px);gap: 5px; margin-top:5px;">
+                                    ${dealerCardsHTML}
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="playerBalance">
+                        ${action.balance ? `<img src="./images/ChipsIcon.png" alt="userAvatar"> <div class="player-balance">${action.balance}</div>` : ``}
                     </div>
                 `;
 
